@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -20,6 +20,13 @@ import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign,
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import Script from 'next/script' // Added Script import
+
+declare global {
+  interface Window {
+    ymaps: any;
+  }
+}
 
 export default function HomePage() {
   const { language } = useLanguage()
@@ -28,11 +35,189 @@ export default function HomePage() {
   const [advantageModal, setAdvantageModal] = useState<string | null>(null)
   const [isCalculatorModalOpen, setIsCalculatorModalOpen] = useState(false)
   const [batteryAnimation, setBatteryAnimation] = useState(false)
+  const [currentModelIndex, setCurrentModelIndex] = useState(0) // New state for model index
   const [calculatorData, setCalculatorData] = useState({
     dailyDistance: 100,
     fuelPrice: 1.5,
     electricityPrice: 0.1,
   })
+
+  const modelsData = [
+    {
+      id: "ecotruck",
+      image: "/images/ecotruck.jpeg",
+      translations: {
+        ru: {
+          name: "EcoTruck",
+          description: "Компактный электрический грузовик для городской логистики.",
+          dimensions: "Длина: 4.5м | Ширина: 1.8м | Высота: 2.2м",
+          cargoVolume: "Объем груза: 5.6м³",
+          maxPayload: "Макс. полезная нагрузка: 1,000кг",
+          maxSpeed: "Максимальная скорость: 100 км/ч",
+          rangePerCharge: "Запас хода на одном заряде: 200 км",
+          batterySwapTime: "Время замены батареи: 3 минуты",
+          features: {
+            title: "Особенности",
+            climateControl: "Умная система климат-контроля",
+            navigation: "10\" Сенсорный экран навигации и управления автопарком",
+            camera: "Система камер 360° для городского маневрирования",
+          },
+          learnMore: "Подробнее",
+        },
+        uz: {
+          name: "EcoTruck",
+          description: "Shahar logistikasi uchun ixcham elektr yuk mashinasi.",
+          dimensions: "Uzunligi: 4.5m | Kengligi: 1.8m | Balandligi: 2.2m",
+          cargoVolume: "Yuk hajmi: 5.6m³",
+          maxPayload: "Maks. foydali yuk: 1,000kg",
+          maxSpeed: "Maksimal tezlik: 100 km/soat",
+          rangePerCharge: "Bir zaryadda yurish masofasi: 200 km",
+          batterySwapTime: "Batareya almashtirish vaqti: 3 daqiqa",
+          features: {
+            title: "Xususiyatlar",
+            climateControl: "Aqlli iqlim nazorati tizimi",
+            navigation: "10\" Sensorli ekranli navigatsiya va avtoparkni boshqarish",
+            camera: "Shahar harakati uchun 360° kamera tizimi",
+          },
+          learnMore: "Batafsil",
+        },
+        en: {
+          name: "EcoTruck",
+          description: "Compact electric truck for urban logistics.",
+          dimensions: "Length: 4.5m | Width: 1.8m | Height: 2.2m",
+          cargoVolume: "Cargo Volume: 5.6m³",
+          maxPayload: "Maximum Payload: 1,000kg",
+          maxSpeed: "Maximum Speed: 100 km/h",
+          rangePerCharge: "Range per Charge: 200 km",
+          batterySwapTime: "Battery Swap Time: 3 minutes",
+          features: {
+            title: "Features",
+            climateControl: "Smart Climate Control System",
+            navigation: "10\" Touchscreen Navigation & Fleet Management",
+            camera: "360° Camera System for Urban Maneuverability",
+          },
+          learnMore: "Learn More",
+        },
+      },
+    },
+    {
+      id: "pony",
+      image: "/images/pony.png",
+      translations: {
+        ru: {
+          name: "Pony",
+          description: "Электрический компактный автомобиль для комфортных поездок по городу",
+          dimensions: "Длина: 2м | Ширина: 1.2м | Высота: 1.5м",
+          cargoVolume: "Объем груза: 12.0м³",
+          maxPayload: "Макс. полезная нагрузка: 2,500кг",
+          maxSpeed: "Максимальная скорость: 110 км/ч",
+          rangePerCharge: "Запас хода на одном заряде: 300 км",
+          batterySwapTime: "Время замены батареи: 1 минуты",
+          features: {
+            title: "Особенности",
+            climateControl: "Зональный климат-контроль",
+            navigation: "Интегрированная навигация с оптимизацией маршрутов",
+            camera: "Система камер кругового обзора с парковочным ассистентом",
+          },
+          learnMore: "Подробнее",
+        },
+        uz: {
+          name: "Pony",
+          description: "Qulay shahar sayohatlari uchun elektr ixcham avtomobil",
+          dimensions: "Uzunligi: 2.0m | Kengligi: 1.2m | Balandligi: 1.5m",
+          cargoVolume: "Yuk hajmi: 12.0m³",
+          maxPayload: "Maks. foydali yuk: 2,500kg",
+          maxSpeed: "Maksimal tezlik: 110 km/soat",
+          rangePerCharge: "Bir zaryadda yurish masofasi: 300 km",
+          batterySwapTime: "Batareya almashtirish vaqti: 1 daqiqa",
+          features: {
+            title: "Xususiyatlar",
+            climateControl: "Zonali iqlim nazorati",
+            navigation: "Marshrutni optimallashtirish bilan integratsiyalashgan navigatsiya",
+            camera: "Avtoturargoh yordamchisi bilan to'liq ko'rish kamerasi tizimi",
+          },
+          learnMore: "Batafsil",
+        },
+        en: {
+          name: "Pony",
+          description: "Electric compact car for comfortable city trips.",
+          dimensions: "Length: 2.0m | Width: 1.2m | Height: 1.5m",
+          cargoVolume: "Cargo Volume: 12.0m³",
+          maxPayload: "Maximum Payload: 2,500kg",
+          maxSpeed: "Maximum Speed: 110 km/h",
+          rangePerCharge: "Range per Charge: 300 km",
+          batterySwapTime: "Battery Swap Time: 1 minute",
+          features: {
+            title: "Features",
+            climateControl: "Zonal Climate Control",
+            navigation: "Integrated Navigation with Route Optimization",
+            camera: "Surround View Camera System with Parking Assist",
+          },
+          learnMore: "Learn More",
+        },
+      },
+    },
+    {
+      id: "brumby",
+      image: "/images/brumby.png",
+      translations: {
+        ru: {
+          name: "Brumby",
+          description: "Компактный и маневренный электромобиль для городского использования.",
+          dimensions: "Длина: 3.5м | Ширина: 1.6м | Высота: 1.5м",
+          cargoVolume: "Объем груза: 1.0м³",
+          maxPayload: "Макс. полезная нагрузка: 200кг",
+          maxSpeed: "Максимальная скорость: 80 км/ч",
+          rangePerCharge: "Запас хода на одном заряде: 150 км",
+          batterySwapTime: "Время замены батареи: 1 минута",
+          features: {
+            title: "Особенности",
+            climateControl: "Эффективный климат-контроль",
+            navigation: "Интегрированный GPS-навигатор",
+            camera: "Задняя камера для удобной парковки",
+          },
+          learnMore: "Подробнее",
+        },
+        uz: {
+          name: "Brumby",
+          description: "Shahar sharoitida foydalanish uchun ixcham va manevrli elektromobil.",
+          dimensions: "Uzunligi: 3.5m | Kengligi: 1.6m | Balandligi: 1.5m",
+          cargoVolume: "Yuk hajmi: 1.0m³",
+          maxPayload: "Maks. foydali yuk: 200kg",
+          maxSpeed: "Maksimal tezlik: 80 km/soat",
+          rangePerCharge: "Bir zaryadda yurish masofasi: 150 km",
+          batterySwapTime: "Batareya almashtirish vaqti: 1 daqiqa",
+          features: {
+            title: "Xususiyatlar",
+            climateControl: "Samarali iqlim nazorati",
+            navigation: "Integratsiyalashgan GPS-navigator",
+            camera: "Qulay avtoturargoh uchun orqa kamera",
+          },
+          learnMore: "Batafsil",
+        },
+        en: {
+          name: "Brumby",
+          description: "Compact and maneuverable electric vehicle for urban use.",
+          dimensions: "Length: 3.5m | Width: 1.6m | Height: 1.5m",
+          cargoVolume: "Cargo Volume: 1.0m³",
+          maxPayload: "Maximum Payload: 200kg",
+          maxSpeed: "Maximum Speed: 80 km/h",
+          rangePerCharge: "Range per Charge: 150 km",
+          batterySwapTime: "Battery Swap Time: 1 minute",
+          features: {
+            title: "Features",
+            climateControl: "Efficient Climate Control",
+            navigation: "Integrated GPS Navigator",
+            camera: "Rear Camera for Easy Parking",
+          },
+          learnMore: "Learn More",
+        },
+      },
+    },
+    // Add more models here if needed
+  ];
+
+  const currentModel = modelsData[currentModelIndex];
 
   const translations = {
     ru: {
@@ -43,6 +228,34 @@ export default function HomePage() {
           "Инновационное решение для экологичной доставки и городских перевозок с возможностью замены батареи за 1 минуту",
         buyButton: "Купить",
         forInvestors: "Для инвесторов",
+      },
+      swapNetwork: {
+        title: "Растущая сеть станций замены",
+        subtitle: "Удобный доступ к основным городским центрам",
+        locations: {
+          title: "Расположение станций замены",
+          active: "Активные станции",
+          comingSoon: "Скоро открытие",
+          planned: "Планируемое расширение",
+        },
+        findNearest: "Найти ближайшую станцию",
+        highlights: {
+          title: "Основные показатели сети",
+          activeStations: {
+            number: "42",
+            label: "Активные станции",
+          },
+          citiesCovered: {
+            number: "12",
+            label: "Городов охвачено",
+          },
+          uptimeReliability: {
+            number: "98.5%",
+            label: "Надежность работы",
+          },
+          description:
+            "Наша сеть быстро расширяется, каждый месяц добавляются новые станции. Каждая станция может обслуживать до 200 автомобилей в день, обеспечивая минимальное время ожидания даже в часы пик.",
+        },
       },
       advantages: {
         title: "Преимущества EcoMobile",
@@ -137,6 +350,34 @@ export default function HomePage() {
         buyButton: "Sotib olish",
         forInvestors: "Investorlar uchun",
       },
+      swapNetwork: {
+        title: "Kengayib borayotgan almashinish stantsiyalari tarmog'i",
+        subtitle: "Yirik shahar markazlariga qulay kirish",
+        locations: {
+          title: "Almashinish stantsiyalari joylashuvi",
+          active: "Faol stantsiyalar",
+          comingSoon: "Tez orada",
+          planned: "Rejalashtirilgan kengaytirish",
+        },
+        findNearest: "Eng yaqin stantsiyani topish",
+        highlights: {
+          title: "Tarmoqning asosiy ko'rsatkichlari",
+          activeStations: {
+            number: "42",
+            label: "Faol stantsiyalar",
+          },
+          citiesCovered: {
+            number: "12",
+            label: "Qamrab olingan shaharlar",
+          },
+          uptimeReliability: {
+            number: "98.5%",
+            label: "Ishlash ishonchliligi",
+          },
+          description:
+            "Bizning tarmoq tez kengaymoqda, har oy yangi stantsiyalar qo'shilmoqda. Har bir stantsiya kuniga 200 tagacha avtomobilga xizmat ko'rsatishi mumkin, bu esa eng yuqori soatlarda ham minimal kutish vaqtlarini ta'minlaydi.",
+        },
+      },
       advantages: {
         title: "EcoMobile afzalliklari",
         subtitle: "Samarali va ekologik kelajak uchun inqilobiy texnologiyalar",
@@ -229,6 +470,34 @@ export default function HomePage() {
           "Innovative solution for eco-friendly delivery and urban transportation with 1-minute battery replacement capability",
         buyButton: "Buy",
         forInvestors: "For Investors",
+      },
+      swapNetwork: {
+        title: "Growing Swap Station Network",
+        subtitle: "Convenient access across major urban centers",
+        locations: {
+          title: "Swap Station Locations",
+          active: "Active Stations",
+          comingSoon: "Coming Soon",
+          planned: "Planned Expansion",
+        },
+        findNearest: "Find Nearest Station",
+        highlights: {
+          title: "Network Highlights",
+          activeStations: {
+            number: "42",
+            label: "Active Stations",
+          },
+          citiesCovered: {
+            number: "12",
+            label: "Cities Covered",
+          },
+          uptimeReliability: {
+            number: "98.5%",
+            label: "Uptime Reliability",
+          },
+          description:
+            "Our network is expanding rapidly, with new stations being added every month. Each station can service up to 200 vehicles per day, ensuring minimal wait times even during peak hours.",
+        },
       },
       advantages: {
         title: "EcoMobile Advantages",
@@ -334,6 +603,32 @@ export default function HomePage() {
   }
 
   const savings = calculateSavings()
+
+  // Effect for auto-scrolling models
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentModelIndex((prevIndex) => (prevIndex + 1) % modelsData.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [modelsData.length]);
+
+  // Effect for Yandex Map initialization
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ymaps) {
+      window.ymaps.ready(() => {
+        const myMap = new window.ymaps.Map("map-container", {
+          center: [55.755864, 37.617698], // Example: Moscow coordinates
+          zoom: 10,
+          controls: ['zoomControl', 'fullscreenControl']
+        });
+
+        // Optional: Add a placemark (example)
+        // myMap.geoObjects.add(new window.ymaps.Placemark([55.76, 37.64], {
+        //     balloonContent: 'Это маркер!'
+        // }));
+      });
+    }
+  }, []);
 
   const advantageModals = {
     eco: {
@@ -702,7 +997,7 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-green-50 to-blue-50">
+      <section className="py-20 inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -819,19 +1114,20 @@ export default function HomePage() {
             </div>
 
             <div className="relative">
-              <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden shadow-2xl">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/kF_4zug_rfM"
-                  title="EcoMobile Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="rounded-2xl"
+              <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
+                <img
+                  src="/images/ecotruck.jpeg"
+                  alt={
+                    language === "ru"
+                      ? "Электромобиль EcoMobile"
+                      : language === "uz"
+                        ? "EcoMobile elektromobili"
+                        : "EcoMobile Electric Vehicle"
+                  }
+                  className="rounded-2xl object-cover w-full h-full"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-2 bg-white p-4 rounded-xl shadow-lg">
+              {/* <div className="absolute -bottom-6 -right-2 bg-white p-4 rounded-xl shadow-lg">
                 <div className="flex items-center space-x-2">
                   <Battery className="w-6 h-6 text-green-600" />
                   <span className="font-semibold">
@@ -840,8 +1136,154 @@ export default function HomePage() {
                     {language === "en" && "1-min swap"}
                   </span>
                 </div>
+              </div> */}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Models Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              {language === "ru" && "Наши модели"}
+              {language === "uz" && "Bizning modellarimiz"}
+              {language === "en" && "Our Models"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {language === "ru" && "Ознакомьтесь с разнообразием наших электромобилей, разработанных для различных задач"}
+              {language === "uz" && "Turli vazifalar uchun mo'ljallangan elektromobillarimizning xilma-xilligi bilan tanishing"}
+              {language === "en" && "Explore our range of electric vehicles designed for various tasks"}
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center transition-opacity duration-1000 ease-in-out" key={currentModel.id}> {/* Key and transition for the whole block */}
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].name}</h3>
+              <p className="text-lg text-gray-600 leading-relaxed">{currentModel.translations[language as keyof typeof currentModel.translations].description}</p>
+
+              <div className="space-y-4">
+                <h4 className="text-2xl font-bold text-gray-900">
+                  {language === "ru" && "Технические характеристики"}
+                  {language === "uz" && "Texnik xususiyatlar"}
+                  {language === "en" && "Technical Specifications"}
+                </h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].dimensions}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].cargoVolume}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].maxPayload}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].maxSpeed}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].rangePerCharge}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].batterySwapTime}
+                  </li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-2xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].features.title}</h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.climateControl}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.navigation}
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.camera}
+                  </li>
+                </ul>
               </div>
             </div>
+            <div className="relative">
+              <img
+                src={currentModel.image}
+                alt={currentModel.translations[language as keyof typeof currentModel.translations].name}
+                className="rounded-2xl object-cover w-full h-full" // Removed opacity/transform from img
+              />
+              <div className="mt-6 text-center">
+                <Button
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3"
+                >
+                  {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
+                  <ChevronRight className="ml-2 w-5 h-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Swap Network Station Map Section */}
+      <section className="py-12 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.swapNetwork.title}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
+          </div>
+
+          <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video">
+            <div id="map-container" className="w-full h-full min-h-[400px]"></div> {/* Replaced img with div for map */}
+            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-md">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
+              <ul className="space-y-3">
+                <li className="flex items-center text-gray-700">
+                  <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                  {t.swapNetwork.locations.active} (42)
+                </li>
+                <li className="flex items-center text-gray-700">
+                  <span className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
+                  {t.swapNetwork.locations.comingSoon} (18)
+                </li>
+                <li className="flex items-center text-gray-700">
+                  <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                  {t.swapNetwork.locations.planned} (35)
+                </li>
+              </ul>
+              <Button className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white">
+                {t.swapNetwork.findNearest}
+              </Button>
+            </div>
+          </div>
+
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-900 mb-8">{t.swapNetwork.highlights.title}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
+                <div className="text-4xl sm:text-5xl font-bold text-green-600 mb-2">{t.swapNetwork.highlights.activeStations.number}</div>
+                <p className="text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+              </Card>
+              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
+                <div className="text-5xl font-bold text-blue-600 mb-2">{t.swapNetwork.highlights.citiesCovered.number}</div>
+                <p className="text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+              </Card>
+              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
+                <div className="text-5xl font-bold text-purple-600 mb-2">{t.swapNetwork.highlights.uptimeReliability.number}</div>
+                <p className="text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+              </Card>
+            </div>
+            <p className="text-lg text-gray-700 max-w-4xl mx-auto mt-12">{t.swapNetwork.highlights.description}</p>
           </div>
         </div>
       </section>
@@ -858,13 +1300,13 @@ export default function HomePage() {
               {language === "en" && "CATL EVOGO Technology"}
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {language === "ru" && "Почему выбирают"}
-              {language === "uz" && "Nima uchun tanlaydilar"}
-              {language === "en" && "Why choose"}
+              {language === "ru" && "Преимущества"}
+              {language === "en" && "Advantages of"}
               <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                 {" "}
                 EcoMobile
               </span>
+              {language === "uz" && " Afzalliklari"}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.advantages.subtitle}</p>
           </div>
@@ -872,69 +1314,68 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
             {/* Main Feature Card */}
             <div className="lg:col-span-2">
-              <Card className="border-0 shadow-2xl bg-gradient-to-r from-green-600 to-blue-600 text-white overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
-                <CardContent className="p-12 relative">
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6">
-                        <Battery className="w-8 h-8 text-white" />
+              <Card className="border-0 shadow-2xl bg-gradient-to-r from-blue-700 to-green-700 overflow-hidden relative rounded-3xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"> {/* Stronger gradient background */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full -translate-y-32 translate-x-32 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-50 rounded-full translate-y-24 -translate-x-24 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
+                <CardContent className="p-6 md:p-12 relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center h-full"> {/* Adjusted padding, added responsive grid, adjusted gap */}
+                  <div className="h-full flex flex-col justify-center space-y-6 md:pr-8"> {/* Removed fixed pr-8, added responsive pr-8 */}
+                    <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-white"> {/* Adjusted font size for responsiveness */}
+                      {language === "ru" && "Технология быстрой замены батареи"}
+                      {language === "uz" && "Batareyani tez almashtirish texnologiyasi"}
+                      {language === "en" && "Fast Battery Swapping Technology"}
+                    </h3>
+                    <p className="text-base md:text-lg text-white/90 leading-relaxed mb-6"> {/* Adjusted font size for responsiveness */}
+                      {language === "ru" && "Революционная система CATL позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
+                      {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
+                      {language === "en" && "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
+                    </p>
+                    <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30"> {/* Adjusted space-x for responsiveness */}
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">1</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm text-white/80 mt-1">
+                          {language === "ru" && "минута"}
+                          {language === "uz" && "daqiqa"}
+                          {language === "en" && "minute"}
+                        </div>
                       </div>
-                      <h3 className="text-3xl font-bold mb-4">
-                        {language === "ru" && "Технология быстрой замены батареи"}
-                        {language === "uz" && "Batareyani tez almashtirish texnologiyasi"}
-                        {language === "en" && "Fast Battery Swapping Technology"}
-                      </h3>
-                      <p className="text-xl text-white/90 mb-6">
-                        {language === "ru" && "Революционная система CATL позволяет заменить батарею всего за 1 минуту"}
-                        {language === "uz" &&
-                          "CATL inqilobiy tizimi batareyani atigi 1 daqiqada almashtirish imkonini beradi"}
-                        {language === "en" && "Revolutionary CATL system allows battery replacement in just 1 minute"}
-                      </p>
-                      <div className="flex items-center space-x-4">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold">1</div>
-                          <div className="text-sm text-white/80">
-                            {language === "ru" && "минута"}
-                            {language === "uz" && "daqiqa"}
-                            {language === "en" && "minute"}
-                          </div>
+                      <div className="w-0.5 h-12 bg-white/30"></div>
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">24/7</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm text-white/80 mt-1">
+                          {language === "ru" && "доступность"}
+                          {language === "uz" && "mavjudlik"}
+                          {language === "en" && "availability"}
                         </div>
-                        <div className="w-px h-12 bg-white/30"></div>
-                        <div className="text-center">
-                          <div className="text-3xl font-bold">24/7</div>
-                          <div className="text-sm text-white/80">
-                            {language === "ru" && "доступность"}
-                            {language === "uz" && "mavjudlik"}
-                            {language === "en" && "availability"}
-                          </div>
-                        </div>
-                        <div className="w-px h-12 bg-white/30"></div>
-                        <div className="text-center">
-                          <div className="text-3xl font-bold">300+</div>
-                          <div className="text-sm text-white/80">
-                            {language === "ru" && "км запас хода"}
-                            {language === "uz" && "km masofa"}
-                            {language === "en" && "km range"}
-                          </div>
+                      </div>
+                      <div className="w-0.5 h-12 bg-white/30"></div>
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">300+</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm text-white/80 mt-1">
+                          {language === "ru" && "км запас хода"}
+                          {language === "uz" && "km masofa"}
+                          {language === "en" && "km range"}
                         </div>
                       </div>
                     </div>
-                    <div className="relative">
-                      <div className="aspect-square bg-white/10 rounded-3xl flex items-center justify-center">
-                        <div className="w-32 h-32 bg-white/20 rounded-2xl flex items-center justify-center">
-                          <Battery className="w-16 h-16 text-white" />
-                        </div>
-                      </div>
-                    </div>
+                  </div>
+                  <div className="h-full flex items-center justify-center md:pl-8"> {/* Removed fixed pl-8, added responsive pl-8 */}
+                    <img
+                      src="images/catlsystem.jpeg"
+                      alt={
+                        language === "ru"
+                          ? "Система быстрой замены батареи CATL"
+                          : language === "uz"
+                            ? "CATL batareyani tez almashtirish tizimi"
+                            : "CATL Battery Swapping System"
+                      }
+                      className="object-cover rounded-2xl w-full h-full shadow-xl" />
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Feature Cards Grid */}
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-white to-green-50/50 flex flex-col">
+            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-2 hover:-translate-y-3 bg-gradient-to-br from-white to-green-100/60 flex flex-col">
               <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Leaf className="w-7 h-7 text-green-600" />
@@ -951,7 +1392,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-white to-blue-50/50 flex flex-col">
+            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-2 hover:-translate-y-3 bg-gradient-to-br from-white to-blue-100/90 flex flex-col">
               <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <DollarSign className="w-7 h-7 text-blue-600" />
@@ -968,7 +1409,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-white to-yellow-50/50 flex flex-col">
+            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-5 hover:-translate-y-6 bg-gradient-to-br from-white to-yellow-100/60 flex flex-col">
               <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Sun className="w-7 h-7 text-yellow-600" />
@@ -985,7 +1426,7 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-gradient-to-br from-white to-purple-50/50 flex flex-col">
+            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-5 hover:-translate-y-6 bg-gradient-to-br from-white to-purple-100/90 flex flex-col">
               <CardContent className="p-8 flex-1 flex flex-col">
                 <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Shield className="w-7 h-7 text-purple-600" />
@@ -1031,10 +1472,10 @@ export default function HomePage() {
               <p className="text-xl text-white/80 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <Card className="border-0 shadow-2xl bg-white/95 backdrop-blur">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-8">
+            <div className="grid lg:grid-cols-2 gap-12 items-center bg-white/10 backdrop-blur rounded-3xl p-6 border border-white/20 text-white/70">
+              <Card className="bg-transparent border-transparent text-white/70">
+                <CardContent className="border-0">
+                  <h3 className="text-2xl font-bold text-white mb-8">
                     {language === "ru" && "Параметры расчёта"}
                     {language === "uz" && "Hisoblash parametrlari"}
                     {language === "en" && "Calculation parameters"}
@@ -1054,7 +1495,7 @@ export default function HomePage() {
                           onChange={(e) =>
                             setCalculatorData({ ...calculatorData, dailyDistance: Number(e.target.value) })
                           }
-                          className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                          className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
                         />
                       </div>
                     </div>
@@ -1071,7 +1512,7 @@ export default function HomePage() {
                         step="0.1"
                         value={calculatorData.fuelPrice}
                         onChange={(e) => setCalculatorData({ ...calculatorData, fuelPrice: Number(e.target.value) })}
-                        className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
 
@@ -1089,46 +1530,46 @@ export default function HomePage() {
                         onChange={(e) =>
                           setCalculatorData({ ...calculatorData, electricityPrice: Number(e.target.value) })
                         }
-                        className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <div className="space-y-6">
-                <div className="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20">
+              <div className="space-y-3">
+                {/* <div className="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20"> */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-white/80 text-lg">{t.calculator.regularCar}</span>
                     <Truck className="w-6 h-6 text-red-400" />
                   </div>
                   <div className="text-4xl font-bold text-red-400 mb-2">${savings.fuelCost}</div>
                   <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
-                </div>
+                {/* </div> */}
 
-                <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur rounded-3xl p-8 border border-green-400/30">
+                {/* <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur rounded-3xl p-8 border border-green-400/30"> */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-white text-lg font-medium">{t.calculator.ecoMobile}</span>
                     <Battery className="w-6 h-6 text-green-400" />
                   </div>
                   <div className="text-4xl font-bold text-green-400 mb-2">${savings.electricCost}</div>
                   <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
-                </div>
+                {/* </div> */}
 
-                <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur rounded-3xl p-8 border-2 border-yellow-400/50">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-white text-xl font-bold">{t.calculator.yourSavings}</span>
+                {/* <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur rounded-3xl p-8 border-2 border-yellow-400/50"> */}
+                  <div className="flex items-center border-t text-white/60 y-2 justify-between">
+                    <span className="text-white text-xl mt-2 font-bold">{t.calculator.yourSavings}</span>
                     <TrendingUp className="w-7 h-7 text-yellow-400" />
                   </div>
                   <div className="text-5xl font-bold text-yellow-400 mb-2">${savings.savings}</div>
                   <p className="text-white/80 text-lg">{t.calculator.everyMonth}</p>
-                  <div className="mt-4 pt-4 border-t border-white/20">
+                  <div className="mt-4 pt-4 border-white/20">
                     <p className="text-white/60">
                       {t.calculator.perYear}:{" "}
                       <span className="text-yellow-400 font-bold">${(Number(savings.savings) * 12).toFixed(0)}</span>
                     </p>
                   </div>
-                </div>
+                {/* </div> */}
               </div>
             </div>
           </div>
@@ -1220,13 +1661,13 @@ export default function HomePage() {
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{t.cta.title}</h2>
             <p className="text-xl text-green-100 mb-8">{t.cta.subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
+              <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
                 {t.cta.orderButton}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-green-600 px-8 py-3"
+                className="bg-white text-green-600 hover:bg-gray-100  px-8 py-3"
               >
                 {t.cta.learnMore}
               </Button>
@@ -1377,6 +1818,11 @@ export default function HomePage() {
           </div>
         </div>
       )}
+      {/* Script for Yandex Maps API */}
+      <Script
+        src="https://api-maps.yandex.ru/2.1/?apikey=ac2e95bf-f199-4184-937d-24722f5cc478&lang=ru_RU"
+        strategy="beforeInteractive"
+      />
     </div>
   )
 }

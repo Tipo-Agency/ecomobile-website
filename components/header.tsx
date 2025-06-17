@@ -52,7 +52,7 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
+    <header className="border-b border-b-[0.25px] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image src="/logo-main.png" alt="EcoMobile" width={150} height={40} className="h-10 w-auto" />
@@ -102,7 +102,7 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Select value={language} onValueChange={setLanguage}>
+          <Select  value={language} onValueChange={setLanguage}>
             <SelectTrigger className="w-20">
               <SelectValue />
             </SelectTrigger>
