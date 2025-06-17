@@ -112,7 +112,7 @@ export default function Header() {
               <SelectItem value="en">EN</SelectItem>
             </SelectContent>
           </Select>
-          <Button asChild>
+          <Button className="bg-green-600" asChild>
             <Link href="/contacts">{t.contact}</Link>
           </Button>
         </div>

@@ -20,9 +20,9 @@ export default function Footer() {
       contacts: "Контакты",
       contactsSection: "Контакты",
       email: "info@ecomobile.world",
-      phone: "+998 90 123 45 67",
+      phone: "+998 99 096 99 69",
       address: "Ташкент, Узбекистан",
-      rights: "© 2024 EcoMobile. Все права защищены.",
+      rights: "© 2025 EcoMobile. Все права защищены.",
     },
     uz: {
       description: "Ekologik transport uchun innovatsion yechimlar",
@@ -36,9 +36,9 @@ export default function Footer() {
       contacts: "Kontaktlar",
       contactsSection: "Kontaktlar",
       email: "info@ecomobile.world",
-      phone: "+998 90 123 45 67",
+      phone: "+998 99 096 99 69",
       address: "Toshkent, O'zbekiston",
-      rights: "© 2024 EcoMobile. Barcha huquqlar himoyalangan.",
+      rights: "© 2025 EcoMobile. Barcha huquqlar himoyalangan.",
     },
     en: {
       description: "Innovative solutions for eco-friendly transport",
@@ -52,9 +52,9 @@ export default function Footer() {
       contacts: "Contacts",
       contactsSection: "Contacts",
       email: "info@ecomobile.world",
-      phone: "+998 90 123 45 67",
+      phone: "+998 99 096 99 69",
       address: "Tashkent, Uzbekistan",
-      rights: "© 2024 EcoMobile. All rights reserved.",
+      rights: "© 2025 EcoMobile. All rights reserved.",
     },
   }
 
@@ -104,8 +104,8 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{t.contactsSection}</h3>
             <div className="space-y-2 text-gray-400">
-              <p>{t.email}</p>
-              <p>{t.phone}</p>
+              <p><a href={`mailto:${t.email}`}>{t.email}</a><br /></p>
+              <p><a href={`tel:${t.phone}`}>{t.phone}</a></p>
               <p>{t.address}</p>
             </div>
           </div>

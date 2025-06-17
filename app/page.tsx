@@ -21,6 +21,10 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import Script from 'next/script' // Added Script import
+import { useMobile } from '@/hooks/use-mobile'
+import YandexMap from "@/components/YandexMap"
+
+
 
 declare global {
   interface Window {
@@ -30,6 +34,7 @@ declare global {
 
 export default function HomePage() {
   const { language } = useLanguage()
+  const isMobile = useMobile()
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
   const [isInvestorModalOpen, setIsInvestorModalOpen] = useState(false)
   const [advantageModal, setAdvantageModal] = useState<string | null>(null)
@@ -623,9 +628,9 @@ export default function HomePage() {
         });
 
         // Optional: Add a placemark (example)
-        // myMap.geoObjects.add(new window.ymaps.Placemark([55.76, 37.64], {
-        //     balloonContent: 'Это маркер!'
-        // }));
+        myMap.geoObjects.add(new window.ymaps.Placemark([55.76, 37.64], {
+          balloonContent: 'Это маркер!'
+        }));
       });
     }
   }, []);
@@ -794,14 +799,12 @@ export default function HomePage() {
           <div className="text-center">
             <div className="relative">
               <div
-                className={`w-32 h-32 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-all duration-1000 ${
-                  batteryAnimation ? "scale-110 bg-green-100" : ""
-                }`}
+                className={`w-32 h-32 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-all duration-1000 ${batteryAnimation ? "scale-110 bg-green-100" : ""
+                  }`}
               >
                 <Battery
-                  className={`w-16 h-16 transition-colors duration-1000 ${
-                    batteryAnimation ? "text-green-600" : "text-purple-600"
-                  }`}
+                  className={`w-16 h-16 transition-colors duration-1000 ${batteryAnimation ? "text-green-600" : "text-purple-600"
+                    }`}
                 />
               </div>
               <Button
@@ -1147,9 +1150,14 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {language === "ru" && "Наши модели"}
-              {language === "uz" && "Bizning modellarimiz"}
-              {language === "en" && "Our Models"}
+              {language === "ru" && "Модели"}
+              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                {" "}
+                EcoMobile
+                {" "}
+              </span>
+              {language === "uz" && "Modellari"}
+              {language === "en" && "Models"}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === "ru" && "Ознакомьтесь с разнообразием наших электромобилей, разработанных для различных задач"}
@@ -1237,56 +1245,125 @@ export default function HomePage() {
 
       {/* Swap Network Station Map Section */}
       <section className="py-12 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.swapNetwork.title}</h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
-          </div>
+        {isMobile ? (
+              <div className="container mx:auto sm:hidden">
+                {/* Заголовок */}
+                <div className="text-center mb-8 px-4">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.swapNetwork.title}</h2>
+                  <p className="text-base text-gray-600">{t.swapNetwork.subtitle}</p>
+                </div>
 
-          <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video">
-            <div id="map-container" className="w-full h-full min-h-[400px]"></div> {/* Replaced img with div for map */}
-            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-md">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
-              <ul className="space-y-3">
-                <li className="flex items-center text-gray-700">
-                  <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                  {t.swapNetwork.locations.active} (42)
-                </li>
-                <li className="flex items-center text-gray-700">
-                  <span className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
-                  {t.swapNetwork.locations.comingSoon} (18)
-                </li>
-                <li className="flex items-center text-gray-700">
-                  <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
-                  {t.swapNetwork.locations.planned} (35)
-                </li>
-              </ul>
-              <Button className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white">
-                {t.swapNetwork.findNearest}
-              </Button>
+                {/* Карта */}
+                <div className="w-full rounded-2xl overflow-hidden shadow-md mb-4 px-4">
+                  <YandexMap />
+                </div>
+
+                {/* Информация о точках (перенесена вниз) */}
+                <div className="bg-white rounded-2xl shadow-md mx-4 p-4 mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{t.swapNetwork.locations.title}</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-center">
+                      <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                      {t.swapNetwork.locations.active} (42)
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                      {t.swapNetwork.locations.comingSoon} (18)
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+                      {t.swapNetwork.locations.planned} (35)
+                    </li>
+                  </ul>
+                  <Button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white text-sm">
+                    {t.swapNetwork.findNearest}
+                  </Button>
+                </div>
+
+                {/* Хайлайты */}
+                <div className="text-center px-4 mb-10">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    {t.swapNetwork.highlights.title}
+                  </h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    <Card className="bg-white rounded-xl p-4 shadow-sm">
+                      <div className="text-2xl font-bold text-green-600">
+                        {t.swapNetwork.highlights.activeStations.number}
+                      </div>
+                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+                    </Card>
+                    <Card className="bg-white rounded-xl p-4 shadow-sm">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {t.swapNetwork.highlights.citiesCovered.number}
+                      </div>
+                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+                    </Card>
+                    <Card className="bg-white rounded-xl p-4 shadow-sm">
+                      <div className="text-2xl font-bold text-purple-600">
+                        {t.swapNetwork.highlights.uptimeReliability.number}
+                      </div>
+                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+                    </Card>
+                  </div>
+                  <p className="text-sm text-gray-700 mt-6">
+                    {t.swapNetwork.highlights.description}
+                  </p>
+                </div>
+              </div>
+        ) : (
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.swapNetwork.title}</h2>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
+            </div>
+
+            <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video">
+              {/* <div id="map-container" className="w-full h-full min-h-[400px]"></div> */}
+              <YandexMap />
+              <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-center text-gray-700">
+                    <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                    {t.swapNetwork.locations.active} (42)
+                  </li>
+                  <li className="flex items-center text-gray-700">
+                    <span className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
+                    {t.swapNetwork.locations.comingSoon} (18)
+                  </li>
+                  <li className="flex items-center text-gray-700">
+                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                    {t.swapNetwork.locations.planned} (35)
+                  </li>
+                </ul>
+                <Button className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white">
+                  {t.swapNetwork.findNearest}
+                </Button>
+              </div>
+            </div>
+
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-900 mb-8">{t.swapNetwork.highlights.title}</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center bg-gradient-to-br from-green-300/60 to-white">
+                  <div className="text-4xl sm:text-5xl font-bold text-green-600 mb-2">{t.swapNetwork.highlights.activeStations.number}</div>
+                  <p className="text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+                </Card>
+                <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center bg-gradient-to-br from-blue-300/60 to-white">
+                  <div className="text-5xl font-bold text-blue-600 mb-2">{t.swapNetwork.highlights.citiesCovered.number}</div>
+                  <p className="text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+                </Card>
+                <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center bg-gradient-to-br from-purple-300/60 to-white">
+                  <div className="text-5xl font-bold text-purple-600 mb-2">{t.swapNetwork.highlights.uptimeReliability.number}</div>
+                  <p className="text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+                </Card>
+              </div>
+              <p className="text-lg text-gray-700 max-w-4xl mx-auto mt-12">{t.swapNetwork.highlights.description}</p>
             </div>
           </div>
-
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-900 mb-8">{t.swapNetwork.highlights.title}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
-                <div className="text-4xl sm:text-5xl font-bold text-green-600 mb-2">{t.swapNetwork.highlights.activeStations.number}</div>
-                <p className="text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
-              </Card>
-              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
-                <div className="text-5xl font-bold text-blue-600 mb-2">{t.swapNetwork.highlights.citiesCovered.number}</div>
-                <p className="text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
-              </Card>
-              <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center">
-                <div className="text-5xl font-bold text-purple-600 mb-2">{t.swapNetwork.highlights.uptimeReliability.number}</div>
-                <p className="text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
-              </Card>
-            </div>
-            <p className="text-lg text-gray-700 max-w-4xl mx-auto mt-12">{t.swapNetwork.highlights.description}</p>
-          </div>
-        </div>
+        )}
       </section>
+
 
       {/* Advantages Section */}
       <section className="py-24 relative overflow-hidden">
@@ -1368,7 +1445,7 @@ export default function HomePage() {
                             ? "CATL batareyani tez almashtirish tizimi"
                             : "CATL Battery Swapping System"
                       }
-                      className="object-cover rounded-2xl w-full h-full shadow-xl" />
+                      className="object-cover rounded-2xl w-full h-full [mask-image:radial-gradient(circle,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)] [mask-size:cover] [mask-repeat:no-repeat]" />
                   </div>
                 </CardContent>
               </Card>
@@ -1449,7 +1526,7 @@ export default function HomePage() {
       </section>
 
       {/* Calculator Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-900 via-blue-900 to-green-900 relative overflow-hidden">
+      <section className="py-24 bg-gradient-to-r from-blue-700 to-green-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1200')] opacity-5"></div>
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
@@ -1539,36 +1616,36 @@ export default function HomePage() {
 
               <div className="space-y-3">
                 {/* <div className="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20"> */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-white/80 text-lg">{t.calculator.regularCar}</span>
-                    <Truck className="w-6 h-6 text-red-400" />
-                  </div>
-                  <div className="text-4xl font-bold text-red-400 mb-2">${savings.fuelCost}</div>
-                  <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white/80 text-lg">{t.calculator.regularCar}</span>
+                  <Truck className="w-6 h-6 text-red-400" />
+                </div>
+                <div className="text-4xl font-bold text-red-400 mb-2">${savings.fuelCost}</div>
+                <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
                 {/* </div> */}
 
                 {/* <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur rounded-3xl p-8 border border-green-400/30"> */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-white text-lg font-medium">{t.calculator.ecoMobile}</span>
-                    <Battery className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div className="text-4xl font-bold text-green-400 mb-2">${savings.electricCost}</div>
-                  <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white text-lg font-medium">{t.calculator.ecoMobile}</span>
+                  <Battery className="w-6 h-6 text-green-400" />
+                </div>
+                <div className="text-4xl font-bold text-green-400 mb-2">${savings.electricCost}</div>
+                <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
                 {/* </div> */}
 
                 {/* <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur rounded-3xl p-8 border-2 border-yellow-400/50"> */}
-                  <div className="flex items-center border-t text-white/60 y-2 justify-between">
-                    <span className="text-white text-xl mt-2 font-bold">{t.calculator.yourSavings}</span>
-                    <TrendingUp className="w-7 h-7 text-yellow-400" />
-                  </div>
-                  <div className="text-5xl font-bold text-yellow-400 mb-2">${savings.savings}</div>
-                  <p className="text-white/80 text-lg">{t.calculator.everyMonth}</p>
-                  <div className="mt-4 pt-4 border-white/20">
-                    <p className="text-white/60">
-                      {t.calculator.perYear}:{" "}
-                      <span className="text-yellow-400 font-bold">${(Number(savings.savings) * 12).toFixed(0)}</span>
-                    </p>
-                  </div>
+                <div className="flex items-center border-t text-white/60 y-2 justify-between">
+                  <span className="text-white text-xl mt-2 font-bold">{t.calculator.yourSavings}</span>
+                  <TrendingUp className="w-7 h-7 text-yellow-400" />
+                </div>
+                <div className="text-5xl font-bold text-yellow-400 mb-2">${savings.savings}</div>
+                <p className="text-white/80 text-lg">{t.calculator.everyMonth}</p>
+                <div className="mt-4 pt-4 border-white/20">
+                  <p className="text-white/60">
+                    {t.calculator.perYear}:{" "}
+                    <span className="text-yellow-400 font-bold">${(Number(savings.savings) * 12).toFixed(0)}</span>
+                  </p>
+                </div>
                 {/* </div> */}
               </div>
             </div>
@@ -1819,10 +1896,10 @@ export default function HomePage() {
         </div>
       )}
       {/* Script for Yandex Maps API */}
-      <Script
+      {/* <Script
         src="https://api-maps.yandex.ru/2.1/?apikey=ac2e95bf-f199-4184-937d-24722f5cc478&lang=ru_RU"
         strategy="beforeInteractive"
-      />
+      /> */}
     </div>
   )
 }

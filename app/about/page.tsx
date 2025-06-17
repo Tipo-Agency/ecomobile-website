@@ -248,17 +248,7 @@ export default function AboutPage() {
 
             <div className="relative">
               <div className="aspect-square bg-gradient-to-br from-green-100 to-blue-100 rounded-3xl flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <Leaf className="w-16 h-16 text-green-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">2024</h3>
-                  <p className="text-gray-600">
-                    {language === "ru" && "Год основания"}
-                    {language === "uz" && "Tashkil etilgan yil"}
-                    {language === "en" && "Year founded"}
-                  </p>
-                </div>
+                <img src="ecomobile.jpeg" alt="" />
               </div>
             </div>
           </div>
