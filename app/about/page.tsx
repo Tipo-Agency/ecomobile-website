@@ -16,7 +16,7 @@ export default function AboutPage() {
         badge: "Наша история",
         title: "Мы создаём будущее городского транспорта",
         description:
-          "EcoMobile — это команда инженеров, дизайнеров и предпринимателей, объединённых общей целью: сделать городской транспорт экологичным, эффективным и доступным для всех.",
+          "Ecomobile — это команда инженеров, дизайнеров и предпринимателей, объединённых общей целью: сделать городской транспорт экологичным, эффективным и доступным для всех.",
       },
       mission: {
         title: "Наша миссия",
@@ -76,7 +76,7 @@ export default function AboutPage() {
         badge: "Bizning tariximiz",
         title: "Biz shahar transportining kelajagini yaratamiz",
         description:
-          "EcoMobile - bu umumiy maqsad bilan birlashgan muhandislar, dizaynerlar va tadbirkorlar jamoasi: shahar transportini ekologik, samarali va hamma uchun ochiq qilish.",
+          "Ecomobile - bu umumiy maqsad bilan birlashgan muhandislar, dizaynerlar va tadbirkorlar jamoasi: shahar transportini ekologik, samarali va hamma uchun ochiq qilish.",
       },
       mission: {
         title: "Bizning missiyamiz",
@@ -138,7 +138,7 @@ export default function AboutPage() {
         badge: "Our Story",
         title: "We are creating the future of urban transport",
         description:
-          "EcoMobile is a team of engineers, designers and entrepreneurs united by a common goal: to make urban transport ecological, efficient and accessible to everyone.",
+          "Ecomobile is a team of engineers, designers and entrepreneurs united by a common goal: to make urban transport ecological, efficient and accessible to everyone.",
       },
       mission: {
         title: "Our Mission",

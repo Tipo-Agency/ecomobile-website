@@ -23,6 +23,7 @@ import { useLanguage } from "@/contexts/language-context"
 import Script from 'next/script' // Added Script import
 import { useMobile } from '@/hooks/use-mobile'
 import YandexMap from "@/components/YandexMap"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 
 
@@ -42,9 +43,13 @@ export default function HomePage() {
   const [batteryAnimation, setBatteryAnimation] = useState(false)
   const [currentModelIndex, setCurrentModelIndex] = useState(0) // New state for model index
   const [calculatorData, setCalculatorData] = useState({
-    dailyDistance: 100,
-    fuelPrice: 1.5,
-    electricityPrice: 0.1,
+    fleetSize: 5,
+    averageDailyDistance: 120,
+    operatingDaysPerWeek: 5,
+    vehicleType: 'diesel', // 'diesel' or 'gasoline'
+    dieselPrice: 1.5, // Price per liter
+    gasolinePrice: 1.7, // Price per liter
+    electricityPrice: 0.15, // Price per kWh
   })
 
   const modelsData = [
@@ -263,7 +268,7 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "Преимущества EcoMobile",
+        title: "Преимущества Ecomobile",
         subtitle: "Революционные технологии для эффективного и экологичного будущего",
         eco: {
           title: "100% Экологично",
@@ -282,22 +287,39 @@ export default function HomePage() {
         },
         reliability: {
           title: "Надёжность",
-          description: "Проверенная технология CATL с гарантией качества",
+          description: "Проверенная технология с гарантией качества",
           guarantees: "Гарантии",
         },
       },
       calculator: {
         title: "Калькулятор экономии",
-        subtitle: "Узнайте, сколько вы сэкономите, перейдя на EcoMobile",
+        subtitle: "Узнайте, сколько вы сэкономите, перейдя на Ecomobile",
         dailyDistance: "Ежедневный пробег (км)",
         fuelPrice: "Цена топлива ($/л)",
         electricityPrice: "Цена электричества ($/кВт·ч)",
         regularCar: "Обычный автомобиль",
-        ecoMobile: "EcoMobile",
+        ecoMobile: "Ecomobile",
         yourSavings: "Ваша экономия",
         monthlyExpenses: "расходы в месяц",
         everyMonth: "каждый месяц",
         perYear: "За год",
+        inputDetails: "Введите данные",
+        fleetSize: "Размер автопарка",
+        averageDailyDistance: "Средний ежедневный пробег (км)",
+        operatingDaysPerWeek: "Рабочих дней в неделю",
+        currentVehicleType: "Текущий тип автомобиля",
+        diesel: "Дизель",
+        gasoline: "Бензин",
+        calculateSavingsButton: "Рассчитать экономию",
+        estimatedSavings: "Ваша предполагаемая экономия",
+        monthlyFuelEnergyCostSavings: "Ежемесячная экономия на топливе/энергии",
+        annualCO2Reduction: "Ежегодное сокращение CO2",
+        tons: "тонн",
+        fiveYearTotalSavings: "Общая экономия за 5 лет",
+        estimatedROIPeriod: "Предполагаемый срок окупаемости",
+        years: "лет",
+        calculationDisclaimer: "Эти расчеты являются оценками, основанными на средних ценах на топливо и электроэнергию. Ваши фактические сбережения могут отличаться в зависимости от конкретных условий эксплуатации и местных цен на энергию.",
+        downloadDetailedReport: "Скачать подробный отчет",
       },
       applications: {
         title: "Идеальное решение для любого бизнеса",
@@ -384,7 +406,7 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "EcoMobile afzalliklari",
+        title: "Ecomobile afzalliklari",
         subtitle: "Samarali va ekologik kelajak uchun inqilobiy texnologiyalar",
         eco: {
           title: "100% Ekologik",
@@ -403,22 +425,39 @@ export default function HomePage() {
         },
         reliability: {
           title: "Ishonchlilik",
-          description: "Sifat kafolati bilan CATL ning isbotlangan texnologiyasi",
+          description: "Sifat kafolati bilan isbotlangan texnologiya",
           guarantees: "Kafolatlar",
         },
       },
       calculator: {
         title: "Tejash kalkulyatori",
-        subtitle: "EcoMobile'ga o'tish bilan qancha tejashingizni bilib oling",
+        subtitle: "Ecomobile'ga o'tish bilan qancha tejashingizni bilib oling",
         dailyDistance: "Kunlik masofa (km)",
         fuelPrice: "Yoqilg'i narxi ($/l)",
         electricityPrice: "Elektr energiya narxi ($/kVt·soat)",
         regularCar: "Oddiy avtomobil",
-        ecoMobile: "EcoMobile",
+        ecoMobile: "Ecomobile",
         yourSavings: "Sizning tejashingiz",
         monthlyExpenses: "oylik xarajatlar",
         everyMonth: "har oy",
         perYear: "Yil davomida",
+        inputDetails: "Ma'lumotlaringizni kiriting",
+        fleetSize: "Avtopark hajmi",
+        averageDailyDistance: "O'rtacha kunlik masofa (km)",
+        operatingDaysPerWeek: "Haftalik ish kunlari",
+        currentVehicleType: "Joriy avtomobil turi",
+        diesel: "Dizel",
+        gasoline: "Benzin",
+        calculateSavingsButton: "Tejashni hisoblash",
+        estimatedSavings: "Sizning taxminiy tejashingiz",
+        monthlyFuelEnergyCostSavings: "Oylik yoqilg'i/energiya tejash",
+        annualCO2Reduction: "Yillik CO2 kamayishi",
+        tons: "tonna",
+        fiveYearTotalSavings: "5 yillik umumiy tejash",
+        estimatedROIPeriod: "Taxminiy investitsiya qaytish muddati",
+        years: "yil",
+        calculationDisclaimer: "Ushbu hisob-kitoblar o'rtacha yoqilg'i narxlari va elektr energiyasi narxlariga asoslangan. Sizning haqiqiy tejashingiz operatsion sharoitlarga va mahalliy energiya narxlariga qarab farq qilishi mumkin.",
+        downloadDetailedReport: "Batafsil hisobotni yuklab olish",
       },
       applications: {
         title: "Har qanday biznes uchun ideal yechim",
@@ -505,7 +544,7 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "EcoMobile Advantages",
+        title: "Ecomobile Advantages",
         subtitle: "Revolutionary technologies for an efficient and eco-friendly future",
         eco: {
           title: "100% Eco-Friendly",
@@ -524,22 +563,39 @@ export default function HomePage() {
         },
         reliability: {
           title: "Reliability",
-          description: "Proven CATL technology with quality guarantee",
+          description: "Proven technology with quality guarantee",
           guarantees: "Guarantees",
         },
       },
       calculator: {
         title: "Savings Calculator",
-        subtitle: "Find out how much you'll save by switching to EcoMobile",
+        subtitle: "Find out how much you'll save by switching to Ecomobile",
         dailyDistance: "Daily distance (km)",
         fuelPrice: "Fuel price ($/l)",
         electricityPrice: "Electricity price ($/kWh)",
         regularCar: "Regular car",
-        ecoMobile: "EcoMobile",
+        ecoMobile: "Ecomobile",
         yourSavings: "Your savings",
         monthlyExpenses: "monthly expenses",
         everyMonth: "every month",
         perYear: "Per year",
+        inputDetails: "Input Your Details",
+        fleetSize: "Fleet Size",
+        averageDailyDistance: "Average Daily Distance (km)",
+        operatingDaysPerWeek: "Operating Days per Week",
+        currentVehicleType: "Current Vehicle Type",
+        diesel: "Diesel",
+        gasoline: "Gasoline",
+        calculateSavingsButton: "Calculate Savings",
+        estimatedSavings: "Your Estimated Savings",
+        monthlyFuelEnergyCostSavings: "Monthly Fuel/Energy Cost Savings",
+        annualCO2Reduction: "Annual CO2 Reduction",
+        tons: "tons",
+        fiveYearTotalSavings: "5-Year Total Savings",
+        estimatedROIPeriod: "Estimated ROI Period",
+        years: "years",
+        calculationDisclaimer: "These calculations are estimates based on average fuel prices and electricity costs. Your actual savings may vary based on specific operating conditions and local energy prices.",
+        downloadDetailedReport: "Download Detailed Report",
       },
       applications: {
         title: "Perfect solution for any business",
@@ -593,17 +649,53 @@ export default function HomePage() {
   const t = translations[language as keyof typeof translations] || translations.ru
 
   const calculateSavings = () => {
-    const monthlyDistance = calculatorData.dailyDistance * 30
-    const fuelConsumption = monthlyDistance * 0.08 // 8л/100км
-    const electricConsumption = monthlyDistance * 0.15 // 15кВт·ч/100км
+    const { fleetSize, averageDailyDistance, operatingDaysPerWeek, vehicleType, dieselPrice, gasolinePrice, electricityPrice } = calculatorData;
 
-    const fuelCost = fuelConsumption * calculatorData.fuelPrice
-    const electricCost = electricConsumption * calculatorData.electricityPrice
+    const annualOperatingDays = operatingDaysPerWeek * 52;
+    const annualDistancePerVehicle = averageDailyDistance * annualOperatingDays;
+    const totalAnnualDistance = annualDistancePerVehicle * fleetSize;
+
+    // Fuel Car Calculations
+    let fuelConsumptionPer100Km = 0;
+    let fuelPricePerLiter = 0;
+    let co2EmissionPerLiter = 0; // kg CO2 per liter
+
+    if (vehicleType === 'diesel') {
+      fuelConsumptionPer100Km = 8; // L/100km
+      fuelPricePerLiter = dieselPrice;
+      co2EmissionPerLiter = 2.68; // kg CO2
+    } else { // gasoline
+      fuelConsumptionPer100Km = 10; // L/100km
+      fuelPricePerLiter = gasolinePrice;
+      co2EmissionPerLiter = 2.31; // kg CO2
+    }
+
+    const totalAnnualFuelConsumption = (totalAnnualDistance / 100) * fuelConsumptionPer100Km;
+    const totalAnnualFuelCost = totalAnnualFuelConsumption * fuelPricePerLiter;
+
+    // EcoMobile Calculations
+    const electricConsumptionPer100Km = 15; // kWh/100km
+    const totalAnnualElectricConsumption = (totalAnnualDistance / 100) * electricConsumptionPer100Km;
+    const totalAnnualElectricCost = totalAnnualElectricConsumption * electricityPrice;
+
+    // Savings
+    const annualSavings = totalAnnualFuelCost - totalAnnualElectricCost;
+    const monthlySavings = annualSavings / 12;
+    const fiveYearSavings = annualSavings * 5;
+
+    // CO2 Reduction
+    const totalAnnualCO2EmissionFuel = (totalAnnualFuelConsumption * co2EmissionPerLiter) / 1000; // in tons
+    const annualCO2Reduction = totalAnnualCO2EmissionFuel; // simplified, assuming zero for electric
+
+    // ROI Period (simplified: initial investment / annual savings)
+    const estimatedEcoMobileCost = 86250; // Placeholder for initial investment based on image example
+    const estimatedROIPeriod = annualSavings > 0 ? estimatedEcoMobileCost / annualSavings : 0;
 
     return {
-      fuelCost: fuelCost.toFixed(0),
-      electricCost: electricCost.toFixed(0),
-      savings: (fuelCost - electricCost).toFixed(0),
+      monthlyFuelEnergyCostSavings: monthlySavings.toFixed(0),
+      annualCO2Reduction: annualCO2Reduction.toFixed(1),
+      fiveYearTotalSavings: fiveYearSavings.toFixed(0),
+      estimatedROIPeriod: estimatedROIPeriod.toFixed(1),
     }
   }
 
@@ -616,24 +708,6 @@ export default function HomePage() {
     }, 5000);
     return () => clearInterval(interval);
   }, [modelsData.length]);
-
-  // Effect for Yandex Map initialization
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.ymaps) {
-      window.ymaps.ready(() => {
-        const myMap = new window.ymaps.Map("map-container", {
-          center: [55.755864, 37.617698], // Example: Moscow coordinates
-          zoom: 10,
-          controls: ['zoomControl', 'fullscreenControl']
-        });
-
-        // Optional: Add a placemark (example)
-        myMap.geoObjects.add(new window.ymaps.Placemark([55.76, 37.64], {
-          balloonContent: 'Это маркер!'
-        }));
-      });
-    }
-  }, []);
 
   const advantageModals = {
     eco: {
@@ -653,11 +727,11 @@ export default function HomePage() {
             </h3>
             <p className="text-gray-600">
               {language === "ru" &&
-                "EcoMobile работает исключительно на электричестве, что означает полное отсутствие вредных выбросов в атмосферу. Каждый километр пути способствует улучшению экологической ситуации в городе."}
+                "Ecomobile работает исключительно на электричестве, что означает полное отсутствие вредных выбросов в атмосферу. Каждый километр пути способствует улучшению экологической ситуации в городе."}
               {language === "uz" &&
-                "EcoMobile faqat elektr energiyasida ishlaydi, bu atmosferaga zararli chiqindilarning to'liq yo'qligini anglatadi. Har bir kilometr yo'l shahardagi ekologik vaziyatni yaxshilashga yordam beradi."}
+                "Ecomobile faqat elektr energiyasida ishlaydi, bu atmosferaga zararli chiqindilarning to'liq yo'qligini anglatadi. Har bir kilometr yo'l shahardagi ekologik vaziyatni yaxshilashga yordam beradi."}
               {language === "en" &&
-                "EcoMobile runs exclusively on electricity, which means complete absence of harmful emissions into the atmosphere. Every kilometer traveled contributes to improving the environmental situation in the city."}
+                "Ecomobile runs exclusively on electricity, which means complete absence of harmful emissions into the atmosphere. Every kilometer traveled contributes to improving the environmental situation in the city."}
             </p>
 
             <div className="grid md:grid-cols-2 gap-4 mt-6">
@@ -828,18 +902,18 @@ export default function HomePage() {
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold">
+            {/* <h3 className="text-xl font-semibold">
               {language === "ru" && "CATL EVOGO - революционная технология"}
               {language === "uz" && "CATL EVOGO - inqilobiy texnologiya"}
               {language === "en" && "CATL EVOGO - revolutionary technology"}
-            </h3>
+            </h3> */}
             <p className="text-gray-600">
               {language === "ru" &&
-                "Система быстрой замены батарей позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля. Технология CATL проверена миллионами циклов и гарантирует надежность."}
+                "Система быстрой замены батарей позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
               {language === "uz" &&
-                "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq. CATL texnologiyasi millionlab tsikllar bilan sinovdan o'tgan va ishonchlilikni kafolatlaydi."}
+                "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
               {language === "en" &&
-                "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car. CATL technology is tested by millions of cycles and guarantees reliability."}
+                "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
             </p>
 
             <div className="grid md:grid-cols-2 gap-4 mt-6">
@@ -915,11 +989,11 @@ export default function HomePage() {
             </h3>
             <p className="text-gray-600">
               {language === "ru" &&
-                "Возможность зарядки от солнечных панелей делает EcoMobile полностью автономным и экологически чистым решением. Станции замены батарей могут работать на солнечной энергии, обеспечивая 100% возобновляемую энергию."}
+                "Возможность зарядки от солнечных панелей делает Ecomobile полностью автономным и экологически чистым решением. Станции замены батарей могут работать на солнечной энергии, обеспечивая 100% возобновляемую энергию."}
               {language === "uz" &&
-                "Quyosh panellaridan quvvatlash imkoniyati EcoMobile'ni to'liq avtonom va ekologik toza yechim qiladi. Batareya almashtirish stantsiyalari quyosh energiyasida ishlashi mumkin, bu 100% qayta tiklanadigan energiyani ta'minlaydi."}
+                "Quyosh panellaridan quvvatlash imkoniyati Ecomobile'ni to'liq avtonom va ekologik toza yechim qiladi. Batareya almashtirish stantsiyalari quyosh energiyasida ishlashi mumkin, bu 100% qayta tiklanadigan energiyani ta'minlaydi."}
               {language === "en" &&
-                "The ability to charge from solar panels makes EcoMobile a completely autonomous and environmentally clean solution. Battery swap stations can run on solar energy, providing 100% renewable energy."}
+                "The ability to charge from solar panels makes Ecomobile a completely autonomous and environmentally clean solution. Battery swap stations can run on solar energy, providing 100% renewable energy."}
             </p>
 
             <div className="grid md:grid-cols-2 gap-4 mt-6">
@@ -1005,11 +1079,11 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="space-y-4">
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                {/* <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                   {language === "ru" && "Инновационная технология CATL"}
                   {language === "uz" && "CATL innovatsion texnologiyasi"}
                   {language === "en" && "Innovative CATL technology"}
-                </Badge>
+                </Badge> */}
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
                 <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
               </div>
@@ -1122,10 +1196,10 @@ export default function HomePage() {
                   src="/images/ecotruck.jpeg"
                   alt={
                     language === "ru"
-                      ? "Электромобиль EcoMobile"
+                      ? "Электромобиль Ecomobile"
                       : language === "uz"
-                        ? "EcoMobile elektromobili"
-                        : "EcoMobile Electric Vehicle"
+                        ? "Ecomobile elektromobili"
+                        : "Ecomobile Electric Vehicle"
                   }
                   className="rounded-2xl object-cover w-full h-full"
                 />
@@ -1153,7 +1227,7 @@ export default function HomePage() {
               {language === "ru" && "Модели"}
               <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                 {" "}
-                EcoMobile
+                Ecomobile
                 {" "}
               </span>
               {language === "uz" && "Modellari"}
@@ -1244,83 +1318,82 @@ export default function HomePage() {
       </section>
 
       {/* Swap Network Station Map Section */}
-      <section className="py-12 md:py-24">
+      <section className="py-12 md:py-24"> {/* Убран bg-gray-50 отсюда */}
         {isMobile ? (
-              <div className="container mx:auto sm:hidden">
-                {/* Заголовок */}
-                <div className="text-center mb-8 px-4">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.swapNetwork.title}</h2>
-                  <p className="text-base text-gray-600">{t.swapNetwork.subtitle}</p>
-                </div>
-
-                {/* Карта */}
-                <div className="w-full rounded-2xl overflow-hidden shadow-md mb-4 px-4">
-                  <YandexMap />
-                </div>
-
-                {/* Информация о точках (перенесена вниз) */}
-                <div className="bg-white rounded-2xl shadow-md mx-4 p-4 mb-8">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">{t.swapNetwork.locations.title}</h3>
-                  <ul className="space-y-2 text-sm text-gray-700">
-                    <li className="flex items-center">
-                      <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                      {t.swapNetwork.locations.active} (42)
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
-                      {t.swapNetwork.locations.comingSoon} (18)
-                    </li>
-                    <li className="flex items-center">
-                      <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
-                      {t.swapNetwork.locations.planned} (35)
-                    </li>
-                  </ul>
-                  <Button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white text-sm">
-                    {t.swapNetwork.findNearest}
-                  </Button>
-                </div>
-
-                {/* Хайлайты */}
-                <div className="text-center px-4 mb-10">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">
-                    {t.swapNetwork.highlights.title}
-                  </h3>
-                  <div className="grid grid-cols-1 gap-4">
-                    <Card className="bg-white rounded-xl p-4 shadow-sm">
-                      <div className="text-2xl font-bold text-green-600">
-                        {t.swapNetwork.highlights.activeStations.number}
-                      </div>
-                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
-                    </Card>
-                    <Card className="bg-white rounded-xl p-4 shadow-sm">
-                      <div className="text-2xl font-bold text-blue-600">
-                        {t.swapNetwork.highlights.citiesCovered.number}
-                      </div>
-                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
-                    </Card>
-                    <Card className="bg-white rounded-xl p-4 shadow-sm">
-                      <div className="text-2xl font-bold text-purple-600">
-                        {t.swapNetwork.highlights.uptimeReliability.number}
-                      </div>
-                      <p className="text-sm text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
-                    </Card>
-                  </div>
-                  <p className="text-sm text-gray-700 mt-6">
-                    {t.swapNetwork.highlights.description}
-                  </p>
-                </div>
-              </div>
-        ) : (
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.swapNetwork.title}</h2>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
+          <div className="container mx-auto"> {/* bg-gray-50 для мобильных */}
+            {/* Заголовок */}
+            <div className="text-center mb-8 px-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.swapNetwork.title}</h2>
+              <p className="text-base text-gray-600">{t.swapNetwork.subtitle}</p>
             </div>
 
-            <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video">
-              {/* <div id="map-container" className="w-full h-full min-h-[400px]"></div> */}
+            {/* Карта */}
+            <div className="w-full rounded-2xl overflow-hidden shadow-md mb-4 h-[300px]"> {/* Фиксированная высота для мобильных */}
               <YandexMap />
-              <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl">
+            </div>
+
+            {/* Информация о точках (перенесена вниз) */}
+            <div className="bg-white rounded-2xl shadow-md p-4 mb-8"> {/* Убран mx-4 */}
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">{t.swapNetwork.locations.title}</h3>
+              <ul className="space-y-2 text-sm text-gray-700">
+                <li className="flex items-center">
+                  <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+                  {t.swapNetwork.locations.active} (42)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                  {t.swapNetwork.locations.comingSoon} (18)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>
+                  {t.swapNetwork.locations.planned} (35)
+                </li>
+              </ul>
+              <Button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white text-sm">
+                {t.swapNetwork.findNearest}
+              </Button>
+            </div>
+
+            {/* Хайлайты */}
+            <div className="text-center px-4 mb-10">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">
+                {t.swapNetwork.highlights.title}
+              </h3>
+              <div className="grid grid-cols-1 gap-4"> {/* Сетка 1 колонка для мобильных */}
+                <Card className="bg-white rounded-xl p-4 shadow-sm">
+                  <div className="text-2xl font-bold text-green-600">
+                    {t.swapNetwork.highlights.activeStations.number}
+                  </div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+                </Card>
+                <Card className="bg-white rounded-xl p-4 shadow-sm">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {t.swapNetwork.highlights.citiesCovered.number}
+                  </div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+                </Card>
+                <Card className="bg-white rounded-xl p-4 shadow-sm">
+                  <div className="text-2xl font-bold text-purple-600">
+                    {t.swapNetwork.highlights.uptimeReliability.number}
+                  </div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+                </Card>
+              </div>
+              <p className="text-sm text-gray-700 mt-6">
+                {t.swapNetwork.highlights.description}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="container mx-auto px-4"> {/* bg-gray-50 для десктопа */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">{t.swapNetwork.title}</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
+            </div>
+
+            <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video"> {/* aspect-video для десктопа */}
+              <YandexMap /> {/* Карта */}
+              <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl"> {/* Абсолютное позиционирование для десктопа */}
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
                 <ul className="space-y-3">
                   <li className="flex items-center text-gray-700">
@@ -1344,7 +1417,7 @@ export default function HomePage() {
 
             <div className="text-center mb-12">
               <h3 className="text-3xl font-bold text-gray-900 mb-8">{t.swapNetwork.highlights.title}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"> {/* Сетка 3 колонки для десктопа */}
                 <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center bg-gradient-to-br from-green-300/60 to-white">
                   <div className="text-4xl sm:text-5xl font-bold text-green-600 mb-2">{t.swapNetwork.highlights.activeStations.number}</div>
                   <p className="text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
@@ -1370,18 +1443,18 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30"></div>
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-green-100 rounded-full text-green-800 text-sm font-medium mb-6">
+            {/* <div className="inline-flex items-center px-4 py-2 bg-green-100 rounded-full text-green-800 text-sm font-medium mb-6">
               <Leaf className="w-4 h-4 mr-2" />
               {language === "ru" && "Технология CATL EVOGO"}
               {language === "uz" && "CATL EVOGO texnologiyasi"}
               {language === "en" && "CATL EVOGO Technology"}
-            </div>
+            </div> */}
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               {language === "ru" && "Преимущества"}
               {language === "en" && "Advantages of"}
               <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                 {" "}
-                EcoMobile
+                Ecomobile
               </span>
               {language === "uz" && " Afzalliklari"}
             </h2>
@@ -1391,25 +1464,25 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-8 mb-16">
             {/* Main Feature Card */}
             <div className="lg:col-span-2">
-              <Card className="border-0 shadow-2xl bg-gradient-to-r from-blue-700 to-green-700 overflow-hidden relative rounded-3xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"> {/* Stronger gradient background */}
+              <Card className="border-0 shadow-2xl bg-white"> {/* Stronger gradient background */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full -translate-y-32 translate-x-32 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-50 rounded-full translate-y-24 -translate-x-24 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
                 <CardContent className="p-6 md:p-12 relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center h-full"> {/* Adjusted padding, added responsive grid, adjusted gap */}
                   <div className="h-full flex flex-col justify-center space-y-6 md:pr-8"> {/* Removed fixed pr-8, added responsive pr-8 */}
-                    <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-white"> {/* Adjusted font size for responsiveness */}
+                    <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-dark"> {/* Adjusted font size for responsiveness */}
                       {language === "ru" && "Технология быстрой замены батареи"}
                       {language === "uz" && "Batareyani tez almashtirish texnologiyasi"}
                       {language === "en" && "Fast Battery Swapping Technology"}
                     </h3>
-                    <p className="text-base md:text-lg text-white/90 leading-relaxed mb-6"> {/* Adjusted font size for responsiveness */}
-                      {language === "ru" && "Революционная система CATL позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6"> {/* Adjusted font size for responsiveness */}
+                      {language === "ru" && "Революционная система позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
                       {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
                       {language === "en" && "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
                     </p>
                     <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30"> {/* Adjusted space-x for responsiveness */}
                       <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">1</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm text-white/80 mt-1">
+                        <div className="text-4xl md:text-5xl font-bold">1</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
                           {language === "ru" && "минута"}
                           {language === "uz" && "daqiqa"}
                           {language === "en" && "minute"}
@@ -1417,8 +1490,8 @@ export default function HomePage() {
                       </div>
                       <div className="w-0.5 h-12 bg-white/30"></div>
                       <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">24/7</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm text-white/80 mt-1">
+                        <div className="text-4xl md:text-5xl font-bold ">24/7</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
                           {language === "ru" && "доступность"}
                           {language === "uz" && "mavjudlik"}
                           {language === "en" && "availability"}
@@ -1426,8 +1499,8 @@ export default function HomePage() {
                       </div>
                       <div className="w-0.5 h-12 bg-white/30"></div>
                       <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">300+</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm text-white/80 mt-1">
+                        <div className="text-4xl md:text-5xl font-bold">300+</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
                           {language === "ru" && "км запас хода"}
                           {language === "uz" && "km masofa"}
                           {language === "en" && "km range"}
@@ -1437,15 +1510,15 @@ export default function HomePage() {
                   </div>
                   <div className="h-full flex items-center justify-center md:pl-8"> {/* Removed fixed pl-8, added responsive pl-8 */}
                     <img
-                      src="images/catlsystem.jpeg"
+                      src="images/swapsystem.png"
                       alt={
                         language === "ru"
-                          ? "Система быстрой замены батареи CATL"
+                          ? "Система быстрой замены батареи"
                           : language === "uz"
-                            ? "CATL batareyani tez almashtirish tizimi"
-                            : "CATL Battery Swapping System"
+                            ? "Batareyani tez almashtirish tizimi"
+                            : "Battery Swapping System"
                       }
-                      className="object-cover rounded-2xl w-full h-full [mask-image:radial-gradient(circle,rgba(0,0,0,1)_70%,rgba(0,0,0,0)_100%)] [mask-size:cover] [mask-repeat:no-repeat]" />
+                      className="object-cover rounded-2xl w-full" />
                   </div>
                 </CardContent>
               </Card>
@@ -1526,128 +1599,125 @@ export default function HomePage() {
       </section>
 
       {/* Calculator Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-700 to-green-700 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1200')] opacity-5"></div>
+      <section className="py-24 bg-gray-50 relative overflow-hidden"> {/* Изменен фон секции */}
+        {/* Removed the placeholder background image as it's not in the reference image */}
         <div className="container mx-auto px-4 relative">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <div className="inline-flex items-center px-4 py-2 bg-white/10 rounded-full text-white text-sm font-medium mb-6">
-                <DollarSign className="w-4 h-4 mr-2" />
-                {t.calculator.title}
-              </div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
-                {language === "ru" && "Рассчитайте свою"}
-                {language === "uz" && "O'zingizning"}
-                {language === "en" && "Calculate your"}
-                <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                  {" "}
-                  {language === "ru" && "выгоду"}
-                  {language === "uz" && "foydangizni hisoblang"}
-                  {language === "en" && "savings"}
-                </span>
-              </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.calculator.title}</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center bg-white/10 backdrop-blur rounded-3xl p-6 border border-white/20 text-white/70">
-              <Card className="bg-transparent border-transparent text-white/70">
-                <CardContent className="border-0">
-                  <h3 className="text-2xl font-bold text-white mb-8">
-                    {language === "ru" && "Параметры расчёта"}
-                    {language === "uz" && "Hisoblash parametrlari"}
-                    {language === "en" && "Calculation parameters"}
-                  </h3>
+            <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl"> {/* Общая структура двух колонок */}
+              {/* Input Your Details (Left Column) */}
+              <Card className="border-0 shadow-none bg-transparent">
+                <CardContent className="p-0 space-y-6"> {/* Added space-y for consistent spacing */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.calculator.inputDetails}</h3> {/* Adjusted mb */}
                   <div className="space-y-6">
-                    <div className="space-y-3">
-                      <Label htmlFor="distance" className="text-lg font-medium">
-                        {t.calculator.dailyDistance}: {calculatorData.dailyDistance} км
-                      </Label>
-                      <div className="relative">
-                        <Input
-                          id="distance"
-                          type="range"
-                          min="50"
-                          max="300"
-                          value={calculatorData.dailyDistance}
-                          onChange={(e) =>
-                            setCalculatorData({ ...calculatorData, dailyDistance: Number(e.target.value) })
-                          }
-                          className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <Label htmlFor="fuel-price" className="text-lg font-medium">
-                        {t.calculator.fuelPrice}: ${calculatorData.fuelPrice}/л
-                      </Label>
+                    {/* Fleet Size */}
+                    <div className="space-y-2">
+                      <Label htmlFor="fleet-size" className="text-lg font-medium">{t.calculator.fleetSize}</Label>
                       <Input
-                        id="fuel-price"
-                        type="range"
+                        id="fleet-size"
+                        type="number"
                         min="1"
-                        max="3"
-                        step="0.1"
-                        value={calculatorData.fuelPrice}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, fuelPrice: Number(e.target.value) })}
-                        className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
+                        value={calculatorData.fleetSize}
+                        onChange={(e) => setCalculatorData({ ...calculatorData, fleetSize: Number(e.target.value) })}
+                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
                       />
                     </div>
 
-                    <div className="space-y-3">
-                      <Label htmlFor="electric-price" className="text-lg font-medium">
-                        {t.calculator.electricityPrice}: ${calculatorData.electricityPrice}/кВт·ч
-                      </Label>
+                    {/* Average Daily Distance */}
+                    <div className="space-y-2">
+                      <Label htmlFor="average-daily-distance" className="text-lg font-medium">{t.calculator.averageDailyDistance}</Label>
                       <Input
-                        id="electric-price"
-                        type="range"
-                        min="0.05"
-                        max="0.3"
-                        step="0.01"
-                        value={calculatorData.electricityPrice}
-                        onChange={(e) =>
-                          setCalculatorData({ ...calculatorData, electricityPrice: Number(e.target.value) })
-                        }
-                        className="w-full h-3 bg-white/30 border-0 backdrop-blur rounded-lg appearance-none cursor-pointer"
+                        id="average-daily-distance"
+                        type="number"
+                        min="10"
+                        value={calculatorData.averageDailyDistance}
+                        onChange={(e) => setCalculatorData({ ...calculatorData, averageDailyDistance: Number(e.target.value) })}
+                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
                       />
                     </div>
+
+                    {/* Operating Days per Week */}
+                    <div className="space-y-2">
+                      <Label htmlFor="operating-days" className="text-lg font-medium">{t.calculator.operatingDaysPerWeek}</Label>
+                      <Input
+                        id="operating-days"
+                        type="number"
+                        min="1"
+                        max="7"
+                        value={calculatorData.operatingDaysPerWeek}
+                        onChange={(e) => setCalculatorData({ ...calculatorData, operatingDaysPerWeek: Number(e.target.value) })}
+                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
+                      />
+                    </div>
+
+                    {/* Current Vehicle Type */}
+                    <div className="space-y-2">
+                      <Label className="text-lg font-medium">{t.calculator.currentVehicleType}</Label> {/* Removed mb-3, space-y will handle it */}
+                      <RadioGroup
+                        defaultValue="diesel"
+                        value={calculatorData.vehicleType}
+                        onValueChange={(value) => setCalculatorData({ ...calculatorData, vehicleType: value as 'diesel' | 'gasoline' })}
+                        className="flex space-x-6"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="diesel" id="diesel" />
+                          <Label htmlFor="diesel">{t.calculator.diesel}</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="gasoline" id="gasoline" />
+                          <Label htmlFor="gasoline">{t.calculator.gasoline}</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+
+                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white mt-6 py-3 rounded-md">
+                      {t.calculator.calculateSavingsButton}
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
 
-              <div className="space-y-3">
-                {/* <div className="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20"> */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-white/80 text-lg">{t.calculator.regularCar}</span>
-                  <Truck className="w-6 h-6 text-red-400" />
-                </div>
-                <div className="text-4xl font-bold text-red-400 mb-2">${savings.fuelCost}</div>
-                <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
-                {/* </div> */}
+              {/* Your Estimated Savings (Right Column) */}
+              <Card className="border-0 shadow-none bg-transparent pt-8 lg:pt-0 border-l lg:border-l-gray-200 lg:pl-12"> {/* Добавлен разделитель для десктопа */}
+                <CardContent className="p-0 space-y-6"> {/* Added space-y for consistent spacing */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-8">{t.calculator.estimatedSavings}</h3>
+                  <div className="space-y-6"> {/* Adjusted space-y to match image */}
+                    {/* Monthly Fuel/Energy Cost Savings */}
+                    <div>
+                      <p className="text-gray-500 text-sm mb-1">{t.calculator.monthlyFuelEnergyCostSavings}</p> {/* Adjusted text size */}
+                      <div className="text-4xl font-bold text-green-600">${savings.monthlyFuelEnergyCostSavings}</div>
+                    </div>
 
-                {/* <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur rounded-3xl p-8 border border-green-400/30"> */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-white text-lg font-medium">{t.calculator.ecoMobile}</span>
-                  <Battery className="w-6 h-6 text-green-400" />
-                </div>
-                <div className="text-4xl font-bold text-green-400 mb-2">${savings.electricCost}</div>
-                <p className="text-white/60">{t.calculator.monthlyExpenses}</p>
-                {/* </div> */}
+                    {/* Annual CO2 Reduction */}
+                    <div>
+                      <p className="text-gray-500 text-sm mb-1">{t.calculator.annualCO2Reduction}</p> {/* Adjusted text size */}
+                      <div className="text-4xl font-bold text-gray-900">{savings.annualCO2Reduction} {t.calculator.tons}</div>
+                    </div>
 
-                {/* <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur rounded-3xl p-8 border-2 border-yellow-400/50"> */}
-                <div className="flex items-center border-t text-white/60 y-2 justify-between">
-                  <span className="text-white text-xl mt-2 font-bold">{t.calculator.yourSavings}</span>
-                  <TrendingUp className="w-7 h-7 text-yellow-400" />
-                </div>
-                <div className="text-5xl font-bold text-yellow-400 mb-2">${savings.savings}</div>
-                <p className="text-white/80 text-lg">{t.calculator.everyMonth}</p>
-                <div className="mt-4 pt-4 border-white/20">
-                  <p className="text-white/60">
-                    {t.calculator.perYear}:{" "}
-                    <span className="text-yellow-400 font-bold">${(Number(savings.savings) * 12).toFixed(0)}</span>
-                  </p>
-                </div>
-                {/* </div> */}
-              </div>
+                    {/* 5-Year Total Savings */}
+                    <div>
+                      <p className="text-gray-500 text-sm mb-1">{t.calculator.fiveYearTotalSavings}</p> {/* Adjusted text size */}
+                      <div className="text-4xl font-bold text-green-600">${savings.fiveYearTotalSavings}</div>
+                    </div>
+
+                    {/* Estimated ROI Period */}
+                    <div>
+                      <p className="text-gray-500 text-sm mb-1">{t.calculator.estimatedROIPeriod}</p> {/* Adjusted text size */}
+                      <div className="text-4xl font-bold text-gray-900">{savings.estimatedROIPeriod} {t.calculator.years}</div>
+                    </div>
+
+                    <p className="text-xs text-gray-500 mt-8">{t.calculator.calculationDisclaimer}</p> {/* Adjusted text size */}
+
+                    <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50 mt-6 py-3 rounded-md">
+                      {t.calculator.downloadDetailedReport}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -1783,8 +1853,8 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Calculator Modal */}
-      {isCalculatorModalOpen && (
+      {/* Calculator Modal - Removed */}
+      {/* {isCalculatorModalOpen && (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           onClick={() => setIsCalculatorModalOpen(false)}
@@ -1808,15 +1878,15 @@ export default function HomePage() {
                 <div className="space-y-6">
                   <div className="space-y-3">
                     <Label htmlFor="modal-distance" className="text-lg font-medium">
-                      {t.calculator.dailyDistance}: {calculatorData.dailyDistance} км
+                      {t.calculator.dailyDistance}: {calculatorData.averageDailyDistance} км
                     </Label>
                     <Input
                       id="modal-distance"
                       type="range"
                       min="50"
                       max="300"
-                      value={calculatorData.dailyDistance}
-                      onChange={(e) => setCalculatorData({ ...calculatorData, dailyDistance: Number(e.target.value) })}
+                      value={calculatorData.averageDailyDistance}
+                      onChange={(e) => setCalculatorData({ ...calculatorData, averageDailyDistance: Number(e.target.value) })}
                       className="w-full"
                     />
                   </div>
@@ -1894,7 +1964,8 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
+
       {/* Script for Yandex Maps API */}
       {/* <Script
         src="https://api-maps.yandex.ru/2.1/?apikey=ac2e95bf-f199-4184-937d-24722f5cc478&lang=ru_RU"
