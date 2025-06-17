@@ -16,13 +16,12 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign, Shield, X } from "lucide-react"
+import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign, Shield, X, BatteryCharging, Route, Package, Utensils, Mail, Activity } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import Script from 'next/script' // Added Script import
 import { useMobile } from '@/hooks/use-mobile'
-import YandexMap from "@/components/YandexMap"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 
@@ -249,19 +248,23 @@ export default function HomePage() {
           planned: "Планируемое расширение",
         },
         findNearest: "Найти ближайшую станцию",
-        highlights: {
+        statistics: {
           title: "Основные показатели сети",
-          activeStations: {
-            number: "42",
-            label: "Активные станции",
+          stationsCount: {
+            number: "1000+",
+            label: "станций",
+          },
+          evsCount: {
+            number: "50,000+",
+            label: "электромобилей",
+          },
+          energySaved: {
+            number: "1000+",
+            label: "МВт в год сэкономленной энергии",
           },
           citiesCovered: {
-            number: "12",
-            label: "Городов охвачено",
-          },
-          uptimeReliability: {
-            number: "98.5%",
-            label: "Надежность работы",
+            number: "200+",
+            label: "городов",
           },
           description:
             "Наша сеть быстро расширяется, каждый месяц добавляются новые станции. Каждая станция может обслуживать до 200 автомобилей в день, обеспечивая минимальное время ожидания даже в часы пик.",
@@ -322,6 +325,26 @@ export default function HomePage() {
         downloadDetailedReport: "Скачать подробный отчет",
       },
       applications: {
+        title: "Идеально подходит для различных применений",
+        subtitle: "Универсальные решения для различных потребностей бизнеса",
+        retailDelivery: {
+          title: "Розничная доставка",
+          description: "Идеально подходит для доставки товаров последней мили в городской среде.",
+        },
+        foodDelivery: {
+          title: "Доставка еды",
+          description: "Доступны варианты с контролируемой температурой для предприятий общественного питания.",
+        },
+        courierServices: {
+          title: "Курьерские услуги",
+          description: "Эффективная доставка посылок с легким доступом для погрузки и разгрузки.",
+        },
+        serviceFleets: {
+          title: "Сервисные автопарки",
+          description: "Идеально подходит для ремонтных бригад, мобильных услуг и коммунальных предприятий.",
+        },
+      },
+      applications_truck: {
         title: "Идеальное решение для любого бизнеса",
         subtitle: "От курьерских служб до муниципальных предприятий",
         delivery: {
@@ -367,6 +390,22 @@ export default function HomePage() {
         submit: "Отправить запрос",
         selectRange: "Выберите диапазон",
       },
+      featuresSection: {
+        title: "Революционные особенности электрогрузовиков",
+        subtitle: "Спроектированы для городской логистики с учетом устойчивости",
+        swappableBattery: {
+          title: "Сменная батарея",
+          description: "Меняйте батарею всего за 3 минуты на любой станции EVOGO, исключая время простоя на зарядку.",
+        },
+        range: {
+          title: "Запас хода 200 км",
+          description: "Выполняйте ежедневные городские маршруты доставки на одном заряде благодаря эффективному управлению энергией.",
+        },
+        payload: {
+          title: "Грузоподъемность 1,000 кг",
+          description: "Впечатляющая грузоподъемность в компактном форм-факторе, идеально подходит для городской логистики.",
+        },
+      },
     },
     uz: {
       hero: {
@@ -387,19 +426,23 @@ export default function HomePage() {
           planned: "Rejalashtirilgan kengaytirish",
         },
         findNearest: "Eng yaqin stantsiyani topish",
-        highlights: {
+        statistics: {
           title: "Tarmoqning asosiy ko'rsatkichlari",
-          activeStations: {
-            number: "42",
-            label: "Faol stantsiyalar",
+          stationsCount: {
+            number: "1000+",
+            label: "stantsiyalar",
+          },
+          evsCount: {
+            number: "50,000+",
+            label: "elektromobillar",
+          },
+          energySaved: {
+            number: "1000+",
+            label: "MVt yiliga tejangan energiya",
           },
           citiesCovered: {
-            number: "12",
-            label: "Qamrab olingan shaharlar",
-          },
-          uptimeReliability: {
-            number: "98.5%",
-            label: "Ishlash ishonchliligi",
+            number: "200+",
+            label: "shaharlar",
           },
           description:
             "Bizning tarmoq tez kengaymoqda, har oy yangi stantsiyalar qo'shilmoqda. Har bir stantsiya kuniga 200 tagacha avtomobilga xizmat ko'rsatishi mumkin, bu esa eng yuqori soatlarda ham minimal kutish vaqtlarini ta'minlaydi.",
@@ -460,6 +503,26 @@ export default function HomePage() {
         downloadDetailedReport: "Batafsil hisobotni yuklab olish",
       },
       applications: {
+        title: "Shahar transportida inqilob",
+        subtitle: "Har qanday biznes uchun ideal yechim",
+        retailDelivery: {
+          title: "Chakana savdo yetkazib berish",
+          description: "Shahar sharoitida chakana savdo tovarlarini oxirgi milga yetkazib berish uchun ideal.",
+        },
+        foodDelivery: {
+          title: "Oziq-ovqat yetkazib berish",
+          description: "Oziq-ovqat xizmatlari korxonalari uchun harorat nazorat qilinadigan variantlar mavjud.",
+        },
+        courierServices: {
+          title: "Kuryerlik xizmatlari",
+          description: "Oson yuklash va tushirish imkoniyati bilan samarali paket yetkazib berish.",
+        },
+        serviceFleets: {
+          title: "Xizmat avtoparklari",
+          description: "Ta'mirlash brigadalari, mobil xizmatlar va kommunal korxonalar uchun ideal.",
+        },
+      },
+      applications_truck: {
         title: "Har qanday biznes uchun ideal yechim",
         subtitle: "Kuryer xizmatlaridan tortib munitsipal korxonalargacha",
         delivery: {
@@ -505,6 +568,22 @@ export default function HomePage() {
         submit: "So'rov yuborish",
         selectRange: "Diapazonni tanlang",
       },
+      featuresSection: {
+        title: "Elektr yuk mashinalarining inqilobiy xususiyatlari",
+        subtitle: "Barqarorlikni hisobga olgan holda shahar logistikasi uchun mo'ljallangan",
+        swappableBattery: {
+          title: "Almashtiriladigan batareya",
+          description: "Har qanday EVOGO stantsiyasida batareyani atigi 3 daqiqada almashtiring, zaryadlash uchun to'xtash vaqtini yo'q qiling.",
+        },
+        range: {
+          title: "200 km masofa",
+          description: "Samarali energiya boshqaruvi bilan bir zaryadda kundalik shahar yetkazib berish yo'nalishlarini bajaring.",
+        },
+        payload: {
+          title: "1,000 kg yuk ko'tarish",
+          description: "Ixcham shakl faktorida ta'sirchan yuk ko'tarish qobiliyati, shahar logistikasi uchun juda mos keladi.",
+        },
+      },
     },
     en: {
       hero: {
@@ -525,19 +604,23 @@ export default function HomePage() {
           planned: "Planned Expansion",
         },
         findNearest: "Find Nearest Station",
-        highlights: {
+        statistics: {
           title: "Network Highlights",
-          activeStations: {
-            number: "42",
-            label: "Active Stations",
+          stationsCount: {
+            number: "1000+",
+            label: "stations",
+          },
+          evsCount: {
+            number: "50,000+",
+            label: "electric vehicles",
+          },
+          energySaved: {
+            number: "1000+",
+            label: "MW per year of saved energy",
           },
           citiesCovered: {
-            number: "12",
-            label: "Cities Covered",
-          },
-          uptimeReliability: {
-            number: "98.5%",
-            label: "Uptime Reliability",
+            number: "200+",
+            label: "cities",
           },
           description:
             "Our network is expanding rapidly, with new stations being added every month. Each station can service up to 200 vehicles per day, ensuring minimal wait times even during peak hours.",
@@ -598,6 +681,26 @@ export default function HomePage() {
         downloadDetailedReport: "Download Detailed Report",
       },
       applications: {
+        title: "Perfect for Various Applications",
+        subtitle: "Versatile solutions for different business needs",
+        retailDelivery: {
+          title: "Retail Delivery",
+          description: "Perfect for last-mile delivery of retail goods in urban environments.",
+        },
+        foodDelivery: {
+          title: "Food Delivery",
+          description: "Temperature-controlled options available for food service businesses.",
+        },
+        courierServices: {
+          title: "Courier Services",
+          description: "Efficient package delivery with easy loading and unloading access.",
+        },
+        serviceFleets: {
+          title: "Service Fleets",
+          description: "Ideal for maintenance crews, mobile services, and utility companies.",
+        },
+      },
+      applications_truck: {
         title: "Perfect solution for any business",
         subtitle: "From courier services to municipal enterprises",
         delivery: {
@@ -642,6 +745,22 @@ export default function HomePage() {
         messagePlaceholder: "Your investment goals...",
         submit: "Send request",
         selectRange: "Select range",
+      },
+      featuresSection: {
+        title: "Revolutionary EV Truck Features",
+        subtitle: "Designed for urban logistics with sustainability in mind",
+        swappableBattery: {
+          title: "Swappable Battery",
+          description: "Replace your battery in just 3 minutes at any EVOGO station, eliminating charging downtime.",
+        },
+        range: {
+          title: "200km Range",
+          description: "Complete your daily urban delivery routes on a single charge with our efficient power management.",
+        },
+        payload: {
+          title: "1,000kg Payload",
+          description: "Impressive carrying capacity in a compact form factor, perfect for urban logistics.",
+        },
       },
     },
   }
@@ -1219,6 +1338,48 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Features Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.featuresSection.title}</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.featuresSection.subtitle}</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <BatteryCharging className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.featuresSection.swappableBattery.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.featuresSection.swappableBattery.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Route className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.featuresSection.range.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.featuresSection.range.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Package className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.featuresSection.payload.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.featuresSection.payload.description}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Models Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
@@ -1317,23 +1478,156 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Applications Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.applications.title}</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications.subtitle}</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Package className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.retailDelivery.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.retailDelivery.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Utensils className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.foodDelivery.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.foodDelivery.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Mail className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.courierServices.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.courierServices.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Activity className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.serviceFleets.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.serviceFleets.description}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+
+
+
+      {/* Applications Truck Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-800 text-sm font-medium mb-6">
+              <Users className="w-4 h-4 mr-2" />
+              {language === "ru" && "Области применения"}
+              {language === "uz" && "Qo'llash sohalari"}
+              {language === "en" && "Applications"}
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              {t.applications.title}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {" "}
+                {language === "ru" && "любого бизнеса"}
+                {language === "uz" && "har qanday biznes"}
+                {language === "en" && "any business"}
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications_truck.subtitle}</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="group relative h-80">
+              <div className="absolute inset-0 "></div>
+              <Card className="relative border-0 shadow-xl h-full flex flex-col">
+                <CardContent className="p-8 text-center flex-1 flex flex-col">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Truck className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.delivery.title}</h3>
+                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.delivery.description}</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="group relative h-80">
+              <div className="absolute inset-0 "></div>
+              <Card className="relative border-0 shadow-xl h-full flex flex-col">
+                <CardContent className="p-8 text-center flex-1 flex flex-col">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Users className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.services.title}</h3>
+                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.services.description}</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="group relative h-80">
+              <div className="absolute inset-0 "></div>
+              <Card className="relative border-0 shadow-xl h-full flex flex-col">
+                <CardContent className="p-8 text-center flex-1 flex flex-col">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <TrendingUp className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.trade.title}</h3>
+                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.trade.description}</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="group relative h-80">
+              <div className="absolute inset-0 "></div>
+              <Card className="relative border-0 shadow-xl h-full flex flex-col">
+                <CardContent className="p-8 text-center flex-1 flex flex-col">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Shield className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.municipal.title}</h3>
+                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.municipal.description}</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Swap Network Station Map Section */}
-      <section className="py-12 md:py-24"> {/* Убран bg-gray-50 отсюда */}
+      <section className="py-12 md:py-24 bg-white"> {/* Добавлен bg-gray-50 для всей секции */}
         {isMobile ? (
-          <div className="container mx-auto"> {/* bg-gray-50 для мобильных */}
+          <div className="container mx-auto px-4"> {/* Добавлен px-4 для мобильных */}
             {/* Заголовок */}
-            <div className="text-center mb-8 px-4">
+            <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.swapNetwork.title}</h2>
               <p className="text-base text-gray-600">{t.swapNetwork.subtitle}</p>
             </div>
 
             {/* Карта */}
-            <div className="w-full rounded-2xl overflow-hidden shadow-md mb-4 h-[300px]"> {/* Фиксированная высота для мобильных */}
-              <YandexMap />
+            <div className="w-full rounded-2xl overflow-hidden shadow-md mb-8 aspect-video"> {/* Увеличена высота и mb */}
+              <img src="/images/uzbekistan.png" alt="Карта станций замены" className="object-cover w-full h-full" />
             </div>
 
-            {/* Информация о точках (перенесена вниз) */}
-            <div className="bg-white rounded-2xl shadow-md p-4 mb-8"> {/* Убран mx-4 */}
+            {/* Информация о точках (перенесена вверх для мобильных) */}
+            {/* <div className="bg-white rounded-2xl shadow-md p-4 mb-8"> 
               <h3 className="text-lg font-semibold text-gray-900 mb-3">{t.swapNetwork.locations.title}</h3>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li className="flex items-center">
@@ -1352,37 +1646,32 @@ export default function HomePage() {
               <Button className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white text-sm">
                 {t.swapNetwork.findNearest}
               </Button>
-            </div>
+            </div> */}
 
-            {/* Хайлайты */}
-            <div className="text-center px-4 mb-10">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
-                {t.swapNetwork.highlights.title}
-              </h3>
-              <div className="grid grid-cols-1 gap-4"> {/* Сетка 1 колонка для мобильных */}
+            {/* Статистика для мобильных */}
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-6">{t.swapNetwork.statistics.title}</h3>
+              <div className="grid grid-cols-1 gap-4">
                 <Card className="bg-white rounded-xl p-4 shadow-sm">
-                  <div className="text-2xl font-bold text-green-600">
-                    {t.swapNetwork.highlights.activeStations.number}
-                  </div>
-                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+                  <div className="text-2xl font-bold text-green-600">{t.swapNetwork.statistics.stationsCount.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.stationsCount.label}</p>
                 </Card>
                 <Card className="bg-white rounded-xl p-4 shadow-sm">
-                  <div className="text-2xl font-bold text-blue-600">
-                    {t.swapNetwork.highlights.citiesCovered.number}
-                  </div>
-                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+                  <div className="text-2xl font-bold text-blue-600">{t.swapNetwork.statistics.evsCount.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.evsCount.label}</p>
                 </Card>
                 <Card className="bg-white rounded-xl p-4 shadow-sm">
-                  <div className="text-2xl font-bold text-purple-600">
-                    {t.swapNetwork.highlights.uptimeReliability.number}
-                  </div>
-                  <p className="text-sm text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+                  <div className="text-2xl font-bold text-purple-600">{t.swapNetwork.statistics.energySaved.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.energySaved.label}</p>
+                </Card>
+                <Card className="bg-white rounded-xl p-4 shadow-sm">
+                  <div className="text-2xl font-bold text-orange-600">{t.swapNetwork.statistics.citiesCovered.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.citiesCovered.label}</p>
                 </Card>
               </div>
-              <p className="text-sm text-gray-700 mt-6">
-                {t.swapNetwork.highlights.description}
-              </p>
+              <p className="text-sm text-gray-700 mt-6">{t.swapNetwork.statistics.description}</p>
             </div>
+
           </div>
         ) : (
           <div className="container mx-auto px-4"> {/* bg-gray-50 для десктопа */}
@@ -1391,47 +1680,54 @@ export default function HomePage() {
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
             </div>
 
-            <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden mb-16 aspect-video"> {/* aspect-video для десктопа */}
-              <YandexMap /> {/* Карта */}
-              <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl"> {/* Абсолютное позиционирование для десктопа */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-center text-gray-700">
-                    <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
-                    {t.swapNetwork.locations.active} (42)
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <span className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
-                    {t.swapNetwork.locations.comingSoon} (18)
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
-                    {t.swapNetwork.locations.planned} (35)
-                  </li>
-                </ul>
-                <Button className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white">
-                  {t.swapNetwork.findNearest}
-                </Button>
+            <div className="grid lg:grid-cols-3 gap-8 items-start bg-white rounded-3xl shadow-xl p-8 items-center"> {/* Общая структура двух колонок */}
+              {/* Map Column (2/3 width) */}
+              <div className="lg:col-span-2 relative aspect-video">
+                <img src="/images/uzbekistan.png" alt="Станции замены в Узбекистане" className="rounded-2xl object-cover w-full h-full" />
+                {/* Overlay for active/coming soon/planned locations */}
+                {/* <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-center text-gray-700">
+                      <span className="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                      {t.swapNetwork.locations.active} (42)
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <span className="w-3 h-3 bg-yellow-500 rounded-full mr-3"></span>
+                      {t.swapNetwork.locations.comingSoon} (18)
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <span className="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                      {t.swapNetwork.locations.planned} (35)
+                    </li>
+                  </ul>
+                  <Button className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white">
+                    {t.swapNetwork.findNearest}
+                  </Button>
+                </div> */}
               </div>
-            </div>
 
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold text-gray-900 mb-8">{t.swapNetwork.highlights.title}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"> {/* Сетка 3 колонки для десктопа */}
-                <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center bg-gradient-to-br from-green-300/60 to-white">
-                  <div className="text-4xl sm:text-5xl font-bold text-green-600 mb-2">{t.swapNetwork.highlights.activeStations.number}</div>
-                  <p className="text-gray-600">{t.swapNetwork.highlights.activeStations.label}</p>
+              {/* Statistics Column (1/3 width) */}
+              <div className="lg:col-span-1 space-y-2 lg:pl-4">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.swapNetwork.statistics.title}</h3>
+                <Card className="border-0 shadow-sm bg-white rounded-xl p-4 text-center">
+                  <div className="text-4xl font-bold text-green-600 mb-1">{t.swapNetwork.statistics.stationsCount.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.stationsCount.label}</p>
                 </Card>
-                <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center bg-gradient-to-br from-blue-300/60 to-white">
-                  <div className="text-5xl font-bold text-blue-600 mb-2">{t.swapNetwork.highlights.citiesCovered.number}</div>
-                  <p className="text-gray-600">{t.swapNetwork.highlights.citiesCovered.label}</p>
+                <Card className="border-0 shadow-sm bg-white rounded-xl p-4 text-center">
+                  <div className="text-4xl font-bold text-blue-600 mb-1">{t.swapNetwork.statistics.evsCount.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.evsCount.label}</p>
                 </Card>
-                <Card className="border-0 shadow-lg bg-white rounded-xl p-6 text-center bg-gradient-to-br from-purple-300/60 to-white">
-                  <div className="text-5xl font-bold text-purple-600 mb-2">{t.swapNetwork.highlights.uptimeReliability.number}</div>
-                  <p className="text-gray-600">{t.swapNetwork.highlights.uptimeReliability.label}</p>
+                <Card className="border-0 shadow-sm bg-white rounded-xl p-4 text-center">
+                  <div className="text-4xl font-bold text-purple-600 mb-1">{t.swapNetwork.statistics.energySaved.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.energySaved.label}</p>
                 </Card>
+                <Card className="border-0 shadow-sm bg-white rounded-xl p-4 text-center">
+                  <div className="text-4xl font-bold text-orange-600 mb-1">{t.swapNetwork.statistics.citiesCovered.number}</div>
+                  <p className="text-sm text-gray-600">{t.swapNetwork.statistics.citiesCovered.label}</p>
+                </Card>
+                <p className="text-sm text-gray-700 mt-6">{t.swapNetwork.statistics.description}</p>
               </div>
-              <p className="text-lg text-gray-700 max-w-4xl mx-auto mt-12">{t.swapNetwork.highlights.description}</p>
             </div>
           </div>
         )}
@@ -1479,7 +1775,7 @@ export default function HomePage() {
                       {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
                       {language === "en" && "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
                     </p>
-                    <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30"> {/* Adjusted space-x for responsiveness */}
+                    <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30 text-green-600"> {/* Adjusted space-x for responsiveness */}
                       <div className="text-center">
                         <div className="text-4xl md:text-5xl font-bold">1</div> {/* Adjusted font size for responsiveness */}
                         <div className="text-sm mt-1">
@@ -1510,7 +1806,7 @@ export default function HomePage() {
                   </div>
                   <div className="h-full flex items-center justify-center md:pl-8"> {/* Removed fixed pl-8, added responsive pl-8 */}
                     <img
-                      src="images/swapsystem.png"
+                      src="images/swapstation.png"
                       alt={
                         language === "ru"
                           ? "Система быстрой замены батареи"
@@ -1723,84 +2019,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Applications Section */}
-      <section className="py-24 bg-gradient-to-br from-white via-gray-50 to-green-50/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-800 text-sm font-medium mb-6">
-              <Users className="w-4 h-4 mr-2" />
-              {language === "ru" && "Области применения"}
-              {language === "uz" && "Qo'llash sohalari"}
-              {language === "en" && "Applications"}
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {t.applications.title}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                {language === "ru" && "любого бизнеса"}
-                {language === "uz" && "har qanday biznes"}
-                {language === "en" && "any business"}
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications.subtitle}</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="group relative h-80">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-              <Card className="relative border-0 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 bg-white h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Truck className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications.delivery.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications.delivery.description}</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="group relative h-80">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-              <Card className="relative border-0 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 bg-white h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Users className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications.services.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications.services.description}</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="group relative h-80">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-              <Card className="relative border-0 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 bg-white h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <TrendingUp className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications.trade.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications.trade.description}</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="group relative h-80">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-              <Card className="relative border-0 shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 bg-white h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <Shield className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications.municipal.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications.municipal.description}</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600">
         <div className="container mx-auto px-4 text-center">
@@ -1965,12 +2183,6 @@ export default function HomePage() {
           </div>
         </div>
       )} */}
-
-      {/* Script for Yandex Maps API */}
-      {/* <Script
-        src="https://api-maps.yandex.ru/2.1/?apikey=ac2e95bf-f199-4184-937d-24722f5cc478&lang=ru_RU"
-        strategy="beforeInteractive"
-      /> */}
     </div>
   )
 }
