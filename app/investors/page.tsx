@@ -18,6 +18,7 @@ import { TrendingUp, Globe, Battery, Users, Target, Download, ChevronRight, BarC
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import Link from "next/link"
 
 export default function InvestorsPage() {
   const { language } = useLanguage()
@@ -29,7 +30,7 @@ export default function InvestorsPage() {
         title: "Инвестируйте в будущее",
         titleHighlight: "городского транспорта",
         description:
-          "EcoMobile революционизирует рынок коммерческого транспорта с помощью технологии быстрой замены батарей CATL. Присоединяйтесь к нам на пути к созданию экологически чистого и экономически эффективного будущего.",
+          "Ecomobile революционизирует рынок коммерческого транспорта с помощью технологии быстрой замены батарей. Присоединяйтесь к нам на пути к созданию экологически чистого и экономически эффективного будущего.",
         downloadBtn: "Скачать презентацию",
         meetingBtn: "Запросить встречу",
       },
@@ -65,7 +66,6 @@ export default function InvestorsPage() {
       },
       technology: {
         title: "Технологическое преимущество",
-        titleHighlight: "CATL",
         subtitle: "Партнёрство с мировым лидером в области батарейных технологий",
         fastSwap: {
           title: "Быстрая замена",
@@ -140,7 +140,7 @@ export default function InvestorsPage() {
         title: "Kelajakka investitsiya qiling",
         titleHighlight: "shahar transporti",
         description:
-          "EcoMobile CATL ning batareyani tez almashtirish texnologiyasi yordamida tijorat transport bozorini inqilob qilmoqda. Ekologik toza va iqtisodiy samarali kelajakni yaratish yo'lida bizga qo'shiling.",
+          "Ecomobile batareyani tez almashtirish texnologiyasi yordamida tijorat transport bozorini inqilob qilmoqda. Ekologik toza va iqtisodiy samarali kelajakni yaratish yo'lida bizga qo'shiling.",
         downloadBtn: "Taqdimotni yuklab olish",
         meetingBtn: "Uchrashuv so'rash",
       },
@@ -177,7 +177,6 @@ export default function InvestorsPage() {
       },
       technology: {
         title: "Texnologik ustunlik",
-        titleHighlight: "CATL",
         subtitle: "Batareya texnologiyalari sohasidagi jahon lideri bilan hamkorlik",
         fastSwap: {
           title: "Tez almashtirish",
@@ -254,7 +253,7 @@ export default function InvestorsPage() {
         title: "Invest in the future",
         titleHighlight: "of urban transport",
         description:
-          "EcoMobile is revolutionizing the commercial transport market with CATL's fast battery swapping technology. Join us on the path to creating an environmentally clean and economically efficient future.",
+          "EcoMobile is revolutionizing the commercial transport market fast battery swapping technology. Join us on the path to creating an environmentally clean and economically efficient future.",
         downloadBtn: "Download Presentation",
         meetingBtn: "Request Meeting",
       },
@@ -290,7 +289,6 @@ export default function InvestorsPage() {
       },
       technology: {
         title: "Technology Advantage",
-        titleHighlight: "CATL",
         subtitle: "Partnership with the world leader in battery technologies",
         fastSwap: {
           title: "Fast Swap",
@@ -380,12 +378,12 @@ export default function InvestorsPage() {
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-8">{t.hero.description}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-3">
+              {/* <Button size="lg" className="bg-blue-600 hover:bg-blue-700 px-8 py-3">
                 <Download className="mr-2 w-5 h-5" />
                 {t.hero.downloadBtn}
-              </Button>
-              <Button variant="outline" size="lg" className="px-8 py-3">
-                {t.hero.meetingBtn}
+              </Button> */}
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
+                <Link href="/contacts">{t.hero.meetingBtn}</Link>
                 <ChevronRight className="ml-2 w-5 h-5" />
               </Button>
             </div>
@@ -537,10 +535,6 @@ export default function InvestorsPage() {
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               {t.technology.title}
-              <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                {" "}
-                {t.technology.titleHighlight}
-              </span>
             </h2>
             <p className="text-xl text-blue-100">{t.technology.subtitle}</p>
           </div>
@@ -584,8 +578,6 @@ export default function InvestorsPage() {
                   <div className="w-32 h-32 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
                     <Battery className="w-16 h-16 text-white" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">CATL EVOGO</h3>
-                  <p className="text-blue-200">{t.technology.badge}</p>
                 </div>
               </div>
             </div>

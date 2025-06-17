@@ -96,12 +96,12 @@ export default function ContactsPage() {
       },
       faq: {
         title: "Часто задаваемые вопросы",
-        subtitle: "Ответы на популярные вопросы о EcoMobile",
+        subtitle: "Ответы на популярные вопросы о Ecomobile",
         questions: [
           {
             question: "Как долго занимает замена батареи?",
             answer:
-              "Благодаря технологии CATL EVOGO замена батареи занимает всего 1 минуту. Это быстрее, чем заправка обычного автомобиля.",
+              "Благодаря технологии быстрой замены батареи, замена батареи занимает всего 1 минуту. Это быстрее, чем заправка обычного автомобиля.",
           },
           {
             question: "Какой запас хода у автомобиля?",
@@ -200,12 +200,12 @@ export default function ContactsPage() {
       },
       faq: {
         title: "Tez-tez so'raladigan savollar",
-        subtitle: "EcoMobile haqida mashhur savollarga javoblar",
+        subtitle: "Ecomobile haqida mashhur savollarga javoblar",
         questions: [
           {
             question: "Batareya almashtirish qancha vaqt oladi?",
             answer:
-              "CATL EVOGO texnologiyasi tufayli batareya almashtirish atigi 1 daqiqa vaqt oladi. Bu oddiy avtomobilni yoqilg'i quyishdan tezroq.",
+              "Batareya tez almashtirish texnologiyasi tufayli batareya almashtirish atigi 1 daqiqa vaqt oladi. Bu oddiy avtomobilni yoqilg'i quyishdan tezroq.",
           },
           {
             question: "Avtomobilning masofa qancha?",
@@ -309,7 +309,7 @@ export default function ContactsPage() {
           {
             question: "How long does battery replacement take?",
             answer:
-              "Thanks to CATL EVOGO technology, battery replacement takes only 1 minute. This is faster than refueling a regular car.",
+              "Thanks to Fast Swap technology, battery replacement takes only 1 minute. This is faster than refueling a regular car.",
           },
           {
             question: "What is the vehicle's range?",
@@ -376,7 +376,7 @@ export default function ContactsPage() {
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.phone.title}</h3>
                         <p className="text-gray-600 mb-2">{t.contact.phone.description}</p>
                         <div className="space-y-1">
-                          <p className="font-medium text-gray-900">+998 90 123 45 67</p>
+                          <p className="font-medium text-gray-900"><a href="tel:+998990969969">+998 99 096 99 69</a></p>
                           <p className="text-sm text-gray-500">{t.contact.phone.hours}</p>
                         </div>
                       </div>
@@ -394,8 +394,7 @@ export default function ContactsPage() {
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.email.title}</h3>
                         <p className="text-gray-600 mb-2">{t.contact.email.description}</p>
                         <div className="space-y-1">
-                          <p className="font-medium text-gray-900">info@ecomobile.world</p>
-                          <p className="font-medium text-gray-900">sales@ecomobile.world</p>
+                          <p className="font-medium text-gray-900"><a href="mailto:info@ecomobile.world">info@ecomobile.world</a></p>
                           <p className="text-sm text-gray-500">{t.contact.email.response}</p>
                         </div>
                       </div>
@@ -569,7 +568,7 @@ export default function ContactsPage() {
                 <CardContent className="p-6">
                   <Phone className="w-8 h-8 text-blue-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">{t.map.phoneCard.title}</h3>
-                  <p className="text-sm text-gray-600">+998 90 123 45 67</p>
+                  <p className="text-sm text-gray-600"><a href="tel:+998990969969">+998 99 096 99 69</a></p>
                   <p className="text-sm text-gray-600">{t.map.phoneCard.available}</p>
                 </CardContent>
               </Card>
@@ -578,7 +577,7 @@ export default function ContactsPage() {
                 <CardContent className="p-6">
                   <Mail className="w-8 h-8 text-purple-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">{t.map.emailCard.title}</h3>
-                  <p className="text-sm text-gray-600">info@ecomobile.world</p>
+                  <p className="text-sm text-gray-600"><a href="mailto:info@ecomobile.world">info@ecomobile.world</a></p>
                   <p className="text-sm text-gray-600">{t.map.emailCard.response}</p>
                 </CardContent>
               </Card>

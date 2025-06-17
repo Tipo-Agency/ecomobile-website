@@ -124,34 +124,16 @@ export default function Header() {
                 <nav className="flex flex-col space-y-4 pt-8">
                   <Link
                     href="/"
-                    className={`transition-colors text-lg ${
-                      isActive("/") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                    }`}
+                    className={`transition-colors text-lg ${isActive("/") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                      }`}
                   >
                     {t.nav.home}
                   </Link>
-                  <Link
-                    href="/about"
-                    className={`transition-colors text-lg ${
-                      isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                    }`}
-                  >
-                    {t.nav.about}
-                  </Link>
-                  <Link
-                    href="/investors"
-                    className={`transition-colors text-lg ${
-                      isActive("/investors") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                    }`}
-                  >
-                    {t.nav.investors}
-                  </Link>
                   <div className="flex flex-col space-y-2">
-                    <div 
+                    <div
                       onClick={() => setIsModelsOpen(!isModelsOpen)}
-                      className={`transition-colors text-lg cursor-pointer flex items-center justify-between ${
-                        pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700"
-                      }`}
+                      className={`transition-colors text-lg cursor-pointer flex items-center justify-between ${pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700"
+                        }`}
                     >
                       {t.nav.models.title}
                       <ChevronDown className={`h-5 w-5 transition-transform ${isModelsOpen ? 'rotate-180' : ''}`} />
@@ -172,10 +154,23 @@ export default function Header() {
                     )}
                   </div>
                   <Link
+                    href="/about"
+                    className={`transition-colors text-lg ${isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                      }`}
+                  >
+                    {t.nav.about}
+                  </Link>
+                  <Link
+                    href="/investors"
+                    className={`transition-colors text-lg ${isActive("/investors") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                      }`}
+                  >
+                    {t.nav.investors}
+                  </Link>
+                  <Link
                     href="/contacts"
-                    className={`transition-colors text-lg ${
-                      isActive("/contacts") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                    }`}
+                    className={`transition-colors text-lg ${isActive("/contacts") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                      }`}
                   >
                     {t.nav.contacts}
                   </Link>
@@ -192,40 +187,23 @@ export default function Header() {
             <nav className="flex items-center space-x-4">
               <Link
                 href="/"
-                className={`transition-colors ${
-                  isActive("/") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                }`}
+                className={`transition-colors ${isActive("/") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                  }`}
               >
                 {t.nav.home}
-              </Link>
-              <Link
-                href="/about"
-                className={`transition-colors ${
-                  isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                }`}
-              >
-                {t.nav.about}
-              </Link>
-              <Link
-                href="/investors"
-                className={`transition-colors ${
-                  isActive("/investors") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                }`}
-              >
-                {t.nav.investors}
               </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Link
                     href="#"
                     onClick={(e) => e.preventDefault()}
-                    className={`transition-colors flex items-center gap-1 ${pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"}`}
+                    className={`transition-colors flex items-center gap-1 ${pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600 border-o"}`}
                   >
                     {t.nav.models.title}
                     <ChevronDown className="h-4 w-4" />
                   </Link>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48 p-2">
+                <DropdownMenuContent className="w-48 p-2 ">
                   {modelsData.map((model) => (
                     <DropdownMenuItem key={model.id} asChild>
                       <Link href={`/models#${model.id}`} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
@@ -237,10 +215,23 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
               <Link
+                href="/about"
+                className={`transition-colors ${isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                  }`}
+              >
+                {t.nav.about}
+              </Link>
+              <Link
+                href="/investors"
+                className={`transition-colors ${isActive("/investors") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                  }`}
+              >
+                {t.nav.investors}
+              </Link>
+              <Link
                 href="/contacts"
-                className={`transition-colors ${
-                  isActive("/contacts") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
-                }`}
+                className={`transition-colors ${isActive("/contacts") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                  }`}
               >
                 {t.nav.contacts}
               </Link>

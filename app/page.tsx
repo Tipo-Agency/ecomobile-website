@@ -23,6 +23,8 @@ import { useLanguage } from "@/contexts/language-context"
 import Script from 'next/script' // Added Script import
 import { useMobile } from '@/hooks/use-mobile'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Link from "next/link"
+import { usePathname } from 'next/navigation'
 
 
 
@@ -33,14 +35,16 @@ declare global {
 }
 
 export default function HomePage() {
-  const { language } = useLanguage()
+  const pathname = usePathname()
+  const { language, setLanguage } = useLanguage()
   const isMobile = useMobile()
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
   const [isInvestorModalOpen, setIsInvestorModalOpen] = useState(false)
   const [advantageModal, setAdvantageModal] = useState<string | null>(null)
   const [isCalculatorModalOpen, setIsCalculatorModalOpen] = useState(false)
   const [batteryAnimation, setBatteryAnimation] = useState(false)
-  const [currentModelIndex, setCurrentModelIndex] = useState(0) // New state for model index
+  const [currentModelIndex, setCurrentModelIndex] = useState(0)
+  const [isModelsOpen, setIsModelsOpen] = useState(false)
   const [calculatorData, setCalculatorData] = useState({
     fleetSize: 5,
     averageDailyDistance: 120,
@@ -239,7 +243,7 @@ export default function HomePage() {
         forInvestors: "Для инвесторов",
       },
       swapNetwork: {
-        title: "Растущая сеть станций замены",
+        title: "Планируемая сеть по Узбекистану",
         subtitle: "Удобный доступ к основным городским центрам",
         locations: {
           title: "Расположение станций замены",
@@ -417,7 +421,7 @@ export default function HomePage() {
         forInvestors: "Investorlar uchun",
       },
       swapNetwork: {
-        title: "Kengayib borayotgan almashinish stantsiyalari tarmog'i",
+        title: "O'zbekiston bo'ylab rejalashtirilgan tarmoq",
         subtitle: "Yirik shahar markazlariga qulay kirish",
         locations: {
           title: "Almashinish stantsiyalari joylashuvi",
@@ -595,7 +599,7 @@ export default function HomePage() {
         forInvestors: "For Investors",
       },
       swapNetwork: {
-        title: "Growing Swap Station Network",
+        title: "Planned network across Uzbekistan",
         subtitle: "Convenient access across major urban centers",
         locations: {
           title: "Swap Station Locations",
@@ -1188,6 +1192,10 @@ export default function HomePage() {
     },
   }
 
+  const handleModelChange = (index: number) => {
+    setCurrentModelIndex(index)
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -1401,79 +1409,101 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center transition-opacity duration-1000 ease-in-out" key={currentModel.id}> {/* Key and transition for the whole block */}
-            <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].name}</h3>
-              <p className="text-lg text-gray-600 leading-relaxed">{currentModel.translations[language as keyof typeof currentModel.translations].description}</p>
+          <div className="grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ease-in-out" key={currentModel.id}>
+            <div className="space-y-6 min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out transform">
+              <h3 className="text-3xl font-bold text-gray-900 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                {currentModel.translations[language as keyof typeof currentModel.translations].name}
+              </h3>
+              <p className="text-lg text-gray-600 leading-relaxed transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                {currentModel.translations[language as keyof typeof currentModel.translations].description}
+              </p>
 
-              <div className="space-y-4">
+              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
                 <h4 className="text-2xl font-bold text-gray-900">
                   {language === "ru" && "Технические характеристики"}
                   {language === "uz" && "Texnik xususiyatlar"}
                   {language === "en" && "Technical Specifications"}
                 </h4>
                 <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].dimensions}
                   </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].cargoVolume}
                   </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].maxPayload}
                   </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].maxSpeed}
                   </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].rangePerCharge}
                   </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].batterySwapTime}
                   </li>
                 </ul>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
                 <h4 className="text-2xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].features.title}</h4>
                 <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-center">
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].features.climateControl}
                   </li>
-                  <li className="flex items-center">
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].features.navigation}
                   </li>
-                  <li className="flex items-center">
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
                     {currentModel.translations[language as keyof typeof currentModel.translations].features.camera}
                   </li>
                 </ul>
               </div>
             </div>
-            <div className="relative">
-              <img
-                src={currentModel.image}
-                alt={currentModel.translations[language as keyof typeof currentModel.translations].name}
-                className="rounded-2xl object-cover w-full h-full" // Removed opacity/transform from img
-              />
-              <div className="mt-6 text-center">
+            <div className="relative min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out">
+              <div className="relative w-full h-[500px] transition-all duration-700 ease-in-out transform scale-100 opacity-100">
+                <img
+                  src={currentModel.image}
+                  alt={currentModel.translations[language as keyof typeof currentModel.translations].name}
+                  className="rounded-2xl object-contain w-full h-full transition-all duration-700 ease-in-out"
+                />
+              </div>
+              <div className="mt-6 text-center transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
                 <Button
                   size="lg"
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3"
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 transition-all duration-500 ease-in-out hover:scale-105"
                 >
                   {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
-                  <ChevronRight className="ml-2 w-5 h-5" />
+                  <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
                 </Button>
               </div>
             </div>
+          </div>
+
+          {/* Индикаторы моделей */}
+          <div className="flex justify-center items-center gap-3 mt-12">
+            {modelsData.map((model, index) => (
+              <button
+                key={model.id}
+                onClick={() => handleModelChange(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out ${
+                  currentModelIndex === index 
+                    ? 'bg-green-600 scale-125' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Перейти к модели ${model.translations[language as keyof typeof model.translations].name}`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -1904,7 +1934,7 @@ export default function HomePage() {
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl"> {/* Общая структура двух колонок */}
+            <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl items-center"> {/* Общая структура двух колонок */}
               {/* Input Your Details (Left Column) */}
               <Card className="border-0 shadow-none bg-transparent">
                 <CardContent className="p-0 space-y-6"> {/* Added space-y for consistent spacing */}
@@ -1969,10 +1999,6 @@ export default function HomePage() {
                         </div>
                       </RadioGroup>
                     </div>
-
-                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white mt-6 py-3 rounded-md">
-                      {t.calculator.calculateSavingsButton}
-                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -2008,9 +2034,9 @@ export default function HomePage() {
 
                     <p className="text-xs text-gray-500 mt-8">{t.calculator.calculationDisclaimer}</p> {/* Adjusted text size */}
 
-                    <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50 mt-6 py-3 rounded-md">
+                    {/* <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50 mt-6 py-3 rounded-md">
                       {t.calculator.downloadDetailedReport}
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardContent>
               </Card>
@@ -2027,14 +2053,7 @@ export default function HomePage() {
             <p className="text-xl text-green-100 mb-8">{t.cta.subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
-                {t.cta.orderButton}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-white text-green-600 hover:bg-gray-100  px-8 py-3"
-              >
-                {t.cta.learnMore}
+                <Link href='/contacts'>{t.cta.orderButton}</Link>
               </Button>
             </div>
           </div>

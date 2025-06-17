@@ -304,7 +304,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="py-20">
+      {/* <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{t.team.title}</h2>
@@ -370,7 +370,7 @@ export default function AboutPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600">
@@ -386,11 +386,14 @@ export default function AboutPage() {
                 </a>
               </Button>
               <Button
-                variant="outline"
+              asChild
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-green-600"
+                className="bg-white border-white text-green-600 hover:bg-gray-100"
               >
-                {t.cta.investors}
+                <a href="/investors">
+                  {t.cta.investors}
+                  <ChevronRight className="ml-2 w-5 h-5" />
+                </a>
               </Button>
             </div>
           </div>
