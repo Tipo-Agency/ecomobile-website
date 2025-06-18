@@ -102,8 +102,8 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "Преимущества Ecomobile",
-        subtitle: "Революционные технологии для эффективного и экологичного будущего",
+        title: "Станции замены батарей",
+        subtitle: "Прорывные технологии будущего уже сегодня",
         eco: {
           title: "100% Экологично",
           description: "Нулевые выбросы CO2, чистая энергия для чистого будущего",
@@ -280,8 +280,8 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "Ecomobile afzalliklari",
-        subtitle: "Samarali va ekologik kelajak uchun inqilobiy texnologiyalar",
+        title: "Batareyani almashtirish stantsiyalari",
+        subtitle: "Bugungi kunda kelajakning ilg'or texnologiyalari",
         eco: {
           title: "100% Ekologik",
           description: "CO2 chiqindilari nol, toza kelajak uchun toza energiya",
@@ -458,8 +458,8 @@ export default function HomePage() {
         },
       },
       advantages: {
-        title: "Ecomobile Advantages",
-        subtitle: "Revolutionary technologies for an efficient and eco-friendly future",
+        title: "Battery replacement stations",
+        subtitle: "Breakthrough technologies of the future today",
         eco: {
           title: "100% Eco-Friendly",
           description: "Zero CO2 emissions, clean energy for a clean future",
@@ -1218,288 +1218,158 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Models Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {language === "ru" && "Модели"}
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                {" "}
-                Ecomobile
-                {" "}
-              </span>
-              {language === "uz" && "Modellari"}
-              {language === "en" && "Models"}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {language === "ru" && "Ознакомьтесь с разнообразием наших электромобилей, разработанных для различных задач"}
-              {language === "uz" && "Turli vazifalar uchun mo'ljallangan elektromobillarimizning xilma-xilligi bilan tanishing"}
-              {language === "en" && "Explore our range of electric vehicles designed for various tasks"}
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ease-in-out" key={currentModel.id}>
-            <div className="space-y-6 min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out transform">
-              <h3 className="text-3xl font-bold text-gray-900 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                {currentModel.translations[language as keyof typeof currentModel.translations].name}
-              </h3>
-              <p className="text-lg text-gray-600 leading-relaxed transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                {currentModel.translations[language as keyof typeof currentModel.translations].description}
-              </p>
-
-              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                <h4 className="text-2xl font-bold text-gray-900">
-                  {language === "ru" && "Технические характеристики"}
-                  {language === "uz" && "Texnik xususiyatlar"}
-                  {language === "en" && "Technical Specifications"}
-                </h4>
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].dimensions}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].cargoVolume}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].maxPayload}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].maxSpeed}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].rangePerCharge}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].batterySwapTime}
-                  </li>
-                </ul>
-              </div>
-
-              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                <h4 className="text-2xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].features.title}</h4>
-                <ul className="space-y-2 text-gray-700">
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].features.climateControl}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].features.navigation}
-                  </li>
-                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    {currentModel.translations[language as keyof typeof currentModel.translations].features.camera}
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="relative min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out">
-              <div className="relative w-full h-[500px] transition-all duration-700 ease-in-out transform scale-100 opacity-100">
-                <img
-                  src={currentModel.image}
-                  alt={currentModel.translations[language as keyof typeof currentModel.translations].name}
-                  className="rounded-2xl object-contain w-full h-full transition-all duration-700 ease-in-out"
-                />
-              </div>
-              <div className="mt-6 text-center transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                <Link href={`/models#${currentModel.id}`}>
-                  <Button
-                    size="lg"
-                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 transition-all duration-500 ease-in-out hover:scale-105"
-                  >
-                    {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
-                    <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Индикаторы моделей */}
-          <div className="flex justify-center items-center gap-3 mt-12">
-            {modelsData.map((model, index) => (
-              <button
-                key={model.id}
-                onClick={() => handleModelChange(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out ${
-                  currentModelIndex === index 
-                    ? 'bg-green-600 scale-125' 
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
-                aria-label={`Перейти к модели ${model.translations[language as keyof typeof model.translations].name}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Applications Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.applications.title}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications.subtitle}</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
-              <CardContent className="p-0">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Package className="w-10 h-10 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.retailDelivery.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{t.applications.retailDelivery.description}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
-              <CardContent className="p-0">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Utensils className="w-10 h-10 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.foodDelivery.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{t.applications.foodDelivery.description}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
-              <CardContent className="p-0">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Mail className="w-10 h-10 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.courierServices.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{t.applications.courierServices.description}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
-              <CardContent className="p-0">
-                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Activity className="w-10 h-10 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.serviceFleets.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{t.applications.serviceFleets.description}</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-
-
-
-      {/* Applications Truck Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
+      {/* Advantages Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30"></div>
+        <div className="container mx-auto px-4 relative">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-800 text-sm font-medium mb-6">
-              <Users className="w-4 h-4 mr-2" />
-              {language === "ru" && "Области применения"}
-              {language === "uz" && "Qo'llash sohalari"}
-              {language === "en" && "Applications"}
-            </div>
+            {/* <div className="inline-flex items-center px-4 py-2 bg-green-100 rounded-full text-green-800 text-sm font-medium mb-6">
+              <Leaf className="w-4 h-4 mr-2" />
+              {language === "ru" && "Технология CATL EVOGO"}
+              {language === "uz" && "CATL EVOGO texnologiyasi"}
+              {language === "en" && "CATL EVOGO Technology"}
+            </div> */}
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {t.applications.title}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                {language === "ru" && "любого бизнеса"}
-                {language === "uz" && "har qanday biznes"}
-                {language === "en" && "any business"}
-              </span>
+              {t.advantages.title}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications_truck.subtitle}</p>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.advantages.subtitle}</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Изображение слева */}
-            <div className="order-2 lg:order-1">
-              <div className="relative">
-                <img
-                  src="/images/ecotruck.jpeg"
-                  alt="EcoTruck"
-                  className="rounded-2xl object-cover w-full h-auto shadow-xl"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
-              </div>
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            {/* Main Feature Card */}
+            <div className="lg:col-span-2">
+              <Card className="border-0 shadow-2xl bg-white"> {/* Stronger gradient background */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full -translate-y-32 translate-x-32 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-50 rounded-full translate-y-24 -translate-x-24 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
+                <CardContent className="p-6 md:p-12 relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center h-full"> {/* Adjusted padding, added responsive grid, adjusted gap */}
+                  <div className="h-full flex flex-col justify-center space-y-6 md:pr-8"> {/* Removed fixed pr-8, added responsive pr-8 */}
+                    <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-dark"> {/* Adjusted font size for responsiveness */}
+                      {language === "ru" && "Технология быстрой замены батареи"}
+                      {language === "uz" && "Batareyani tez almashtirish texnologiyasi"}
+                      {language === "en" && "Fast Battery Swapping Technology"}
+                    </h3>
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6"> {/* Adjusted font size for responsiveness */}
+                      {language === "ru" && "Революционная система позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
+                      {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
+                      {language === "en" && "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
+                    </p>
+                    <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30 text-green-600"> {/* Adjusted space-x for responsiveness */}
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold">1</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
+                          {language === "ru" && "минута"}
+                          {language === "uz" && "daqiqa"}
+                          {language === "en" && "minute"}
+                        </div>
+                      </div>
+                      <div className="w-0.5 h-12 bg-white/30"></div>
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold ">24/7</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
+                          {language === "ru" && "доступность"}
+                          {language === "uz" && "mavjudlik"}
+                          {language === "en" && "availability"}
+                        </div>
+                      </div>
+                      <div className="w-0.5 h-12 bg-white/30"></div>
+                      <div className="text-center">
+                        <div className="text-4xl md:text-5xl font-bold">300+</div> {/* Adjusted font size for responsiveness */}
+                        <div className="text-sm mt-1">
+                          {language === "ru" && "км запас хода"}
+                          {language === "uz" && "km masofa"}
+                          {language === "en" && "km range"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-full flex items-center justify-center md:pl-8"> {/* Removed fixed pl-8, added responsive pl-8 */}
+                    <img
+                      src="images/swapstation.png"
+                      alt={
+                        language === "ru"
+                          ? "Система быстрой замены батареи"
+                          : language === "uz"
+                            ? "Batareyani tez almashtirish tizimi"
+                            : "Battery Swapping System"
+                      }
+                      className="object-cover rounded-2xl w-full" />
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            {/* Информация справа */}
-            <div className="order-1 lg:order-2 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <Truck className="w-6 h-6 text-green-600" />
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
+              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-green-100/60 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Leaf className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.delivery.title}</h3>
-                  <p className="text-gray-600 text-sm">{t.applications_truck.delivery.description}</p>
-                </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.eco.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.eco.description}</p>
+                  <button
+                    onClick={() => setAdvantageModal("eco")}
+                    className="flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.eco.learnMore}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
 
-                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <Users className="w-6 h-6 text-blue-600" />
+              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-blue-100/90 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <DollarSign className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.services.title}</h3>
-                  <p className="text-gray-600 text-sm">{t.applications_truck.services.description}</p>
-                </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.economy.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.economy.description}</p>
+                  <button
+                    onClick={() => setIsCalculatorModalOpen(true)}
+                    className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.economy.calculate}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
+              <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-yellow-100/60 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Sun className="w-6 h-6 text-yellow-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.solar.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.solar.description}</p>
+                  <button
+                    onClick={() => setAdvantageModal("solar")}
+                    className="flex items-center text-yellow-600 font-semibold hover:text-yellow-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.solar.learnMore}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
 
-                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    <TrendingUp className="w-6 h-6 text-purple-600" />
+              <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-purple-100/90 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Shield className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.trade.title}</h3>
-                  <p className="text-gray-600 text-sm">{t.applications_truck.trade.description}</p>
-                </div>
-
-                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                    <Shield className="w-6 h-6 text-orange-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.municipal.title}</h3>
-                  <p className="text-gray-600 text-sm">{t.applications_truck.municipal.description}</p>
-                </div>
-              </div>
-
-              {/* Дополнительная информация */}
-              <div className="bg-white p-8 rounded-2xl shadow-lg">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {language === "ru" && "Почему выбирают EcoTruck?"}
-                  {language === "uz" && "Nega EcoTruck tanlanadi?"}
-                  {language === "en" && "Why choose EcoTruck?"}
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-green-600 mb-2">1 мин</div>
-                    <p className="text-sm text-gray-600">
-                      {language === "ru" && "Замена батареи"}
-                      {language === "uz" && "Batareya almashtirish"}
-                      {language === "en" && "Battery swap"}
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-blue-600 mb-2">200 км</div>
-                    <p className="text-sm text-gray-600">
-                      {language === "ru" && "Запас хода"}
-                      {language === "uz" && "Masofa"}
-                      {language === "en" && "Range"}
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-600 mb-2">1000 кг</div>
-                    <p className="text-sm text-gray-600">
-                      {language === "ru" && "Грузоподъемность"}
-                      {language === "uz" && "Yuk ko'tarish"}
-                      {language === "en" && "Payload"}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.reliability.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+                    {t.advantages.reliability.description}
+                  </p>
+                  <button
+                    onClick={() => setAdvantageModal("battery")}
+                    className="flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.reliability.guarantees}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -1627,172 +1497,291 @@ export default function HomePage() {
         )}
       </section>
 
+      {/* Calculator Section */}
+      <CalculatorComponent></CalculatorComponent>
 
-      {/* Advantages Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30"></div>
-        <div className="container mx-auto px-4 relative">
+      {/* Applications Truck Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-20">
-            {/* <div className="inline-flex items-center px-4 py-2 bg-green-100 rounded-full text-green-800 text-sm font-medium mb-6">
-              <Leaf className="w-4 h-4 mr-2" />
-              {language === "ru" && "Технология CATL EVOGO"}
-              {language === "uz" && "CATL EVOGO texnologiyasi"}
-              {language === "en" && "CATL EVOGO Technology"}
-            </div> */}
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-800 text-sm font-medium mb-6">
+              <Users className="w-4 h-4 mr-2" />
+              {language === "ru" && "Области применения"}
+              {language === "uz" && "Qo'llash sohalari"}
+              {language === "en" && "Applications"}
+            </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              {language === "ru" && "Преимущества"}
-              {language === "en" && "Advantages of"}
-              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              {t.applications.title}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {" "}
-                Ecomobile
+                {language === "ru" && "любого бизнеса"}
+                {language === "uz" && "har qanday biznes"}
+                {language === "en" && "any business"}
               </span>
-              {language === "uz" && " Afzalliklari"}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.advantages.subtitle}</p>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications_truck.subtitle}</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
-            {/* Main Feature Card */}
-            <div className="lg:col-span-2">
-              <Card className="border-0 shadow-2xl bg-white"> {/* Stronger gradient background */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full -translate-y-32 translate-x-32 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-50 rounded-full translate-y-24 -translate-x-24 opacity-30 blur-xl"></div> {/* Adjusted opacity and blur */}
-                <CardContent className="p-6 md:p-12 relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center h-full"> {/* Adjusted padding, added responsive grid, adjusted gap */}
-                  <div className="h-full flex flex-col justify-center space-y-6 md:pr-8"> {/* Removed fixed pr-8, added responsive pr-8 */}
-                    <h3 className="text-3xl md:text-4xl font-extrabold mb-4 text-dark"> {/* Adjusted font size for responsiveness */}
-                      {language === "ru" && "Технология быстрой замены батареи"}
-                      {language === "uz" && "Batareyani tez almashtirish texnologiyasi"}
-                      {language === "en" && "Fast Battery Swapping Technology"}
-                    </h3>
-                    <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6"> {/* Adjusted font size for responsiveness */}
-                      {language === "ru" && "Революционная система позволяет заменить энергоблок всего за 1 минуту, что быстрее заправки обычного автомобиля."}
-                      {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi, bu oddiy avtomobilni yoqilg'i quyishdan tezroq."}
-                      {language === "en" && "The fast battery swapping system allows replacing the energy unit in just 1 minute, which is faster than refueling a regular car."}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Изображение слева */}
+            <div className="order-2 lg:order-1">
+              <div className="relative">
+                <img
+                  src="/images/ecotruck.jpeg"
+                  alt="EcoTruck"
+                  className="rounded-2xl object-cover w-full h-auto "
+                />
+                <div className="absolute inset-0  rounded-2xl"></div>
+              </div>
+            </div>
+
+            {/* Информация справа */}
+            <div className="order-1 lg:order-2 space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <Truck className="w-6 h-6 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.delivery.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.delivery.description}</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.services.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.services.description}</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <TrendingUp className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.trade.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.trade.description}</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-orange-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.municipal.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.municipal.description}</p>
+                </div>
+              </div>
+
+              {/* Дополнительная информация */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {language === "ru" && "Почему выбирают EcoTruck?"}
+                  {language === "uz" && "Nega EcoTruck tanlanadi?"}
+                  {language === "en" && "Why choose EcoTruck?"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-600 mb-2">1 мин</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Замена батареи"}
+                      {language === "uz" && "Batareya almashtirish"}
+                      {language === "en" && "Battery swap"}
                     </p>
-                    <div className="flex items-center space-x-4 md:space-x-6 pt-4 border-t border-white/30 text-green-600"> {/* Adjusted space-x for responsiveness */}
-                      <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold">1</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm mt-1">
-                          {language === "ru" && "минута"}
-                          {language === "uz" && "daqiqa"}
-                          {language === "en" && "minute"}
-                        </div>
-                      </div>
-                      <div className="w-0.5 h-12 bg-white/30"></div>
-                      <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold ">24/7</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm mt-1">
-                          {language === "ru" && "доступность"}
-                          {language === "uz" && "mavjudlik"}
-                          {language === "en" && "availability"}
-                        </div>
-                      </div>
-                      <div className="w-0.5 h-12 bg-white/30"></div>
-                      <div className="text-center">
-                        <div className="text-4xl md:text-5xl font-bold">300+</div> {/* Adjusted font size for responsiveness */}
-                        <div className="text-sm mt-1">
-                          {language === "ru" && "км запас хода"}
-                          {language === "uz" && "km masofa"}
-                          {language === "en" && "km range"}
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                  <div className="h-full flex items-center justify-center md:pl-8"> {/* Removed fixed pl-8, added responsive pl-8 */}
-                    <img
-                      src="images/swapstation.png"
-                      alt={
-                        language === "ru"
-                          ? "Система быстрой замены батареи"
-                          : language === "uz"
-                            ? "Batareyani tez almashtirish tizimi"
-                            : "Battery Swapping System"
-                      }
-                      className="object-cover rounded-2xl w-full" />
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">200 км</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Запас хода"}
+                      {language === "uz" && "Masofa"}
+                      {language === "en" && "Range"}
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Feature Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
-              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-green-100/60 flex flex-col">
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Leaf className="w-6 h-6 text-green-600" />
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-600 mb-2">1000 кг</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Грузоподъемность"}
+                      {language === "uz" && "Yuk ko'tarish"}
+                      {language === "en" && "Payload"}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.eco.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.eco.description}</p>
-                  <button
-                    onClick={() => setAdvantageModal("eco")}
-                    className="flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors mt-auto text-sm"
-                  >
-                    <span>{t.advantages.eco.learnMore}</span>
-                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </CardContent>
-              </Card>
-
-              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-blue-100/90 flex flex-col">
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <DollarSign className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.economy.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.economy.description}</p>
-                  <button
-                    onClick={() => setIsCalculatorModalOpen(true)}
-                    className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto text-sm"
-                  >
-                    <span>{t.advantages.economy.calculate}</span>
-                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
-            <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-yellow-100/60 flex flex-col">
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Sun className="w-6 h-6 text-yellow-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.solar.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.solar.description}</p>
-                  <button
-                    onClick={() => setAdvantageModal("solar")}
-                    className="flex items-center text-yellow-600 font-semibold hover:text-yellow-700 transition-colors mt-auto text-sm"
-                  >
-                    <span>{t.advantages.solar.learnMore}</span>
-                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </CardContent>
-              </Card>
-
-              <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-purple-100/90 flex flex-col">
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Shield className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.reliability.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
-                    {t.advantages.reliability.description}
-                  </p>
-                  <button
-                    onClick={() => setAdvantageModal("battery")}
-                    className="flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors mt-auto text-sm"
-                  >
-                    <span>{t.advantages.reliability.guarantees}</span>
-                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Calculator Section */}
-      <CalculatorComponent></CalculatorComponent>
+      {/* Models Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              {language === "ru" && "Модели"}
+              <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                {" "}
+                Ecomobile
+                {" "}
+              </span>
+              {language === "uz" && "Modellari"}
+              {language === "en" && "Models"}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {language === "ru" && "Ознакомьтесь с разнообразием наших электромобилей, разработанных для различных задач"}
+              {language === "uz" && "Turli vazifalar uchun mo'ljallangan elektromobillarimizning xilma-xilligi bilan tanishing"}
+              {language === "en" && "Explore our range of electric vehicles designed for various tasks"}
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center transition-all duration-700 ease-in-out" key={currentModel.id}>
+            <div className="space-y-6 min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out transform">
+              <h3 className="text-3xl font-bold text-gray-900 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                {currentModel.translations[language as keyof typeof currentModel.translations].name}
+              </h3>
+              <p className="text-lg text-gray-600 leading-relaxed transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                {currentModel.translations[language as keyof typeof currentModel.translations].description}
+              </p>
+
+              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                <h4 className="text-2xl font-bold text-gray-900">
+                  {language === "ru" && "Технические характеристики"}
+                  {language === "uz" && "Texnik xususiyatlar"}
+                  {language === "en" && "Technical Specifications"}
+                </h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].dimensions}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].cargoVolume}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].maxPayload}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].maxSpeed}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].rangePerCharge}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].batterySwapTime}
+                  </li>
+                </ul>
+              </div>
+
+              <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                <h4 className="text-2xl font-bold text-gray-900">{currentModel.translations[language as keyof typeof currentModel.translations].features.title}</h4>
+                <ul className="space-y-2 text-gray-700">
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.climateControl}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.navigation}
+                  </li>
+                  <li className="flex items-center transition-all duration-500 ease-in-out transform translate-x-0 opacity-100">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    {currentModel.translations[language as keyof typeof currentModel.translations].features.camera}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="relative min-h-[600px] flex flex-col justify-center transition-all duration-700 ease-in-out">
+              <div className="relative w-full h-[500px] transition-all duration-700 ease-in-out transform scale-100 opacity-100">
+                <img
+                  src={currentModel.image}
+                  alt={currentModel.translations[language as keyof typeof currentModel.translations].name}
+                  className="rounded-2xl object-contain w-full h-full transition-all duration-700 ease-in-out"
+                />
+              </div>
+              <div className="mt-6 text-center transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
+                <Link href={`/models#${currentModel.id}`}>
+                  <Button
+                    size="lg"
+                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 transition-all duration-500 ease-in-out hover:scale-105"
+                  >
+                    {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
+                    <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Индикаторы моделей */}
+          <div className="flex justify-center items-center gap-3 mt-12">
+            {modelsData.map((model, index) => (
+              <button
+                key={model.id}
+                onClick={() => handleModelChange(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ease-in-out ${currentModelIndex === index
+                  ? 'bg-green-600 scale-125'
+                  : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                aria-label={`Перейти к модели ${model.translations[language as keyof typeof model.translations].name}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Applications Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.applications.title}</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications.subtitle}</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Package className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.retailDelivery.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.retailDelivery.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Utensils className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.foodDelivery.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.foodDelivery.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Mail className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.courierServices.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.courierServices.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
+              <CardContent className="p-0">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Activity className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.applications.serviceFleets.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{t.applications.serviceFleets.description}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600">
@@ -1801,10 +1790,10 @@ export default function HomePage() {
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{t.cta.title}</h2>
             <p className="text-xl text-green-100 mb-8">{t.cta.subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href='/contacts'>
-              <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
-                {t.cta.orderButton}
-              </Button>
+              <Link href='/contacts'>
+                <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
+                  {t.cta.orderButton}
+                </Button>
               </Link>
             </div>
           </div>

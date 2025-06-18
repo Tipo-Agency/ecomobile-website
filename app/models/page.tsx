@@ -11,6 +11,17 @@ import { useLanguage } from "@/contexts/language-context"
 import { getAllModels, getModelById, type ModelData } from "@/lib/models-data"
 import Link from "next/link"
 import { useSearchParams } from 'next/navigation'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 
 // Компонент для работы с search params
 function ModelsPageContent() {
@@ -19,6 +30,7 @@ function ModelsPageContent() {
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
   const [currentModelIndex, setCurrentModelIndex] = useState(0)
   const modelsData = getAllModels()
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
 
   // Получаем модель из URL hash при загрузке страницы
   useEffect(() => {
@@ -65,6 +77,18 @@ function ModelsPageContent() {
         subtitle: "Мы вам поможем! Свяжитесь с нами",
         contactButton: "Связаться",
       },
+      hero: {
+        buyButton: "Купить",
+      },
+      orderForm: {
+        title: "Заказать звонок",
+        description: "Пожалуйста, заполните форму ниже, и наш менеджер свяжется с вами в ближайшее время.",
+        name: "Имя",
+        phone: "Телефон",
+        email: "Электронная почта",
+        message: "Сообщение",
+        submit: "Отправить",
+      },
     },
     uz: {
       badge: "Modellar",
@@ -83,6 +107,18 @@ function ModelsPageContent() {
         subtitle: "Biz sizga yordam beramiz! Biz bilan bog'laning",
         contactButton: "Bog'lanish",
       },
+      hero: {
+        buyButton: "Sotib olish",
+      },
+      orderForm: {
+        title: "Zvonok qilish",
+        description: "Iltimos, quyida to'ldirilgan shaklni to'ldiring, va biz siz bilan aloqaniyatishadi.",
+        name: "Ism",
+        phone: "Telefon",
+        email: "Elektron pochta",
+        message: "Xabar",
+        submit: "Yuborish",
+      },
     },
     en: {
       badge: "Models",
@@ -100,6 +136,18 @@ function ModelsPageContent() {
         title: "Need help choosing a model?",
         subtitle: "We will help you! Contact us",
         contactButton: "Contact",
+      },
+      hero: {
+        buyButton: "Buy",
+      },
+      orderForm: {
+        title: "Order a Call",
+        description: "Please fill out the form below, and our manager will contact you shortly.",
+        name: "Name",
+        phone: "Phone",
+        email: "Email",
+        message: "Message",
+        submit: "Submit",
       },
     },
   }
@@ -257,11 +305,38 @@ function ModelsPageContent() {
 
               {/* Кнопки */}
               <div className="flex flex-col sm:flex-row gap-4 w-full mb-8">
-                <Link href={`/buy?model=${currentModel.id}`} className="flex-1">
-                  <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white text-base md:text-lg font-semibold flex items-center justify-center">
-                    Купить <ChevronRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
+                <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white text-base md:text-lg font-semibold flex items-center justify-center">
+                      {t.hero?.buyButton || "Купить"} <ChevronRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>{t.orderForm.title}</DialogTitle>
+                      <DialogDescription>{t.orderForm.description}</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="name">{t.orderForm.name}</Label>
+                        <Input id="name" placeholder={t.orderForm.name} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                        <Input id="phone" placeholder="+998 90 123 45 67" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email">{t.orderForm.email}</Label>
+                        <Input id="email" type="email" placeholder="your@email.com" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="message">{t.orderForm.message}</Label>
+                        <Textarea id="message" placeholder={t.orderForm.message} />
+                      </div>
+                      <Button className="w-full bg-green-600 hover:bg-green-700">{t.orderForm.submit}</Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 <Link href="/contacts" className="flex-1">
                   <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold flex items-center justify-center">
                     Связаться с нами
@@ -274,7 +349,7 @@ function ModelsPageContent() {
             </div>
 
           </div>
-          <div className="bg-white rounded-2xl shadow-xl px-6 py-6 md:px-8 md:py-8">
+          <div className="bg-gradient-to-b from-white to-green-200/35 rounded-xl shadow-xl px-6 py-6 md:px-8 md:py-8">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Технические характеристики */}
               <div className="w-full lg:w-1/2">
@@ -305,15 +380,15 @@ function ModelsPageContent() {
               <div className="w-full lg:w-1/2">
                 <h3 className="text-xl text-center md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">{t.features}</h3>
                 <div className="grid md:grid-cols-2 gap-3 md:gap-4">
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3 p-3 rounded-lg">
                     <Snowflake className="w-7 md:w-9 md:h-7 text-green-600" />
                     <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.climateControl}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3 p-3 rounded-lg">
                     <MapPin className="w-7 md:w-9 md:h-10 lg:w-16 text-blue-600" />
                     <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.navigation}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-3 p-3 rounded-lg">
                     <Camera className="w-7 md:w-9 md:h-10 lg:w-16 text-purple-600" />
                     <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.camera}</span>
                   </div>

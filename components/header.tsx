@@ -99,7 +99,7 @@ export default function Header() {
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="ml-2">
-                  <Menu className="h-6 w-6" />
+                  <Menu className="w-8 h-8" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full max-w-xs sm:max-w-sm">

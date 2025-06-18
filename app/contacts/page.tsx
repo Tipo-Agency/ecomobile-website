@@ -152,7 +152,7 @@ export default function ContactsPage() {
         },
         departments: {
           title: "Ixtisoslashgan bo'limlar",
-          sales: "Sotish",
+          sales: "Sotuvlar",
           investors: "Investorlar",
         },
       },
@@ -438,14 +438,14 @@ export default function ContactsPage() {
                       <Users className="w-5 h-5 text-green-600" />
                       <span className="font-semibold text-gray-900">{t.contact.departments.sales}</span>
                     </div>
-                    <p className="text-sm text-gray-600">sales@ecomobile.world</p>
+                    <p className="text-sm text-gray-600">info@ecomobile.world</p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex items-center space-x-3 mb-2">
                       <Building className="w-5 h-5 text-blue-600" />
                       <span className="font-semibold text-gray-900">{t.contact.departments.investors}</span>
                     </div>
-                    <p className="text-sm text-gray-600">investors@ecomobile.world</p>
+                    <p className="text-sm text-gray-600">info@ecomobile.world</p>
                   </div>
                 </div>
               </div>
