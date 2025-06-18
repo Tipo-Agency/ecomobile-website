@@ -12,6 +12,7 @@ import Link from "next/link"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import YandexMap from "@/components/YandexMap"
 
 export default function ContactsPage() {
   const { language } = useLanguage()
@@ -366,40 +367,46 @@ export default function ContactsPage() {
               </div>
 
               <div className="space-y-6">
-                <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Phone className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.phone.title}</h3>
-                        <p className="text-gray-600 mb-2">{t.contact.phone.description}</p>
-                        <div className="space-y-1">
-                          <p className="font-medium text-gray-900"><a href="tel:+998990969969">+998 99 096 99 69</a></p>
-                          <p className="text-sm text-gray-500">{t.contact.phone.hours}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
 
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Mail className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.email.title}</h3>
-                        <p className="text-gray-600 mb-2">{t.contact.email.description}</p>
-                        <div className="space-y-1">
-                          <p className="font-medium text-gray-900"><a href="mailto:info@ecomobile.world">info@ecomobile.world</a></p>
-                          <p className="text-sm text-gray-500">{t.contact.email.response}</p>
+                  <a href="tel:+998990969969">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <Phone className="w-6 h-6 text-green-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.phone.title}</h3>
+                          <p className="text-gray-600 mb-2">{t.contact.phone.description}</p>
+                          <div className="space-y-1">
+                            <p className="font-medium text-gray-900">+998 99 096-99-69</p>
+                            <p className="text-sm text-gray-500">{t.contact.phone.hours}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
+                    </CardContent>
+                  </a>
+                </Card>
+
+
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
+                  <a href="mailto:info@ecomobile.world">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <Mail className="w-6 h-6 text-blue-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.email.title}</h3>
+                          <p className="text-gray-600 mb-2">{t.contact.email.description}</p>
+                          <div className="space-y-1">
+                            <p className="font-medium text-gray-900">info@ecomobile.world</p>
+                            <p className="text-sm text-gray-500">{t.contact.email.response}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </a>
                 </Card>
 
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
@@ -544,13 +551,9 @@ export default function ContactsPage() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card className="border-0 shadow-xl overflow-hidden">
+            <Card className="border-0 shadow-2xl overflow-hidden">
               <div className="aspect-video bg-gray-200 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">{t.map.mapPlaceholder}</p>
-                  <p className="text-sm text-gray-500">ул. Амира Темура, 15, Ташкент</p>
-                </div>
+                <YandexMap></YandexMap>
               </div>
             </Card>
 
@@ -565,21 +568,25 @@ export default function ContactsPage() {
               </Card>
 
               <Card className="text-center border-0 shadow-lg">
+              <a href="tel:+998990969969">
                 <CardContent className="p-6">
                   <Phone className="w-8 h-8 text-blue-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">{t.map.phoneCard.title}</h3>
-                  <p className="text-sm text-gray-600"><a href="tel:+998990969969">+998 99 096 99 69</a></p>
+                  <p className="text-sm text-gray-600">+998 99 096 99 69</p>
                   <p className="text-sm text-gray-600">{t.map.phoneCard.available}</p>
                 </CardContent>
+              </a>
               </Card>
 
               <Card className="text-center border-0 shadow-lg">
+              <a href="mailto:info@ecomobile.world">
                 <CardContent className="p-6">
                   <Mail className="w-8 h-8 text-purple-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">{t.map.emailCard.title}</h3>
-                  <p className="text-sm text-gray-600"><a href="mailto:info@ecomobile.world">info@ecomobile.world</a></p>
+                  <p className="text-sm text-gray-600">info@ecomobile.world</p>
                   <p className="text-sm text-gray-600">{t.map.emailCard.response}</p>
                 </CardContent>
+              </a>
               </Card>
             </div>
           </div>

@@ -382,10 +382,12 @@ export default function InvestorsPage() {
                 <Download className="mr-2 w-5 h-5" />
                 {t.hero.downloadBtn}
               </Button> */}
+              <Link href="/contacts">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
-                <Link href="/contacts">{t.hero.meetingBtn}</Link>
+                {t.hero.meetingBtn}
                 <ChevronRight className="ml-2 w-5 h-5" />
               </Button>
+              </Link>
             </div>
           </div>
         </div>

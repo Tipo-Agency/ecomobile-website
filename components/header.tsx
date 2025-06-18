@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/co
 import { Menu, ChevronDown } from "lucide-react"
 import { useMobile } from '@/hooks/use-mobile'
 import { useState } from "react"
+import { getAllModels } from "@/lib/models-data"
 
 export default function Header() {
   const pathname = usePathname()
@@ -17,23 +18,7 @@ export default function Header() {
   const [isModelsOpen, setIsModelsOpen] = useState(false)
   const isMobile = useMobile()
 
-  const modelsData = [
-    {
-      id: "ecotruck",
-      image: "/images/ecotruck.jpeg",
-      nameKey: "ecotruck",
-    },
-    {
-      id: "pony",
-      image: "/images/pony.png",
-      nameKey: "pony",
-    },
-    {
-      id: "brumby",
-      image: "/images/brumby.png",
-      nameKey: "brumby",
-    },
-  ]
+  const modelsData = getAllModels()
 
   const translations = {
     ru: {
@@ -146,8 +131,8 @@ export default function Header() {
                             href={`/models#${model.id}`}
                             className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
                           >
-                            <Image src={model.image} alt={t.nav.models[model.nameKey as keyof typeof t.nav.models]} width={40} height={40} className="rounded-md" />
-                            <span>{t.nav.models[model.nameKey as keyof typeof t.nav.models]}</span>
+                            <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={40} height={40} className="rounded-md" />
+                            <span>{model.translations[language as keyof typeof model.translations].name}</span>
                           </Link>
                         ))}
                       </div>
@@ -207,8 +192,8 @@ export default function Header() {
                   {modelsData.map((model) => (
                     <DropdownMenuItem key={model.id} asChild>
                       <Link href={`/models#${model.id}`} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
-                        <Image src={model.image} alt={t.nav.models[model.nameKey as keyof typeof t.nav.models]} width={40} height={40} className="rounded-md" />
-                        <span>{t.nav.models[model.nameKey as keyof typeof t.nav.models]}</span>
+                        <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={40} height={40} className="rounded-md" />
+                        <span>{model.translations[language as keyof typeof model.translations].name}</span>
                       </Link>
                     </DropdownMenuItem>
                   ))}

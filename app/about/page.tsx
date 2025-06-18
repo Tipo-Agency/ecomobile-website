@@ -2,10 +2,12 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Users, Target, Award, Globe, Leaf, ChevronRight, Mail, Linkedin } from "lucide-react"
+import { Users, Target, Award, Globe, Leaf, ChevronRight, BatteryCharging, TrendingUp, Package } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import Link from "next/link"
+
 
 export default function AboutPage() {
   const { language } = useLanguage()
@@ -302,6 +304,96 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+
+      {/* Three Blocks Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Technology Block */}
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-green-50 to-green-100/50 flex flex-col">
+              <CardContent className="p-8 text-center flex flex-col flex-1">
+                <div className="w-20 h-20 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <BatteryCharging className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {language === "ru" && "Технология"}
+                  {language === "uz" && "Texnologiya"}
+                  {language === "en" && "Technology"}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed flex-1">
+                  {language === "ru" && "Революционная система быстрой замены батарей позволяет заменить энергоблок всего за 1 минуту."}
+                  {language === "uz" && "Batareyalarni tez almashtirish tizimi energiya blokini atigi 1 daqiqada almashtirish imkonini beradi."}
+                  {language === "en" && "Revolutionary battery swapping system allows replacing the energy unit in just 1 minute."}
+                </p>
+                <Button asChild className="bg-green-600 hover:bg-green-700 text-white w-full">
+                  <Link href="/technology">
+                    {language === "ru" && "Подробнее"}
+                    {language === "uz" && "Batafsil"}
+                    {language === "en" && "Learn More"}
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Advantages Block */}
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-blue-100/50 flex flex-col">
+              <CardContent className="p-8 text-center flex flex-col flex-1">
+                <div className="w-20 h-20 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <TrendingUp className="w-10 h-10 text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {language === "ru" && "Преимущества"}
+                  {language === "uz" && "Afzalliklar"}
+                  {language === "en" && "Advantages"}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed flex-1">
+                  {language === "ru" && "Экономия до 75% на операционных расходах, нулевые выбросы CO2 и возможность зарядки от солнечной энергии."}
+                  {language === "uz" && "Operatsion xarajatlarda 75% gacha tejash, CO2 chiqindilari nol va quyosh energiyasidan quvvatlash imkoniyati."}
+                  {language === "en" && "Save up to 75% on operational costs, zero CO2 emissions and the ability to charge from solar energy."}
+                </p>
+                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white w-full">
+                  <Link href="/advantages">
+                    {language === "ru" && "Подробнее"}
+                    {language === "uz" && "Batafsil"}
+                    {language === "en" && "Learn More"}
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Applications Block */}
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-purple-100/50 flex flex-col">
+              <CardContent className="p-8 text-center flex flex-col flex-1">
+                <div className="w-20 h-20 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Package className="w-10 h-10 text-purple-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {language === "ru" && "Применения"}
+                  {language === "uz" && "Qo'llash"}
+                  {language === "en" && "Applications"}
+                </h3>
+                <p className="text-gray-600 mb-6 leading-relaxed flex-1">
+                  {language === "ru" && "Идеально подходит для доставки, курьерских услуг, сервисных автопарков и муниципальных служб."}
+                  {language === "uz" && "Yetkazib berish, kuryerlik xizmatlari, xizmat avtoparklari va munitsipal xizmatlar uchun juda mos keladi."}
+                  {language === "en" && "Perfect for delivery, courier services, service fleets and municipal services."}
+                </p>
+                <Button asChild className="bg-purple-600 hover:bg-purple-700 text-white w-full">
+                  <Link href="/applications">
+                    {language === "ru" && "Подробнее"}
+                    {language === "uz" && "Batafsil"}
+                    {language === "en" && "Learn More"}
+                    <ChevronRight className="ml-2 w-4 h-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
 
       {/* Team */}
       {/* <section className="py-20">

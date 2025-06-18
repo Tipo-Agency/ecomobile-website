@@ -24,6 +24,7 @@ import {
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import CalculatorComponent from "@/components/Calculator"
 
 export default function AdvantagesPage() {
   const { language } = useLanguage()
@@ -35,10 +36,10 @@ export default function AdvantagesPage() {
   const translations = {
     ru: {
       hero: {
-        badge: "Преимущества EcoMobile",
-        title: "Почему EcoMobile —",
+        badge: "Преимущества Ecomobile",
+        title: "Почему Ecomobile —",
         titleHighlight: "лучший выбор",
-        description: "Революционные преимущества, которые делают EcoMobile идеальным решением для современного бизнеса",
+        description: "Революционные преимущества, которые делают Ecomobile идеальным решением для современного бизнеса",
         startCalculation: "Начать расчет",
         viewComparison: "Сравнить с конкурентами",
       },
@@ -104,9 +105,9 @@ export default function AdvantagesPage() {
       },
       comparison: {
         title: "Сравнение с традиционным транспортом",
-        subtitle: "Наглядное преимущество EcoMobile",
+        subtitle: "Наглядное преимущество Ecomobile",
         traditional: "Традиционный ДВС",
-        ecomobile: "EcoMobile",
+        Ecomobile: "Ecomobile",
         categories: {
           fuel: "Топливо/Энергия",
           emissions: "Выбросы CO2",
@@ -117,7 +118,7 @@ export default function AdvantagesPage() {
       },
       calculator: {
         title: "Калькулятор преимуществ",
-        subtitle: "Рассчитайте свою выгоду от перехода на EcoMobile",
+        subtitle: "Рассчитайте свою выгоду от перехода на Ecomobile",
         parameters: "Параметры расчета",
         results: "Результаты",
         dailyDistance: "Ежедневный пробег",
@@ -131,10 +132,10 @@ export default function AdvantagesPage() {
     },
     uz: {
       hero: {
-        badge: "EcoMobile afzalliklari",
-        title: "Nega EcoMobile —",
+        badge: "Ecomobile afzalliklari",
+        title: "Nega Ecomobile —",
         titleHighlight: "eng yaxshi tanlov",
-        description: "Zamonaviy biznes uchun EcoMobile'ni ideal yechim qiladigan inqilobiy afzalliklar",
+        description: "Zamonaviy biznes uchun Ecomobile'ni ideal yechim qiladigan inqilobiy afzalliklar",
         startCalculation: "Hisoblashni boshlash",
         viewComparison: "Raqobatchilar bilan solishtirish",
       },
@@ -200,9 +201,9 @@ export default function AdvantagesPage() {
       },
       comparison: {
         title: "An'anaviy transport bilan solishtirish",
-        subtitle: "EcoMobile'ning aniq ustunligi",
+        subtitle: "Ecomobile'ning aniq ustunligi",
         traditional: "An'anaviy ICE",
-        ecomobile: "EcoMobile",
+        Ecomobile: "Ecomobile",
         categories: {
           fuel: "Yoqilg'i/Energiya",
           emissions: "CO2 chiqindilari",
@@ -213,7 +214,7 @@ export default function AdvantagesPage() {
       },
       calculator: {
         title: "Afzalliklar kalkulyatori",
-        subtitle: "EcoMobile'ga o'tishdan foydangizni hisoblang",
+        subtitle: "Ecomobile'ga o'tishdan foydangizni hisoblang",
         parameters: "Hisoblash parametrlari",
         results: "Natijalar",
         dailyDistance: "Kunlik masofa",
@@ -227,10 +228,10 @@ export default function AdvantagesPage() {
     },
     en: {
       hero: {
-        badge: "EcoMobile Advantages",
-        title: "Why EcoMobile is",
+        badge: "Ecomobile Advantages",
+        title: "Why Ecomobile is",
         titleHighlight: "the best choice",
-        description: "Revolutionary advantages that make EcoMobile the ideal solution for modern business",
+        description: "Revolutionary advantages that make Ecomobile the ideal solution for modern business",
         startCalculation: "Start Calculation",
         viewComparison: "Compare with Competitors",
       },
@@ -281,9 +282,9 @@ export default function AdvantagesPage() {
       },
       comparison: {
         title: "Comparison with Traditional Transport",
-        subtitle: "Clear advantage of EcoMobile",
+        subtitle: "Clear advantage of Ecomobile",
         traditional: "Traditional ICE",
-        ecomobile: "EcoMobile",
+        Ecomobile: "Ecomobile",
         categories: {
           fuel: "Fuel/Energy",
           emissions: "CO2 Emissions",
@@ -294,7 +295,7 @@ export default function AdvantagesPage() {
       },
       calculator: {
         title: "Advantages Calculator",
-        subtitle: "Calculate your benefits from switching to EcoMobile",
+        subtitle: "Calculate your benefits from switching to Ecomobile",
         parameters: "Calculation Parameters",
         results: "Results",
         dailyDistance: "Daily Distance",
@@ -538,31 +539,31 @@ export default function AdvantagesPage() {
                 {
                   category: t.comparison.categories.fuel,
                   traditional: { value: "$240/мес", trend: "up", color: "red" },
-                  ecomobile: { value: "$60/мес", trend: "down", color: "green" },
+                  Ecomobile: { value: "$60/мес", trend: "down", color: "green" },
                   icon: Truck,
                 },
                 {
                   category: t.comparison.categories.emissions,
                   traditional: { value: "4.2т CO2/год", trend: "up", color: "red" },
-                  ecomobile: { value: "0т CO2/год", trend: "neutral", color: "green" },
+                  Ecomobile: { value: "0т CO2/год", trend: "neutral", color: "green" },
                   icon: Leaf,
                 },
                 {
                   category: t.comparison.categories.maintenance,
                   traditional: { value: "$150/мес", trend: "up", color: "red" },
-                  ecomobile: { value: "$75/мес", trend: "down", color: "green" },
+                  Ecomobile: { value: "$75/мес", trend: "down", color: "green" },
                   icon: Shield,
                 },
                 {
                   category: t.comparison.categories.noise,
                   traditional: { value: "70 дБ", trend: "up", color: "red" },
-                  ecomobile: { value: "45 дБ", trend: "down", color: "green" },
+                  Ecomobile: { value: "45 дБ", trend: "down", color: "green" },
                   icon: Wind,
                 },
                 {
                   category: t.comparison.categories.efficiency,
                   traditional: { value: "25%", trend: "down", color: "red" },
-                  ecomobile: { value: "95%", trend: "up", color: "green" },
+                  Ecomobile: { value: "95%", trend: "up", color: "green" },
                   icon: Zap,
                 },
               ].map((item, index) => {
@@ -589,12 +590,12 @@ export default function AdvantagesPage() {
                         </div>
 
                         <div className="text-center">
-                          <div className="text-sm text-gray-500 mb-2">{t.comparison.ecomobile}</div>
-                          <div className="text-2xl font-bold text-green-600 mb-2">{item.ecomobile.value}</div>
+                          <div className="text-sm text-gray-500 mb-2">{t.comparison.Ecomobile}</div>
+                          <div className="text-2xl font-bold text-green-600 mb-2">{item.Ecomobile.value}</div>
                           <div className="flex items-center justify-center">
-                            {item.ecomobile.trend === "up" && <ArrowUp className="w-4 h-4 text-green-500" />}
-                            {item.ecomobile.trend === "down" && <ArrowDown className="w-4 h-4 text-green-500" />}
-                            {item.ecomobile.trend === "neutral" && <Minus className="w-4 h-4 text-green-500" />}
+                            {item.Ecomobile.trend === "up" && <ArrowUp className="w-4 h-4 text-green-500" />}
+                            {item.Ecomobile.trend === "down" && <ArrowDown className="w-4 h-4 text-green-500" />}
+                            {item.Ecomobile.trend === "neutral" && <Minus className="w-4 h-4 text-green-500" />}
                           </div>
                         </div>
                       </div>
@@ -608,101 +609,8 @@ export default function AdvantagesPage() {
       </section>
 
       {/* Benefits Calculator */}
-      <section
-        id="calculator"
-        className="py-24 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden"
-      >
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('/placeholder.svg?height=800&width=1200')] opacity-5"></div>
-        </div>
-        <div className="container mx-auto px-4 relative">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">{t.calculator.title}</h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
-          </div>
-
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12">
-              <Card className="border-0 shadow-2xl bg-white/10 backdrop-blur-lg">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-white mb-8">{t.calculator.parameters}</h3>
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <label className="text-white font-medium">{t.calculator.dailyDistance}: 150 км</label>
-                      <input
-                        type="range"
-                        min="50"
-                        max="300"
-                        defaultValue="150"
-                        className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <label className="text-white font-medium">{t.calculator.vehicleCount}: 5</label>
-                      <input
-                        type="range"
-                        min="1"
-                        max="50"
-                        defaultValue="5"
-                        className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <label className="text-white font-medium">{t.calculator.fuelPrice}: $1.5/л</label>
-                      <input
-                        type="range"
-                        min="1"
-                        max="3"
-                        step="0.1"
-                        defaultValue="1.5"
-                        className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-
-                    <div className="space-y-3">
-                      <label className="text-white font-medium">{t.calculator.workingDays}: 250</label>
-                      <input
-                        type="range"
-                        min="200"
-                        max="300"
-                        defaultValue="250"
-                        className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="space-y-6">
-                <Card className="border-0 shadow-2xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-lg border border-green-400/30">
-                  <CardContent className="p-8 text-center">
-                    <DollarSign className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                    <div className="text-4xl font-bold text-green-400 mb-2">$54,000</div>
-                    <div className="text-green-200">{t.calculator.annualSavings}</div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-0 shadow-2xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-lg border border-blue-400/30">
-                  <CardContent className="p-8 text-center">
-                    <TreePine className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                    <div className="text-4xl font-bold text-blue-400 mb-2">21 т</div>
-                    <div className="text-blue-200">{t.calculator.co2Reduction}</div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-0 shadow-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-lg border border-purple-400/30">
-                  <CardContent className="p-8 text-center">
-                    <Clock className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                    <div className="text-4xl font-bold text-purple-400 mb-2">18 мес</div>
-                    <div className="text-purple-200">{t.calculator.paybackPeriod}</div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section id="calculator">
+        <CalculatorComponent></CalculatorComponent>
       </section>
 
       <Footer />

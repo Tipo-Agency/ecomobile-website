@@ -19,14 +19,14 @@ import { Badge } from "@/components/ui/badge"
 import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign, Shield, X, BatteryCharging, Route, Package, Utensils, Mail, Activity } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import CalculatorComponent from "@/components/Calculator"
 import { useLanguage } from "@/contexts/language-context"
-import Script from 'next/script' // Added Script import
+import Script from 'next/script'
 import { useMobile } from '@/hooks/use-mobile'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
-
-
+import { getAllModels } from "@/lib/models-data"
 
 declare global {
   interface Window {
@@ -55,180 +55,7 @@ export default function HomePage() {
     electricityPrice: 0.15, // Price per kWh
   })
 
-  const modelsData = [
-    {
-      id: "ecotruck",
-      image: "/images/ecotruck.jpeg",
-      translations: {
-        ru: {
-          name: "EcoTruck",
-          description: "Компактный электрический грузовик для городской логистики.",
-          dimensions: "Длина: 4.5м | Ширина: 1.8м | Высота: 2.2м",
-          cargoVolume: "Объем груза: 5.6м³",
-          maxPayload: "Макс. полезная нагрузка: 1,000кг",
-          maxSpeed: "Максимальная скорость: 100 км/ч",
-          rangePerCharge: "Запас хода на одном заряде: 200 км",
-          batterySwapTime: "Время замены батареи: 3 минуты",
-          features: {
-            title: "Особенности",
-            climateControl: "Умная система климат-контроля",
-            navigation: "10\" Сенсорный экран навигации и управления автопарком",
-            camera: "Система камер 360° для городского маневрирования",
-          },
-          learnMore: "Подробнее",
-        },
-        uz: {
-          name: "EcoTruck",
-          description: "Shahar logistikasi uchun ixcham elektr yuk mashinasi.",
-          dimensions: "Uzunligi: 4.5m | Kengligi: 1.8m | Balandligi: 2.2m",
-          cargoVolume: "Yuk hajmi: 5.6m³",
-          maxPayload: "Maks. foydali yuk: 1,000kg",
-          maxSpeed: "Maksimal tezlik: 100 km/soat",
-          rangePerCharge: "Bir zaryadda yurish masofasi: 200 km",
-          batterySwapTime: "Batareya almashtirish vaqti: 3 daqiqa",
-          features: {
-            title: "Xususiyatlar",
-            climateControl: "Aqlli iqlim nazorati tizimi",
-            navigation: "10\" Sensorli ekranli navigatsiya va avtoparkni boshqarish",
-            camera: "Shahar harakati uchun 360° kamera tizimi",
-          },
-          learnMore: "Batafsil",
-        },
-        en: {
-          name: "EcoTruck",
-          description: "Compact electric truck for urban logistics.",
-          dimensions: "Length: 4.5m | Width: 1.8m | Height: 2.2m",
-          cargoVolume: "Cargo Volume: 5.6m³",
-          maxPayload: "Maximum Payload: 1,000kg",
-          maxSpeed: "Maximum Speed: 100 km/h",
-          rangePerCharge: "Range per Charge: 200 km",
-          batterySwapTime: "Battery Swap Time: 3 minutes",
-          features: {
-            title: "Features",
-            climateControl: "Smart Climate Control System",
-            navigation: "10\" Touchscreen Navigation & Fleet Management",
-            camera: "360° Camera System for Urban Maneuverability",
-          },
-          learnMore: "Learn More",
-        },
-      },
-    },
-    {
-      id: "pony",
-      image: "/images/pony.png",
-      translations: {
-        ru: {
-          name: "Pony",
-          description: "Электрический компактный автомобиль для комфортных поездок по городу",
-          dimensions: "Длина: 2м | Ширина: 1.2м | Высота: 1.5м",
-          cargoVolume: "Объем груза: 12.0м³",
-          maxPayload: "Макс. полезная нагрузка: 2,500кг",
-          maxSpeed: "Максимальная скорость: 110 км/ч",
-          rangePerCharge: "Запас хода на одном заряде: 300 км",
-          batterySwapTime: "Время замены батареи: 1 минуты",
-          features: {
-            title: "Особенности",
-            climateControl: "Зональный климат-контроль",
-            navigation: "Интегрированная навигация с оптимизацией маршрутов",
-            camera: "Система камер кругового обзора с парковочным ассистентом",
-          },
-          learnMore: "Подробнее",
-        },
-        uz: {
-          name: "Pony",
-          description: "Qulay shahar sayohatlari uchun elektr ixcham avtomobil",
-          dimensions: "Uzunligi: 2.0m | Kengligi: 1.2m | Balandligi: 1.5m",
-          cargoVolume: "Yuk hajmi: 12.0m³",
-          maxPayload: "Maks. foydali yuk: 2,500kg",
-          maxSpeed: "Maksimal tezlik: 110 km/soat",
-          rangePerCharge: "Bir zaryadda yurish masofasi: 300 km",
-          batterySwapTime: "Batareya almashtirish vaqti: 1 daqiqa",
-          features: {
-            title: "Xususiyatlar",
-            climateControl: "Zonali iqlim nazorati",
-            navigation: "Marshrutni optimallashtirish bilan integratsiyalashgan navigatsiya",
-            camera: "Avtoturargoh yordamchisi bilan to'liq ko'rish kamerasi tizimi",
-          },
-          learnMore: "Batafsil",
-        },
-        en: {
-          name: "Pony",
-          description: "Electric compact car for comfortable city trips.",
-          dimensions: "Length: 2.0m | Width: 1.2m | Height: 1.5m",
-          cargoVolume: "Cargo Volume: 12.0m³",
-          maxPayload: "Maximum Payload: 2,500kg",
-          maxSpeed: "Maximum Speed: 110 km/h",
-          rangePerCharge: "Range per Charge: 300 km",
-          batterySwapTime: "Battery Swap Time: 1 minute",
-          features: {
-            title: "Features",
-            climateControl: "Zonal Climate Control",
-            navigation: "Integrated Navigation with Route Optimization",
-            camera: "Surround View Camera System with Parking Assist",
-          },
-          learnMore: "Learn More",
-        },
-      },
-    },
-    {
-      id: "brumby",
-      image: "/images/brumby.png",
-      translations: {
-        ru: {
-          name: "Brumby",
-          description: "Компактный и маневренный электромобиль для городского использования.",
-          dimensions: "Длина: 3.5м | Ширина: 1.6м | Высота: 1.5м",
-          cargoVolume: "Объем груза: 1.0м³",
-          maxPayload: "Макс. полезная нагрузка: 200кг",
-          maxSpeed: "Максимальная скорость: 80 км/ч",
-          rangePerCharge: "Запас хода на одном заряде: 150 км",
-          batterySwapTime: "Время замены батареи: 1 минута",
-          features: {
-            title: "Особенности",
-            climateControl: "Эффективный климат-контроль",
-            navigation: "Интегрированный GPS-навигатор",
-            camera: "Задняя камера для удобной парковки",
-          },
-          learnMore: "Подробнее",
-        },
-        uz: {
-          name: "Brumby",
-          description: "Shahar sharoitida foydalanish uchun ixcham va manevrli elektromobil.",
-          dimensions: "Uzunligi: 3.5m | Kengligi: 1.6m | Balandligi: 1.5m",
-          cargoVolume: "Yuk hajmi: 1.0m³",
-          maxPayload: "Maks. foydali yuk: 200kg",
-          maxSpeed: "Maksimal tezlik: 80 km/soat",
-          rangePerCharge: "Bir zaryadda yurish masofasi: 150 km",
-          batterySwapTime: "Batareya almashtirish vaqti: 1 daqiqa",
-          features: {
-            title: "Xususiyatlar",
-            climateControl: "Samarali iqlim nazorati",
-            navigation: "Integratsiyalashgan GPS-navigator",
-            camera: "Qulay avtoturargoh uchun orqa kamera",
-          },
-          learnMore: "Batafsil",
-        },
-        en: {
-          name: "Brumby",
-          description: "Compact and maneuverable electric vehicle for urban use.",
-          dimensions: "Length: 3.5m | Width: 1.6m | Height: 1.5m",
-          cargoVolume: "Cargo Volume: 1.0m³",
-          maxPayload: "Maximum Payload: 200kg",
-          maxSpeed: "Maximum Speed: 80 km/h",
-          rangePerCharge: "Range per Charge: 150 km",
-          batterySwapTime: "Battery Swap Time: 1 minute",
-          features: {
-            title: "Features",
-            climateControl: "Efficient Climate Control",
-            navigation: "Integrated GPS Navigator",
-            camera: "Rear Camera for Easy Parking",
-          },
-          learnMore: "Learn More",
-        },
-      },
-    },
-    // Add more models here if needed
-  ];
+  const modelsData = getAllModels();
 
   const currentModel = modelsData[currentModelIndex];
 
@@ -819,6 +646,9 @@ export default function HomePage() {
       annualCO2Reduction: annualCO2Reduction.toFixed(1),
       fiveYearTotalSavings: fiveYearSavings.toFixed(0),
       estimatedROIPeriod: estimatedROIPeriod.toFixed(1),
+      fuelCost: (totalAnnualFuelCost / 12).toFixed(0),
+      electricCost: (totalAnnualElectricCost / 12).toFixed(0),
+      savings: monthlySavings.toFixed(0),
     }
   }
 
@@ -1479,13 +1309,15 @@ export default function HomePage() {
                 />
               </div>
               <div className="mt-6 text-center transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
-                <Button
-                  size="lg"
-                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 transition-all duration-500 ease-in-out hover:scale-105"
-                >
-                  {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
-                  <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
-                </Button>
+                <Link href={`/models#${currentModel.id}`}>
+                  <Button
+                    size="lg"
+                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 transition-all duration-500 ease-in-out hover:scale-105"
+                  >
+                    {currentModel.translations[language as keyof typeof currentModel.translations].learnMore}
+                    <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-500 ease-in-out group-hover:translate-x-1" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -1585,57 +1417,89 @@ export default function HomePage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.applications_truck.subtitle}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="group relative h-80">
-              <div className="absolute inset-0 "></div>
-              <Card className="relative border-0 shadow-xl h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Truck className="w-8 h-8 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.delivery.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.delivery.description}</p>
-                </CardContent>
-              </Card>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Изображение слева */}
+            <div className="order-2 lg:order-1">
+              <div className="relative">
+                <img
+                  src="/images/ecotruck.jpeg"
+                  alt="EcoTruck"
+                  className="rounded-2xl object-cover w-full h-auto shadow-xl"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+              </div>
             </div>
 
-            <div className="group relative h-80">
-              <div className="absolute inset-0 "></div>
-              <Card className="relative border-0 shadow-xl h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Users className="w-8 h-8 text-green-600" />
+            {/* Информация справа */}
+            <div className="order-1 lg:order-2 space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <Truck className="w-6 h-6 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.services.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.services.description}</p>
-                </CardContent>
-              </Card>
-            </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.delivery.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.delivery.description}</p>
+                </div>
 
-            <div className="group relative h-80">
-              <div className="absolute inset-0 "></div>
-              <Card className="relative border-0 shadow-xl h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <TrendingUp className="w-8 h-8 text-green-600" />
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.trade.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.trade.description}</p>
-                </CardContent>
-              </Card>
-            </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.services.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.services.description}</p>
+                </div>
 
-            <div className="group relative h-80">
-              <div className="absolute inset-0 "></div>
-              <Card className="relative border-0 shadow-xl h-full flex flex-col">
-                <CardContent className="p-8 text-center flex-1 flex flex-col">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Shield className="w-8 h-8 text-green-600" />
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <TrendingUp className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{t.applications_truck.municipal.title}</h3>
-                  <p className="text-gray-600 leading-relaxed flex-1">{t.applications_truck.municipal.description}</p>
-                </CardContent>
-              </Card>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.trade.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.trade.description}</p>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-orange-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{t.applications_truck.municipal.title}</h3>
+                  <p className="text-gray-600 text-sm">{t.applications_truck.municipal.description}</p>
+                </div>
+              </div>
+
+              {/* Дополнительная информация */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  {language === "ru" && "Почему выбирают EcoTruck?"}
+                  {language === "uz" && "Nega EcoTruck tanlanadi?"}
+                  {language === "en" && "Why choose EcoTruck?"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-600 mb-2">1 мин</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Замена батареи"}
+                      {language === "uz" && "Batareya almashtirish"}
+                      {language === "en" && "Battery swap"}
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">200 км</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Запас хода"}
+                      {language === "uz" && "Masofa"}
+                      {language === "en" && "Range"}
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-600 mb-2">1000 кг</div>
+                    <p className="text-sm text-gray-600">
+                      {language === "ru" && "Грузоподъемность"}
+                      {language === "uz" && "Yuk ko'tarish"}
+                      {language === "en" && "Payload"}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1851,199 +1715,84 @@ export default function HomePage() {
             </div>
 
             {/* Feature Cards Grid */}
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-2 hover:-translate-y-3 bg-gradient-to-br from-white to-green-100/60 flex flex-col">
-              <CardContent className="p-8 flex-1 flex flex-col">
-                <div className="w-14 h-14 bg-green-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Leaf className="w-7 h-7 text-green-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.advantages.eco.title}</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6 flex-1">{t.advantages.eco.description}</p>
-                <button
-                  onClick={() => setAdvantageModal("eco")}
-                  className="flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors mt-auto"
-                >
-                  <span>{t.advantages.eco.learnMore}</span>
-                  <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
+              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-green-100/60 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Leaf className="w-6 h-6 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.eco.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.eco.description}</p>
+                  <button
+                    onClick={() => setAdvantageModal("eco")}
+                    className="flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.eco.learnMore}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
 
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-2 hover:-translate-y-3 bg-gradient-to-br from-white to-blue-100/90 flex flex-col">
-              <CardContent className="p-8 flex-1 flex flex-col">
-                <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <DollarSign className="w-7 h-7 text-blue-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.advantages.economy.title}</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6 flex-1">{t.advantages.economy.description}</p>
-                <button
-                  onClick={() => setIsCalculatorModalOpen(true)}
-                  className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto"
-                >
-                  <span>{t.advantages.economy.calculate}</span>
-                  <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </CardContent>
-            </Card>
+              <Card className="group border-0 shadow-xl hover:shadow-2xl bg-gradient-to-br from-white to-blue-100/90 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <DollarSign className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.economy.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.economy.description}</p>
+                  <button
+                    onClick={() => setIsCalculatorModalOpen(true)}
+                    className="flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.economy.calculate}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-span-2 gap-6">
+            <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-yellow-100/60 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Sun className="w-6 h-6 text-yellow-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.solar.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">{t.advantages.solar.description}</p>
+                  <button
+                    onClick={() => setAdvantageModal("solar")}
+                    className="flex items-center text-yellow-600 font-semibold hover:text-yellow-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.solar.learnMore}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
 
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-5 hover:-translate-y-6 bg-gradient-to-br from-white to-yellow-100/60 flex flex-col">
-              <CardContent className="p-8 flex-1 flex flex-col">
-                <div className="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Sun className="w-7 h-7 text-yellow-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.advantages.solar.title}</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6 flex-1">{t.advantages.solar.description}</p>
-                <button
-                  onClick={() => setAdvantageModal("solar")}
-                  className="flex items-center text-yellow-600 font-semibold hover:text-yellow-700 transition-colors mt-auto"
-                >
-                  <span>{t.advantages.solar.learnMore}</span>
-                  <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </CardContent>
-            </Card>
-
-            <Card className="group border-0 shadow-xl hover:shadow-2xl transition-all duration-500 -translate-y-5 hover:-translate-y-6 bg-gradient-to-br from-white to-purple-100/90 flex flex-col">
-              <CardContent className="p-8 flex-1 flex flex-col">
-                <div className="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Shield className="w-7 h-7 text-purple-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t.advantages.reliability.title}</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-6 flex-1">
-                  {t.advantages.reliability.description}
-                </p>
-                <button
-                  onClick={() => setAdvantageModal("battery")}
-                  className="flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors mt-auto"
-                >
-                  <span>{t.advantages.reliability.guarantees}</span>
-                  <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </CardContent>
-            </Card>
+              <Card className="group border-0 shadow-xl hover:shadow-2xl  bg-gradient-to-br from-white to-purple-100/90 flex flex-col">
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Shield className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{t.advantages.reliability.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-1">
+                    {t.advantages.reliability.description}
+                  </p>
+                  <button
+                    onClick={() => setAdvantageModal("battery")}
+                    className="flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors mt-auto text-sm"
+                  >
+                    <span>{t.advantages.reliability.guarantees}</span>
+                    <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Calculator Section */}
-      <section className="py-24 bg-gray-50 relative overflow-hidden"> {/* Изменен фон секции */}
-        {/* Removed the placeholder background image as it's not in the reference image */}
-        <div className="container mx-auto px-4 relative">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{t.calculator.title}</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.calculator.subtitle}</p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl items-center"> {/* Общая структура двух колонок */}
-              {/* Input Your Details (Left Column) */}
-              <Card className="border-0 shadow-none bg-transparent">
-                <CardContent className="p-0 space-y-6"> {/* Added space-y for consistent spacing */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.calculator.inputDetails}</h3> {/* Adjusted mb */}
-                  <div className="space-y-6">
-                    {/* Fleet Size */}
-                    <div className="space-y-2">
-                      <Label htmlFor="fleet-size" className="text-lg font-medium">{t.calculator.fleetSize}</Label>
-                      <Input
-                        id="fleet-size"
-                        type="number"
-                        min="1"
-                        value={calculatorData.fleetSize}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, fleetSize: Number(e.target.value) })}
-                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
-                      />
-                    </div>
-
-                    {/* Average Daily Distance */}
-                    <div className="space-y-2">
-                      <Label htmlFor="average-daily-distance" className="text-lg font-medium">{t.calculator.averageDailyDistance}</Label>
-                      <Input
-                        id="average-daily-distance"
-                        type="number"
-                        min="10"
-                        value={calculatorData.averageDailyDistance}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, averageDailyDistance: Number(e.target.value) })}
-                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
-                      />
-                    </div>
-
-                    {/* Operating Days per Week */}
-                    <div className="space-y-2">
-                      <Label htmlFor="operating-days" className="text-lg font-medium">{t.calculator.operatingDaysPerWeek}</Label>
-                      <Input
-                        id="operating-days"
-                        type="number"
-                        min="1"
-                        max="7"
-                        value={calculatorData.operatingDaysPerWeek}
-                        onChange={(e) => setCalculatorData({ ...calculatorData, operatingDaysPerWeek: Number(e.target.value) })}
-                        className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500" // Styled input
-                      />
-                    </div>
-
-                    {/* Current Vehicle Type */}
-                    <div className="space-y-2">
-                      <Label className="text-lg font-medium">{t.calculator.currentVehicleType}</Label> {/* Removed mb-3, space-y will handle it */}
-                      <RadioGroup
-                        defaultValue="diesel"
-                        value={calculatorData.vehicleType}
-                        onValueChange={(value) => setCalculatorData({ ...calculatorData, vehicleType: value as 'diesel' | 'gasoline' })}
-                        className="flex space-x-6"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="diesel" id="diesel" />
-                          <Label htmlFor="diesel">{t.calculator.diesel}</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="gasoline" id="gasoline" />
-                          <Label htmlFor="gasoline">{t.calculator.gasoline}</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Your Estimated Savings (Right Column) */}
-              <Card className="border-0 shadow-none bg-transparent pt-8 lg:pt-0 border-l lg:border-l-gray-200 lg:pl-12"> {/* Добавлен разделитель для десктопа */}
-                <CardContent className="p-0 space-y-6"> {/* Added space-y for consistent spacing */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-8">{t.calculator.estimatedSavings}</h3>
-                  <div className="space-y-6"> {/* Adjusted space-y to match image */}
-                    {/* Monthly Fuel/Energy Cost Savings */}
-                    <div>
-                      <p className="text-gray-500 text-sm mb-1">{t.calculator.monthlyFuelEnergyCostSavings}</p> {/* Adjusted text size */}
-                      <div className="text-4xl font-bold text-green-600">${savings.monthlyFuelEnergyCostSavings}</div>
-                    </div>
-
-                    {/* Annual CO2 Reduction */}
-                    <div>
-                      <p className="text-gray-500 text-sm mb-1">{t.calculator.annualCO2Reduction}</p> {/* Adjusted text size */}
-                      <div className="text-4xl font-bold text-gray-900">{savings.annualCO2Reduction} {t.calculator.tons}</div>
-                    </div>
-
-                    {/* 5-Year Total Savings */}
-                    <div>
-                      <p className="text-gray-500 text-sm mb-1">{t.calculator.fiveYearTotalSavings}</p> {/* Adjusted text size */}
-                      <div className="text-4xl font-bold text-green-600">${savings.fiveYearTotalSavings}</div>
-                    </div>
-
-                    {/* Estimated ROI Period */}
-                    <div>
-                      <p className="text-gray-500 text-sm mb-1">{t.calculator.estimatedROIPeriod}</p> {/* Adjusted text size */}
-                      <div className="text-4xl font-bold text-gray-900">{savings.estimatedROIPeriod} {t.calculator.years}</div>
-                    </div>
-
-                    <p className="text-xs text-gray-500 mt-8">{t.calculator.calculationDisclaimer}</p> {/* Adjusted text size */}
-
-                    {/* <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50 mt-6 py-3 rounded-md">
-                      {t.calculator.downloadDetailedReport}
-                    </Button> */}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CalculatorComponent></CalculatorComponent>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600">
@@ -2052,9 +1801,11 @@ export default function HomePage() {
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{t.cta.title}</h2>
             <p className="text-xl text-green-100 mb-8">{t.cta.subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href='/contacts'>
               <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
-                <Link href='/contacts'>{t.cta.orderButton}</Link>
+                {t.cta.orderButton}
               </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -2090,118 +1841,180 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Calculator Modal - Removed */}
-      {/* {isCalculatorModalOpen && (
+      {/* Calculator Modal  */}
+      {isCalculatorModalOpen && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-white flex items-center justify-center z-50 p-4"
           onClick={() => setIsCalculatorModalOpen(false)}
         >
           <div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">{t.calculator.title}</h2>
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900">{t.calculator.title}</h2>
+                  <p className="text-gray-600 mt-2">{t.calculator.subtitle}</p>
+                </div>
                 <button
                   onClick={() => setIsCalculatorModalOpen(false)}
-                  className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+                  className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                 >
-                  <X className="w-4 h-4 text-gray-600" />
+                  <X className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="modal-distance" className="text-lg font-medium">
-                      {t.calculator.dailyDistance}: {calculatorData.averageDailyDistance} км
-                    </Label>
-                    <Input
-                      id="modal-distance"
-                      type="range"
-                      min="50"
-                      max="300"
-                      value={calculatorData.averageDailyDistance}
-                      onChange={(e) => setCalculatorData({ ...calculatorData, averageDailyDistance: Number(e.target.value) })}
-                      className="w-full"
-                    />
-                  </div>
+              <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl">
+                {/* Input Your Details (Left Column) */}
+                <Card className="border-0 shadow-none bg-white">
+                  <CardContent className="p-6 space-y-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.calculator.inputDetails}</h3>
+                    <div className="space-y-6">
+                      {/* Fleet Size */}
+                      <div className="space-y-2">
+                        <Label htmlFor="modal-fleet-size" className="text-lg font-medium">{t.calculator.fleetSize}</Label>
+                        <Input
+                          id="modal-fleet-size"
+                          type="number"
+                          min="1"
+                          value={calculatorData.fleetSize}
+                          onChange={(e) => setCalculatorData({ ...calculatorData, fleetSize: Number(e.target.value) })}
+                          className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                        />
+                      </div>
 
-                  <div className="space-y-3">
-                    <Label htmlFor="modal-fuel-price" className="text-lg font-medium">
-                      {t.calculator.fuelPrice}: ${calculatorData.fuelPrice}/л
-                    </Label>
-                    <Input
-                      id="modal-fuel-price"
-                      type="range"
-                      min="1"
-                      max="3"
-                      step="0.1"
-                      value={calculatorData.fuelPrice}
-                      onChange={(e) => setCalculatorData({ ...calculatorData, fuelPrice: Number(e.target.value) })}
-                      className="w-full"
-                    />
-                  </div>
+                      {/* Average Daily Distance */}
+                      <div className="space-y-2">
+                        <Label htmlFor="modal-average-daily-distance" className="text-lg font-medium">{t.calculator.averageDailyDistance}</Label>
+                        <Input
+                          id="modal-average-daily-distance"
+                          type="number"
+                          min="10"
+                          value={calculatorData.averageDailyDistance}
+                          onChange={(e) => setCalculatorData({ ...calculatorData, averageDailyDistance: Number(e.target.value) })}
+                          className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                        />
+                      </div>
 
-                  <div className="space-y-3">
-                    <Label htmlFor="modal-electric-price" className="text-lg font-medium">
-                      {t.calculator.electricityPrice}: ${calculatorData.electricityPrice}/кВт·ч
-                    </Label>
-                    <Input
-                      id="modal-electric-price"
-                      type="range"
-                      min="0.05"
-                      max="0.3"
-                      step="0.01"
-                      value={calculatorData.electricityPrice}
-                      onChange={(e) =>
-                        setCalculatorData({ ...calculatorData, electricityPrice: Number(e.target.value) })
-                      }
-                      className="w-full"
-                    />
-                  </div>
-                </div>
+                      {/* Operating Days per Week */}
+                      <div className="space-y-2">
+                        <Label htmlFor="modal-operating-days" className="text-lg font-medium">{t.calculator.operatingDaysPerWeek}</Label>
+                        <Input
+                          id="modal-operating-days"
+                          type="number"
+                          min="1"
+                          max="7"
+                          value={calculatorData.operatingDaysPerWeek}
+                          onChange={(e) => setCalculatorData({ ...calculatorData, operatingDaysPerWeek: Number(e.target.value) })}
+                          className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                        />
+                      </div>
 
-                <div className="space-y-6">
-                  <div className="bg-red-50 p-6 rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-red-700 font-medium">{t.calculator.regularCar}</span>
-                      <Truck className="w-6 h-6 text-red-600" />
+                      {/* Current Vehicle Type */}
+                      <div className="space-y-2">
+                        <Label className="text-lg font-medium">{t.calculator.currentVehicleType}</Label>
+                        <RadioGroup
+                          defaultValue="diesel"
+                          value={calculatorData.vehicleType}
+                          onValueChange={(value) => setCalculatorData({ ...calculatorData, vehicleType: value as 'diesel' | 'gasoline' })}
+                          className="flex space-x-6"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="diesel" id="modal-diesel" />
+                            <Label htmlFor="modal-diesel">{t.calculator.diesel}</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="gasoline" id="modal-gasoline" />
+                            <Label htmlFor="modal-gasoline">{t.calculator.gasoline}</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
+                      {/* Fuel Price */}
+                      <div className="space-y-2">
+                        <Label htmlFor="modal-fuel-price" className="text-lg font-medium">
+                          {t.calculator.fuelPrice}: ${calculatorData.vehicleType === 'diesel' ? calculatorData.dieselPrice : calculatorData.gasolinePrice}/л
+                        </Label>
+                        <Input
+                          id="modal-fuel-price"
+                          type="number"
+                          min="0.5"
+                          max="5"
+                          step="0.1"
+                          value={calculatorData.vehicleType === 'diesel' ? calculatorData.dieselPrice : calculatorData.gasolinePrice}
+                          onChange={(e) => {
+                            const value = Number(e.target.value);
+                            if (calculatorData.vehicleType === 'diesel') {
+                              setCalculatorData({ ...calculatorData, dieselPrice: value });
+                            } else {
+                              setCalculatorData({ ...calculatorData, gasolinePrice: value });
+                            }
+                          }}
+                          className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                        />
+                      </div>
+
+                      {/* Electricity Price */}
+                      <div className="space-y-2">
+                        <Label htmlFor="modal-electric-price" className="text-lg font-medium">
+                          {t.calculator.electricityPrice}: ${calculatorData.electricityPrice}/кВт·ч
+                        </Label>
+                        <Input
+                          id="modal-electric-price"
+                          type="number"
+                          min="0.05"
+                          max="0.5"
+                          step="0.01"
+                          value={calculatorData.electricityPrice}
+                          onChange={(e) =>
+                            setCalculatorData({ ...calculatorData, electricityPrice: Number(e.target.value) })
+                          }
+                          className="w-full border-gray-300 rounded-md focus:border-green-500 focus:ring-green-500"
+                        />
+                      </div>
                     </div>
-                    <div className="text-3xl font-bold text-red-700 mb-1">${savings.fuelCost}</div>
-                    <p className="text-sm text-red-600">{t.calculator.monthlyExpenses}</p>
-                  </div>
+                  </CardContent>
+                </Card>
 
-                  <div className="bg-green-50 p-6 rounded-xl">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-green-700 font-medium">{t.calculator.ecoMobile}</span>
-                      <Battery className="w-6 h-6 text-green-600" />
-                    </div>
-                    <div className="text-3xl font-bold text-green-700 mb-1">${savings.electricCost}</div>
-                    <p className="text-sm text-green-600">{t.calculator.monthlyExpenses}</p>
-                  </div>
+                {/* Your Estimated Savings (Right Column) */}
+                <Card className="border-0 shadow-none bg-white pt-8 lg:pt-0 border-l lg:border-l-gray-200 lg:pl-12">
+                  <CardContent className="p-6 space-y-6">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-8">{t.calculator.estimatedSavings}</h3>
+                    <div className="space-y-6">
+                      {/* Monthly Fuel/Energy Cost Savings */}
+                      <div>
+                        <p className="text-gray-500 text-sm mb-1">{t.calculator.monthlyFuelEnergyCostSavings}</p>
+                        <div className="text-4xl font-bold text-green-600">${savings.monthlyFuelEnergyCostSavings}</div>
+                      </div>
 
-                  <div className="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-blue-700 font-bold">{t.calculator.yourSavings}</span>
-                      <TrendingUp className="w-6 h-6 text-blue-600" />
+                      {/* Annual CO2 Reduction */}
+                      <div>
+                        <p className="text-gray-500 text-sm mb-1">{t.calculator.annualCO2Reduction}</p>
+                        <div className="text-4xl font-bold text-gray-900">{savings.annualCO2Reduction} {t.calculator.tons}</div>
+                      </div>
+
+                      {/* 5-Year Total Savings */}
+                      <div>
+                        <p className="text-gray-500 text-sm mb-1">{t.calculator.fiveYearTotalSavings}</p>
+                        <div className="text-4xl font-bold text-green-600">${savings.fiveYearTotalSavings}</div>
+                      </div>
+
+                      {/* Estimated ROI Period */}
+                      <div>
+                        <p className="text-gray-500 text-sm mb-1">{t.calculator.estimatedROIPeriod}</p>
+                        <div className="text-4xl font-bold text-gray-900">{savings.estimatedROIPeriod} {t.calculator.years}</div>
+                      </div>
+
+                      <p className="text-xs text-gray-500 mt-8">{t.calculator.calculationDisclaimer}</p>
                     </div>
-                    <div className="text-4xl font-bold text-blue-700 mb-1">${savings.savings}</div>
-                    <p className="text-sm text-blue-600 mb-3">{t.calculator.everyMonth}</p>
-                    <div className="pt-3 border-t border-blue-200">
-                      <p className="text-blue-600">
-                        {t.calculator.perYear}:{" "}
-                        <span className="font-bold">${(Number(savings.savings) * 12).toFixed(0)}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   )
 }

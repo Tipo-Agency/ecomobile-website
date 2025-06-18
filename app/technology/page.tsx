@@ -24,6 +24,7 @@ import {
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
+import Link from "next/link"
 
 export default function TechnologyPage() {
   const { language } = useLanguage()
@@ -36,11 +37,11 @@ export default function TechnologyPage() {
   const translations = {
     ru: {
       hero: {
-        badge: "Технология CATL EVOGO",
+        badge: "Технология",
         title: "Революционная технология",
         titleHighlight: "быстрой замены батарей",
         description:
-          "Инновационная система CATL EVOGO позволяет заменить батарею за 1 минуту, обеспечивая непрерывную работу вашего бизнеса",
+          "Инновационная система быстрой замены батареи позволяет заменить батарею за 1 минуту, обеспечивая непрерывную работу вашего бизнеса",
         watchDemo: "Смотреть демо",
         learnMore: "Подробнее",
       },
@@ -70,7 +71,7 @@ export default function TechnologyPage() {
       },
       features: {
         title: "Ключевые особенности",
-        subtitle: "Технологии, которые делают EcoMobile уникальным",
+        subtitle: "Технологии, которые делают Ecomobile уникальным",
         modular: {
           title: "Модульная система",
           description: "Две съемные батареи обеспечивают гибкость и надежность",
@@ -97,11 +98,11 @@ export default function TechnologyPage() {
         },
       },
       innovation: {
-        title: "Инновации CATL",
+        title: "Инновации",
         subtitle: "Партнерство с мировым лидером батарейных технологий",
         description:
-          "CATL - крупнейший производитель литий-ионных батарей в мире, поставщик Tesla, BMW, Volkswagen и других ведущих автопроизводителей.",
-        achievements: "Достижения CATL",
+          "",
+        achievements: "Достижения",
         patents: "Патентов",
         factories: "Заводов по всему миру",
         capacity: "ГВт·ч производственных мощностей",
@@ -110,11 +111,11 @@ export default function TechnologyPage() {
     },
     uz: {
       hero: {
-        badge: "CATL EVOGO texnologiyasi",
+        badge: "Texnologiya",
         title: "Inqilobiy texnologiya",
         titleHighlight: "batareyani tez almashtirish",
         description:
-          "CATL EVOGO innovatsion tizimi batareyani 1 daqiqada almashtirish imkonini beradi va biznesingizning uzluksiz ishlashini ta'minlaydi",
+          "Innovatsion tizim batareyani 1 daqiqada almashtirish imkonini beradi va biznesingizning uzluksiz ishlashini ta'minlaydi",
         watchDemo: "Demo ko'rish",
         learnMore: "Batafsil",
       },
@@ -144,7 +145,7 @@ export default function TechnologyPage() {
       },
       features: {
         title: "Asosiy xususiyatlar",
-        subtitle: "EcoMobile'ni noyob qiladigan texnologiyalar",
+        subtitle: "Ecomobile'ni noyob qiladigan texnologiyalar",
         modular: {
           title: "Modulli tizim",
           description: "Ikki olinadigan batareya moslashuvchanlik va ishonchlilikni ta'minlaydi",
@@ -171,11 +172,11 @@ export default function TechnologyPage() {
         },
       },
       innovation: {
-        title: "CATL innovatsiyalari",
+        title: "Innovatsiyalar",
         subtitle: "Batareya texnologiyalari bo'yicha jahon lideri bilan hamkorlik",
         description:
-          "CATL - dunyodagi eng yirik litiy-ion batareya ishlab chiqaruvchisi, Tesla, BMW, Volkswagen va boshqa yetakchi avtomobil ishlab chiqaruvchilarning yetkazib beruvchisi.",
-        achievements: "CATL yutuqlari",
+          "",
+        achievements: "Yutuqlar",
         patents: "Patentlar",
         factories: "Butun dunyo bo'ylab zavodlar",
         capacity: "GVt·soat ishlab chiqarish quvvati",
@@ -184,11 +185,11 @@ export default function TechnologyPage() {
     },
     en: {
       hero: {
-        badge: "CATL EVOGO Technology",
+        badge: "Technology",
         title: "Revolutionary technology",
         titleHighlight: "of fast battery swapping",
         description:
-          "Innovative CATL EVOGO system allows battery replacement in 1 minute, ensuring continuous operation of your business",
+          "Innovative system allows battery replacement in 1 minute, ensuring continuous operation of your business",
         watchDemo: "Watch Demo",
         learnMore: "Learn More",
       },
@@ -218,7 +219,7 @@ export default function TechnologyPage() {
       },
       features: {
         title: "Key Features",
-        subtitle: "Technologies that make EcoMobile unique",
+        subtitle: "Technologies that make Ecomobile unique",
         modular: {
           title: "Modular System",
           description: "Two removable batteries provide flexibility and reliability",
@@ -245,11 +246,11 @@ export default function TechnologyPage() {
         },
       },
       innovation: {
-        title: "CATL Innovations",
+        title: "Innovations",
         subtitle: "Partnership with the world leader in battery technologies",
         description:
-          "CATL is the world's largest lithium-ion battery manufacturer, supplier to Tesla, BMW, Volkswagen and other leading automakers.",
-        achievements: "CATL Achievements",
+          "",
+        achievements: "Achievements",
         patents: "Patents",
         factories: "Factories worldwide",
         capacity: "GWh production capacity",
@@ -356,14 +357,15 @@ export default function TechnologyPage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
+                <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=kF_4zug_rfM">
                 <Button
                   size="lg"
-                  onClick={() => document.getElementById("swap-demo")?.scrollIntoView({ behavior: "smooth" })}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
                 >
                   <Play className="mr-2 w-5 h-5" />
                   {t.hero.watchDemo}
                 </Button>
+                </a>
               </div>
             </div>
 
@@ -688,7 +690,7 @@ export default function TechnologyPage() {
                       <div className="w-32 h-32 bg-white/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
                         <Cloud className="w-16 h-16 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">CATL</h3>
+                      {/* <h3 className="text-2xl font-bold text-white mb-2">CATL</h3> */}
                       <p className="text-blue-200">
                         {language === "ru" && "Мировой лидер"}
                         {language === "uz" && "Jahon lideri"}
