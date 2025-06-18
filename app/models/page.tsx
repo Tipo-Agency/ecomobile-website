@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -12,7 +12,8 @@ import { getAllModels, getModelById, type ModelData } from "@/lib/models-data"
 import Link from "next/link"
 import { useSearchParams } from 'next/navigation'
 
-export default function ModelsPage() {
+// Компонент для работы с search params
+function ModelsPageContent() {
   const { language } = useLanguage()
   const searchParams = useSearchParams()
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
@@ -234,219 +235,98 @@ export default function ModelsPage() {
               <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 hover:opacity-100 transition-opacity">
                 <button
                   onClick={handlePrevModel}
-                  className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                  className="bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
                 >
                   <ArrowLeft className="w-6 h-6 text-gray-700" />
                 </button>
                 <button
                   onClick={handleNextModel}
-                  className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
+                  className="bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
                 >
                   <ArrowRight className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
             </div>
 
-            {/* Model Information */}
+            {/* Model Info */}
             <div className="space-y-8">
-              <div className="space-y-4">
-                <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                  {currentTranslation.name}
-                </Badge>
-                <h2 className="text-4xl font-bold text-gray-900">{currentTranslation.name}</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">{currentTranslation.description}</p>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-green-50 rounded-xl">
-                  <div className="text-2xl font-bold text-green-600">
-                    {currentTranslation.maxSpeed.split(':')[1].trim()}
+              <div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">{currentTranslation.name}</h2>
+                <p className="text-xl text-gray-600 mb-6">{currentTranslation.description}</p>
+                
+                {/* Quick Stats */}
+                <div className="grid grid-cols-3 gap-4 mb-8">
+                  <div className="text-center p-4 bg-green-50 rounded-lg">
+                    <Battery className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.batterySwapTime.split(':')[1].trim()}</div>
+                    <div className="text-sm text-gray-600">Батарея</div>
                   </div>
-                  <div className="text-sm text-green-700">
-                    {language === "ru" && "Макс. скорость"}
-                    {language === "uz" && "Maks. tezlik"}
-                    {language === "en" && "Max Speed"}
+                  <div className="text-center p-4 bg-blue-50 rounded-lg">
+                    <Route className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.rangePerCharge.split(':')[1].trim()}</div>
+                    <div className="text-sm text-gray-600">Запас хода</div>
                   </div>
-                </div>
-                <div className="text-center p-4 bg-blue-50 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-600">
-                    {currentTranslation.rangePerCharge.split(':')[1].trim()}
-                  </div>
-                  <div className="text-sm text-blue-700">
-                    {language === "ru" && "Запас хода"}
-                    {language === "uz" && "Masofa"}
-                    {language === "en" && "Range"}
-                  </div>
-                </div>
-                <div className="text-center p-4 bg-purple-50 rounded-xl">
-                  <div className="text-2xl font-bold text-purple-600">
-                    {currentTranslation.maxPayload.split(':')[1].trim()}
-                  </div>
-                  <div className="text-sm text-purple-700">
-                    {language === "ru" && "Грузоподъемность"}
-                    {language === "uz" && "Yuk ko'tarish"}
-                    {language === "en" && "Payload"}
+                  <div className="text-center p-4 bg-purple-50 rounded-lg">
+                    <Package className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.maxSpeed.split(':')[1].trim()}</div>
+                    <div className="text-sm text-gray-600">Скорость</div>
                   </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href={`/buy?model=${currentModel.id}`}>
-                  <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
-                    {language === "ru" && "Купить"}
-                    {language === "uz" && "Sotib olish"}
-                    {language === "en" && "Buy"}
-                    <ChevronRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <Link href="/contacts">
-                  <Button variant="outline" size="lg" className="px-8 py-3">
-                    {language === "ru" && "Связаться с нами"}
-                    {language === "uz" && "Biz bilan bog'laning"}
-                    {language === "en" && "Contact Us"}
-                  </Button>
-                </Link>
-              </div>
+              {/* Specifications */}
+              <Card className="border-0 shadow-xl bg-white rounded-xl">
+                <CardContent className="p-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.specifications}</h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Размеры</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.dimensions}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Объем груза</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.cargoVolume}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Грузоподъемность</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.maxPayload}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Максимальная скорость</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.maxSpeed}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Запас хода</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.rangePerCharge}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-gray-600">Время замены батареи</span>
+                      <span className="font-medium text-gray-900">{currentTranslation.batterySwapTime}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-0 shadow-xl bg-white rounded-xl">
+                <CardContent className="p-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.features}</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-700">{currentTranslation.features.climateControl}</span>
+                    </div>
+                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-700">{currentTranslation.features.navigation}</span>
+                    </div>
+                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-700">{currentTranslation.features.camera}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Specifications Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.specifications}</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <Package className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Размеры"}
-                  {language === "uz" && "O'lchamlar"}
-                  {language === "en" && "Dimensions"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.dimensions}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Battery className="w-6 h-6 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Батарея"}
-                  {language === "uz" && "Batareya"}
-                  {language === "en" && "Battery"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.batterySwapTime}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <Route className="w-6 h-6 text-purple-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Запас хода"}
-                  {language === "uz" && "Masofa"}
-                  {language === "en" && "Range"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.rangePerCharge}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <Package className="w-6 h-6 text-orange-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Объем груза"}
-                  {language === "uz" && "Yuk hajmi"}
-                  {language === "en" && "Cargo Volume"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.cargoVolume}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                  <Package className="w-6 h-6 text-red-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Грузоподъемность"}
-                  {language === "uz" && "Yuk ko'tarish"}
-                  {language === "en" && "Payload"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.maxPayload}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6">
-                <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                  <Route className="w-6 h-6 text-indigo-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === "ru" && "Максимальная скорость"}
-                  {language === "uz" && "Maksimal tezlik"}
-                  {language === "en" && "Max Speed"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.maxSpeed}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Battery className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {language === "ru" && "Климат-контроль"}
-                  {language === "uz" && "Iqlim nazorati"}
-                  {language === "en" && "Climate Control"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.features.climateControl}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Route className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {language === "ru" && "Навигация"}
-                  {language === "uz" && "Navigatsiya"}
-                  {language === "en" && "Navigation"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.features.navigation}</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-xl bg-white rounded-xl">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Package className="w-8 h-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {language === "ru" && "Камеры"}
-                  {language === "uz" && "Kamerlar"}
-                  {language === "en" && "Cameras"}
-                </h3>
-                <p className="text-gray-600">{currentTranslation.features.camera}</p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </section>
@@ -467,7 +347,33 @@ export default function ModelsPage() {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
+  )
+}
+
+// Fallback компонент для Suspense
+function ModelsPageFallback() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Header />
+      <div className="container mx-auto px-4 py-20 text-center">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  )
+}
+
+// Основной компонент страницы с Suspense
+export default function ModelsPage() {
+  return (
+    <Suspense fallback={<ModelsPageFallback />}>
+      <ModelsPageContent />
+    </Suspense>
   )
 } 
