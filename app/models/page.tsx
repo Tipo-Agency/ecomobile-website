@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Battery, Route, Package, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react"
+import { Battery, Route, Package, ChevronRight, ArrowLeft, ArrowRight, Snowflake, MapPin, Camera } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
@@ -64,7 +64,7 @@ function ModelsPageContent() {
         title: "Нужна помощь с выбором модели?",
         subtitle: "Мы вам поможем! Свяжитесь с нами",
         contactButton: "Связаться",
-       },
+      },
     },
     uz: {
       badge: "Modellar",
@@ -82,7 +82,7 @@ function ModelsPageContent() {
         title: "Model tanlovida yordam kerakmi?",
         subtitle: "Biz sizga yordam beramiz! Biz bilan bog'laning",
         contactButton: "Bog'lanish",
-       },
+      },
     },
     en: {
       badge: "Models",
@@ -100,7 +100,7 @@ function ModelsPageContent() {
         title: "Need help choosing a model?",
         subtitle: "We will help you! Contact us",
         contactButton: "Contact",
-       },
+      },
     },
   }
 
@@ -186,11 +186,10 @@ function ModelsPageContent() {
             {modelsData.map((model) => {
               const translation = model.translations[language as keyof typeof model.translations]
               return (
-                <Card 
-                  key={model.id} 
-                  className={`border-0 shadow-xl bg-white rounded-xl cursor-pointer transition-all duration-300 hover:shadow-2xl ${
-                    selectedModelId === model.id ? 'ring-2 ring-green-500' : ''
-                  }`}
+                <Card
+                  key={model.id}
+                  className={`border-0 shadow-xl bg-white rounded-xl cursor-pointer transition-all duration-300 hover:shadow-2xl ${selectedModelId === model.id ? 'ring-2 ring-green-500' : ''
+                    }`}
                   onClick={() => handleModelSelect(model.id)}
                 >
                   <CardContent className="p-6">
@@ -220,116 +219,111 @@ function ModelsPageContent() {
       {/* Model Details Section */}
       <section className="py-24 bg-white" id="model">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Model Image */}
-            <div className="relative">
-              <div className="aspect-video rounded-2xl overflow-hidden ">
-                <img
-                  src={currentModel.image}
-                  alt={currentTranslation.name}
-                  className="rounded-2xl object-cover w-full h-full"
-                />
-              </div>
-              
-              {/* Navigation Arrows */}
-              <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 hover:opacity-100 transition-opacity">
-                <button
-                  onClick={handlePrevModel}
-                  className="bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
-                >
-                  <ArrowLeft className="w-6 h-6 text-gray-700" />
-                </button>
-                <button
-                  onClick={handleNextModel}
-                  className="bg-white/90 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300"
-                >
-                  <ArrowRight className="w-6 h-6 text-gray-700" />
-                </button>
-              </div>
+          <div className="flex flex-col lg:flex-row items-start gap-12">
+            {/* Model Image и Технические характеристики */}
+            <div className="w-full lg:w-1/2 flex flex-col items-center">
+              <img
+                src={currentModel.image}
+                alt={currentTranslation.name}
+                className="max-w-full h-auto rounded-2xl bg-white mb-8"
+                style={{ maxHeight: 320 }}
+              />
+
             </div>
 
-            {/* Model Info */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">{currentTranslation.name}</h2>
-                <p className="text-xl text-gray-600 mb-6">{currentTranslation.description}</p>
-                
-                {/* Quick Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-8">
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <Battery className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.batterySwapTime.split(':')[1].trim()}</div>
-                    <div className="text-sm text-gray-600">Батарея</div>
+            {/* Model Info и Особенности */}
+            <div className="w-full lg:w-1/2 flex flex-col items-start justify-center">
+              <Badge className="bg-green-50 text-green-700 mb-4 px-4 py-2 text-base font-semibold rounded-full">
+                {currentTranslation.name}
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">{currentTranslation.name}</h2>
+              <p className="text-base md:text-lg text-gray-600 mb-8">{currentTranslation.description}</p>
+
+              {/* Характеристики */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full mb-8">
+                <div className="flex-1 bg-green-50 rounded-xl p-4 md:p-6 flex flex-col items-center justify-center min-w-[120px] md:min-w-[140px]">
+                  <span className="text-xl md:text-2xl font-bold text-green-700 mb-1">{currentTranslation.maxSpeed.split(':')[1].trim()}</span>
+                  <span className="text-xs md:text-sm text-green-700">Макс. скорость</span>
+                </div>
+                <div className="flex-1 bg-blue-50 rounded-xl p-4 md:p-6 flex flex-col items-center justify-center min-w-[120px] md:min-w-[140px]">
+                  <span className="text-xl md:text-2xl font-bold text-blue-700 mb-1">{currentTranslation.rangePerCharge.split(':')[1].trim()}</span>
+                  <span className="text-xs md:text-sm text-blue-700">Запас хода</span>
+                </div>
+                <div className="flex-1 bg-purple-50 rounded-xl p-4 md:p-6 flex flex-col items-center justify-center min-w-[120px] md:min-w-[140px]">
+                  <span className="text-xl md:text-2xl font-bold text-purple-700 mb-1">{currentTranslation.maxPayload.split(':')[1].trim()}</span>
+                  <span className="text-xs md:text-sm text-purple-700">Грузоподъемность</span>
+                </div>
+              </div>
+
+              {/* Кнопки */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full mb-8">
+                <Link href={`/buy?model=${currentModel.id}`} className="flex-1">
+                  <Button size="lg" className="w-full bg-green-600 hover:bg-green-700 text-white text-base md:text-lg font-semibold flex items-center justify-center">
+                    Купить <ChevronRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/contacts" className="flex-1">
+                  <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold flex items-center justify-center">
+                    Связаться с нами
+                  </Button>
+                </Link>
+              </div>
+
+
+
+            </div>
+
+          </div>
+          <div className="bg-white rounded-2xl shadow-xl px-6 py-6 md:px-8 md:py-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Технические характеристики */}
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">{t.specifications}</h3>
+                <div className="space-y-3 md:space-y-4">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.dimensions}</span>
                   </div>
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <Route className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.rangePerCharge.split(':')[1].trim()}</div>
-                    <div className="text-sm text-gray-600">Запас хода</div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.cargoVolume}</span>
                   </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <Package className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900">{currentTranslation.maxSpeed.split(':')[1].trim()}</div>
-                    <div className="text-sm text-gray-600">Скорость</div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.maxPayload}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.maxSpeed}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.rangePerCharge}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.batterySwapTime}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Specifications */}
-              <Card className="border-0 shadow-xl bg-white rounded-xl">
-                <CardContent className="p-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.specifications}</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Размеры</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.dimensions}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Объем груза</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.cargoVolume}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Грузоподъемность</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.maxPayload}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Максимальная скорость</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.maxSpeed}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Запас хода</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.rangePerCharge}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-gray-600">Время замены батареи</span>
-                      <span className="font-medium text-gray-900">{currentTranslation.batterySwapTime}</span>
-                    </div>
+              {/* Особенности */}
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-xl text-center md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">{t.features}</h3>
+                <div className="grid md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <Snowflake className="w-7 md:w-9 md:h-7 text-green-600" />
+                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.climateControl}</span>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-xl bg-white rounded-xl">
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.features}</h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-700">{currentTranslation.features.climateControl}</span>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-700">{currentTranslation.features.navigation}</span>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-gray-700">{currentTranslation.features.camera}</span>
-                    </div>
+                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <MapPin className="w-7 md:w-9 md:h-10 lg:w-16 text-blue-600" />
+                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.navigation}</span>
                   </div>
-                </CardContent>
-              </Card>
+                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                    <Camera className="w-7 md:w-9 md:h-10 lg:w-16 text-purple-600" />
+                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.camera}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-600 to-blue-600">
@@ -338,10 +332,10 @@ function ModelsPageContent() {
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{t.cta.title}</h2>
             <p className="text-xl text-green-100 mb-8">{t.cta.subtitle}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href='/contacts'>
-              <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
-                {t.cta.contactButton}
-              </Button>
+              <Link href='/contacts'>
+                <Button variant="outline" size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3">
+                  {t.cta.contactButton}
+                </Button>
               </Link>
             </div>
           </div>
