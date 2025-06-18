@@ -13,9 +13,22 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import YandexMap from "@/components/YandexMap"
+import { sendToTelegram } from "@/lib/telegram-utils"
+import { useState } from "react"
 
 export default function ContactsPage() {
   const { language } = useLanguage()
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    subject: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const translations = {
     ru: {
@@ -76,6 +89,9 @@ export default function ContactsPage() {
         privacyLink: "политикой конфиденциальности",
         submit: "Отправить сообщение",
         required: "*",
+        submitting: "Отправка...",
+        success: "✅ Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.",
+        error: "❌ Ошибка при отправке сообщения. Попробуйте еще раз.",
       },
       map: {
         title: "Как нас найти",
@@ -180,6 +196,9 @@ export default function ContactsPage() {
         privacyLink: "maxfiylik siyosati bilan roziman",
         submit: "Xabar yuborish",
         required: "*",
+        submitting: "Yuborish...",
+        success: "✅ Xabar muvaffaqiyatli yuborildi! Biz siz bilan tez orada bog'lanamiz.",
+        error: "❌ Xabar yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
       },
       map: {
         title: "Bizni qanday topish mumkin",
@@ -284,6 +303,9 @@ export default function ContactsPage() {
         privacyLink: "privacy policy",
         submit: "Send Message",
         required: "*",
+        submitting: "Sending...",
+        success: "✅ Message sent successfully! We'll contact you soon.",
+        error: "❌ Error sending message. Please try again.",
       },
       map: {
         title: "How to Find Us",
@@ -333,6 +355,37 @@ export default function ContactsPage() {
   }
 
   const t = translations[language as keyof typeof translations] || translations.ru
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      const result = await sendToTelegram({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        message: `Тема: ${formData.subject}\n\n${formData.message}`,
+        source: 'Страница контактов'
+      })
+
+      if (result.success) {
+        setSubmitStatus('success')
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', company: '', subject: '', message: '' })
+        setTimeout(() => {
+          setSubmitStatus('idle')
+        }, 3000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -461,80 +514,137 @@ export default function ContactsPage() {
                   </div>
                   <p className="text-gray-600">{t.form.subtitle}</p>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">
-                        {t.form.firstName} {t.form.required}
-                      </Label>
-                      <Input id="firstName" placeholder={t.form.firstName} required />
+                <CardContent>
+                  <form onSubmit={handleFormSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="firstName">
+                          {t.form.firstName} {t.form.required}
+                        </Label>
+                        <Input 
+                          id="firstName" 
+                          placeholder={t.form.firstName} 
+                          value={formData.firstName}
+                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                          required 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="lastName">
+                          {t.form.lastName} {t.form.required}
+                        </Label>
+                        <Input 
+                          id="lastName" 
+                          placeholder={t.form.lastName} 
+                          value={formData.lastName}
+                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                          required 
+                        />
+                      </div>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">
-                        {t.form.lastName} {t.form.required}
+                      <Label htmlFor="email">
+                        {t.form.email} {t.form.required}
                       </Label>
-                      <Input id="lastName" placeholder={t.form.lastName} required />
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="your@email.com" 
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required 
+                      />
                     </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="email">
-                      {t.form.email} {t.form.required}
-                    </Label>
-                    <Input id="email" type="email" placeholder="your@email.com" required />
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">{t.form.phone}</Label>
+                      <Input 
+                        id="phone" 
+                        placeholder="+998 90 123 45 67"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">{t.form.phone}</Label>
-                    <Input id="phone" placeholder="+998 90 123 45 67" />
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="company">{t.form.company}</Label>
+                      <Input 
+                        id="company" 
+                        placeholder={t.form.company}
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="company">{t.form.company}</Label>
-                    <Input id="company" placeholder={t.form.company} />
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="subject">
+                        {t.form.subject} {t.form.required}
+                      </Label>
+                      <Select 
+                        value={formData.subject}
+                        onValueChange={(value) => setFormData({ ...formData, subject: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={t.form.subject} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="sales">{t.form.subjects.sales}</SelectItem>
+                          <SelectItem value="partnership">{t.form.subjects.partnership}</SelectItem>
+                          <SelectItem value="investment">{t.form.subjects.investment}</SelectItem>
+                          <SelectItem value="franchise">{t.form.subjects.franchise}</SelectItem>
+                          <SelectItem value="media">{t.form.subjects.media}</SelectItem>
+                          <SelectItem value="support">{t.form.subjects.support}</SelectItem>
+                          <SelectItem value="other">{t.form.subjects.other}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">
-                      {t.form.subject} {t.form.required}
-                    </Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t.form.subject} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sales">{t.form.subjects.sales}</SelectItem>
-                        <SelectItem value="partnership">{t.form.subjects.partnership}</SelectItem>
-                        <SelectItem value="investment">{t.form.subjects.investment}</SelectItem>
-                        <SelectItem value="franchise">{t.form.subjects.franchise}</SelectItem>
-                        <SelectItem value="media">{t.form.subjects.media}</SelectItem>
-                        <SelectItem value="support">{t.form.subjects.support}</SelectItem>
-                        <SelectItem value="other">{t.form.subjects.other}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">
+                        {t.form.message} {t.form.required}
+                      </Label>
+                      <Textarea 
+                        id="message" 
+                        placeholder={t.form.messagePlaceholder} 
+                        rows={5} 
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        required 
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message">
-                      {t.form.message} {t.form.required}
-                    </Label>
-                    <Textarea id="message" placeholder={t.form.messagePlaceholder} rows={5} required />
-                  </div>
+                    <div className="flex items-start space-x-2">
+                      <input type="checkbox" id="privacy" className="mt-1" required />
+                      <label htmlFor="privacy" className="text-sm text-gray-600">
+                        {t.form.privacy}{" "}
+                        <Link href="#" className="text-green-600 hover:underline">
+                          {t.form.privacyLink}
+                        </Link>
+                      </label>
+                    </div>
 
-                  <div className="flex items-start space-x-2">
-                    <input type="checkbox" id="privacy" className="mt-1" required />
-                    <label htmlFor="privacy" className="text-sm text-gray-600">
-                      {t.form.privacy}{" "}
-                      <Link href="#" className="text-green-600 hover:underline">
-                        {t.form.privacyLink}
-                      </Link>
-                    </label>
-                  </div>
+                    {submitStatus === 'success' && (
+                      <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                        {t.form.success}
+                      </div>
+                    )}
+                    
+                    {submitStatus === 'error' && (
+                      <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                        {t.form.error}
+                      </div>
+                    )}
 
-                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
-                    <Send className="w-4 h-4 mr-2" />
-                    {t.form.submit}
-                  </Button>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
+                      disabled={isSubmitting}
+                    >
+                      <Send className="w-4 h-4 mr-2" />
+                      {isSubmitting ? t.form.submitting : t.form.submit}
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
             </div>

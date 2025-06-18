@@ -19,9 +19,19 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
 import Link from "next/link"
+import { sendToTelegram } from "@/lib/telegram-utils"
+import { useState } from "react"
 
 export default function InvestorsPage() {
   const { language } = useLanguage()
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const translations = {
     ru: {
@@ -132,6 +142,9 @@ export default function InvestorsPage() {
         message: "Сообщение",
         placeholder: "Расскажите о ваших инвестиционных интересах...",
         submit: "Отправить запрос",
+        submitting: "Отправка...",
+        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
       },
     },
     uz: {
@@ -245,6 +258,9 @@ export default function InvestorsPage() {
         message: "Xabar",
         placeholder: "Investitsiya qiziqishlaringiz haqida gapirib bering...",
         submit: "So'rov yuborish",
+        submitting: "Yuborish...",
+        success: "✅ So'rov muvaffaqiyatli yuborildi! Biz siz bilan tez orada aloqaga chiqamiz.",
+        error: "❌ So'rov yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
       },
     },
     en: {
@@ -354,11 +370,44 @@ export default function InvestorsPage() {
         message: "Message",
         placeholder: "Tell us about your investment interests...",
         submit: "Send Request",
+        submitting: "Sending...",
+        success: "✅ Request sent successfully! We'll contact you shortly.",
+        error: "❌ Error sending request. Please try again.",
       },
     },
   }
 
   const t = translations[language as keyof typeof translations] || translations.ru
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      const result = await sendToTelegram({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company,
+        message: formData.message,
+        source: 'Страница инвесторов'
+      })
+
+      if (result.success) {
+        setSubmitStatus('success')
+        setFormData({ name: '', email: '', company: '', message: '' })
+        setTimeout(() => {
+          setSubmitStatus('idle')
+        }, 3000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -783,25 +832,69 @@ export default function InvestorsPage() {
                     <DialogTitle>{t.modal.title}</DialogTitle>
                     <DialogDescription>{t.modal.description}</DialogDescription>
                   </DialogHeader>
-                  <div className="space-y-4">
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="meeting-name">{t.modal.name}</Label>
-                      <Input id="meeting-name" placeholder="Ваше имя" />
+                      <Input 
+                        id="meeting-name" 
+                        placeholder="Ваше имя"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="meeting-email">{t.modal.email}</Label>
-                      <Input id="meeting-email" type="email" placeholder="your@email.com" />
+                      <Input 
+                        id="meeting-email" 
+                        type="email" 
+                        placeholder="your@email.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="meeting-company">{t.modal.company}</Label>
-                      <Input id="meeting-company" placeholder="Название компании" />
+                      <Input 
+                        id="meeting-company" 
+                        placeholder="Название компании"
+                        value={formData.company}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        required
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="meeting-message">{t.modal.message}</Label>
-                      <Textarea id="meeting-message" placeholder={t.modal.placeholder} />
+                      <Textarea 
+                        id="meeting-message" 
+                        placeholder={t.modal.placeholder}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        required
+                      />
                     </div>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700">{t.modal.submit}</Button>
-                  </div>
+                    
+                    {submitStatus === 'success' && (
+                      <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                        {t.modal.success}
+                      </div>
+                    )}
+                    
+                    {submitStatus === 'error' && (
+                      <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                        {t.modal.error}
+                      </div>
+                    )}
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-blue-600 hover:bg-blue-700"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? t.modal.submitting : t.modal.submit}
+                    </Button>
+                  </form>
                 </DialogContent>
               </Dialog>
             </div>

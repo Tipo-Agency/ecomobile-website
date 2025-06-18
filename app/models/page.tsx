@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { sendToTelegram } from "@/lib/telegram-utils"
 
 // Компонент для работы с search params
 function ModelsPageContent() {
@@ -31,6 +32,14 @@ function ModelsPageContent() {
   const [currentModelIndex, setCurrentModelIndex] = useState(0)
   const modelsData = getAllModels()
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   // Получаем модель из URL hash при загрузке страницы
   useEffect(() => {
@@ -88,6 +97,9 @@ function ModelsPageContent() {
         email: "Электронная почта",
         message: "Сообщение",
         submit: "Отправить",
+        submitting: "Отправка...",
+        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
       },
     },
     uz: {
@@ -118,6 +130,9 @@ function ModelsPageContent() {
         email: "Elektron pochta",
         message: "Xabar",
         submit: "Yuborish",
+        submitting: "Yuborish...",
+        success: "✅ Buyurtma muvaffaqiyatli yuborildi! Biz siz bilan aloqaniyatishadi.",
+        error: "❌ Buyurtma yuborishda xatolik. Iltimos, qayta urinib ko'ring.",
       },
     },
     en: {
@@ -148,6 +163,9 @@ function ModelsPageContent() {
         email: "Email",
         message: "Message",
         submit: "Submit",
+        submitting: "Submitting...",
+        success: "✅ Order submitted successfully! We will contact you shortly.",
+        error: "❌ Error submitting order. Please try again.",
       },
     },
   }
@@ -172,6 +190,35 @@ function ModelsPageContent() {
     const prevIndex = currentModelIndex === 0 ? modelsData.length - 1 : currentModelIndex - 1
     setCurrentModelIndex(prevIndex)
     setSelectedModelId(modelsData[prevIndex].id)
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      const result = await sendToTelegram({
+        ...formData,
+        model: currentTranslation?.name || 'Неизвестная модель',
+        source: 'Страница моделей'
+      })
+
+      if (result.success) {
+        setSubmitStatus('success')
+        setFormData({ name: '', phone: '', email: '', message: '' })
+        setTimeout(() => {
+          setIsOrderModalOpen(false)
+          setSubmitStatus('idle')
+        }, 2000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (!currentModel || !currentTranslation) {
@@ -316,25 +363,69 @@ function ModelsPageContent() {
                       <DialogTitle>{t.orderForm.title}</DialogTitle>
                       <DialogDescription>{t.orderForm.description}</DialogDescription>
                     </DialogHeader>
-                    <div className="space-y-4">
+                    <form onSubmit={handleFormSubmit} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">{t.orderForm.name}</Label>
-                        <Input id="name" placeholder={t.orderForm.name} />
+                        <Input 
+                          id="name" 
+                          placeholder={t.orderForm.name}
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          required
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">{t.orderForm.phone}</Label>
-                        <Input id="phone" placeholder="+998 90 123 45 67" />
+                        <Input 
+                          id="phone" 
+                          placeholder="+998 90 123 45 67"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          required
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">{t.orderForm.email}</Label>
-                        <Input id="email" type="email" placeholder="your@email.com" />
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          placeholder="your@email.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          required
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="message">{t.orderForm.message}</Label>
-                        <Textarea id="message" placeholder={t.orderForm.message} />
+                        <Textarea 
+                          id="message" 
+                          placeholder={t.orderForm.message}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          required
+                        />
                       </div>
-                      <Button className="w-full bg-green-600 hover:bg-green-700">{t.orderForm.submit}</Button>
-                    </div>
+                      
+                      {submitStatus === 'success' && (
+                        <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                          {t.orderForm.success}
+                        </div>
+                      )}
+                      
+                      {submitStatus === 'error' && (
+                        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                          {t.orderForm.error}
+                        </div>
+                      )}
+                      
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-green-600 hover:bg-green-700"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                      </Button>
+                    </form>
                   </DialogContent>
                 </Dialog>
                 <Link href="/contacts" className="flex-1">

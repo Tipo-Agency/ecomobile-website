@@ -27,6 +27,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
 import { getAllModels } from "@/lib/models-data"
+import { sendToTelegram } from "@/lib/telegram-utils"
 
 declare global {
   interface Window {
@@ -54,6 +55,20 @@ export default function HomePage() {
     gasolinePrice: 1.7, // Price per liter
     electricityPrice: 0.15, // Price per kWh
   })
+  const [orderFormData, setOrderFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  })
+  const [investorFormData, setInvestorFormData] = useState({
+    company: '',
+    position: '',
+    investmentAmount: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const modelsData = getAllModels();
 
@@ -209,6 +224,9 @@ export default function HomePage() {
         email: "Email",
         message: "Сообщение",
         submit: "Отправить заявку",
+        submitting: "Отправка...",
+        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
       },
       investorModal: {
         title: "Связаться по поводу инвестиций",
@@ -220,6 +238,9 @@ export default function HomePage() {
         messagePlaceholder: "Ваши инвестиционные цели...",
         submit: "Отправить запрос",
         selectRange: "Выберите диапазон",
+        submitting: "Отправка...",
+        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
       },
       featuresSection: {
         title: "Революционные особенности электрогрузовиков",
@@ -387,6 +408,9 @@ export default function HomePage() {
         email: "Email",
         message: "Xabar",
         submit: "Ariza yuborish",
+        submitting: "Yuborish...",
+        success: "✅ Ariza muvaffaqiyatli yuborildi! Siz bilan tez orada aloqaga chiqamiz.",
+        error: "❌ Xato yuz berdi yuborish jarayonida. Iltimos, qayta urinib ko'ring.",
       },
       investorModal: {
         title: "Investitsiya bo'yicha bog'lanish",
@@ -398,6 +422,9 @@ export default function HomePage() {
         messagePlaceholder: "Investitsiya maqsadlaringiz...",
         submit: "So'rov yuborish",
         selectRange: "Diapazonni tanlang",
+        submitting: "Yuborish...",
+        success: "✅ Investitsiya muvaffaqiyatli yuborildi! Siz bilan tez orada aloqaga chiqamiz.",
+        error: "❌ Xato yuz berdi yuborish jarayonida. Iltimos, qayta urinib ko'ring.",
       },
       featuresSection: {
         title: "Elektr yuk mashinalarining inqilobiy xususiyatlari",
@@ -565,6 +592,9 @@ export default function HomePage() {
         email: "Email",
         message: "Message",
         submit: "Submit Request",
+        submitting: "Sending...",
+        success: "✅ Your request has been successfully sent! We'll get back to you shortly.",
+        error: "❌ There was an error sending your request. Please try again.",
       },
       investorModal: {
         title: "Contact about investments",
@@ -576,6 +606,9 @@ export default function HomePage() {
         messagePlaceholder: "Your investment goals...",
         submit: "Send request",
         selectRange: "Select range",
+        submitting: "Sending...",
+        success: "✅ Your investment request has been successfully sent! We'll get back to you shortly.",
+        error: "❌ There was an error sending your investment request. Please try again.",
       },
       featuresSection: {
         title: "Revolutionary EV Truck Features",
@@ -1026,6 +1059,62 @@ export default function HomePage() {
     setCurrentModelIndex(index)
   }
 
+  const handleOrderFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      const result = await sendToTelegram({
+        ...orderFormData,
+        source: 'Главная страница - Заказ'
+      })
+
+      if (result.success) {
+        setSubmitStatus('success')
+        setOrderFormData({ name: '', phone: '', email: '', message: '' })
+        setTimeout(() => {
+          setIsOrderModalOpen(false)
+          setSubmitStatus('idle')
+        }, 2000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleInvestorFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      const result = await sendToTelegram({
+        ...investorFormData,
+        source: 'Главная страница - Инвестиции'
+      })
+
+      if (result.success) {
+        setSubmitStatus('success')
+        setInvestorFormData({ company: '', position: '', investmentAmount: '', message: '' })
+        setTimeout(() => {
+          setIsInvestorModalOpen(false)
+          setSubmitStatus('idle')
+        }, 2000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -1059,23 +1148,69 @@ export default function HomePage() {
                       <DialogDescription>{t.orderForm.description}</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">{t.orderForm.name}</Label>
-                        <Input id="name" placeholder={t.orderForm.name} />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">{t.orderForm.phone}</Label>
-                        <Input id="phone" placeholder="+998 90 123 45 67" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">{t.orderForm.email}</Label>
-                        <Input id="email" type="email" placeholder="your@email.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="message">{t.orderForm.message}</Label>
-                        <Textarea id="message" placeholder={t.orderForm.message} />
-                      </div>
-                      <Button className="w-full bg-green-600 hover:bg-green-700">{t.orderForm.submit}</Button>
+                      <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">{t.orderForm.name}</Label>
+                          <Input 
+                            id="name" 
+                            placeholder={t.orderForm.name}
+                            value={orderFormData.name}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                          <Input 
+                            id="phone" 
+                            placeholder="+998 90 123 45 67"
+                            value={orderFormData.phone}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">{t.orderForm.email}</Label>
+                          <Input 
+                            id="email" 
+                            type="email" 
+                            placeholder="your@email.com"
+                            value={orderFormData.email}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, email: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="message">{t.orderForm.message}</Label>
+                          <Textarea 
+                            id="message" 
+                            placeholder={t.orderForm.message}
+                            value={orderFormData.message}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                            required
+                          />
+                        </div>
+                        
+                        {submitStatus === 'success' && (
+                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                            {t.orderForm.success}
+                          </div>
+                        )}
+                        
+                        {submitStatus === 'error' && (
+                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                            {t.orderForm.error}
+                          </div>
+                        )}
+                        
+                        <Button 
+                          type="submit" 
+                          className="w-full bg-green-600 hover:bg-green-700"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                        </Button>
+                      </form>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -1096,51 +1231,87 @@ export default function HomePage() {
                       <DialogDescription>{t.investorModal.description}</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="company">{t.investorModal.company}</Label>
-                        <Input
-                          id="company"
-                          placeholder={
-                            language === "ru"
-                              ? "Название компании"
-                              : language === "uz"
-                                ? "Kompaniya nomi"
-                                : "Company name"
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="position">{t.investorModal.position}</Label>
-                        <Input
-                          id="position"
-                          placeholder={
-                            language === "ru"
-                              ? "Ваша должность"
-                              : language === "uz"
-                                ? "Sizning lavozimingiz"
-                                : "Your position"
-                          }
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder={t.investorModal.selectRange} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="100k">$100K - $500K</SelectItem>
-                            <SelectItem value="500k">$500K - $1M</SelectItem>
-                            <SelectItem value="1m">$1M - $5M</SelectItem>
-                            <SelectItem value="5m">$5M+</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="investor-message">{t.investorModal.message}</Label>
-                        <Textarea id="investor-message" placeholder={t.investorModal.messagePlaceholder} />
-                      </div>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700">{t.investorModal.submit}</Button>
+                      <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="company">{t.investorModal.company}</Label>
+                          <Input
+                            id="company"
+                            placeholder={
+                              language === "ru"
+                                ? "Название компании"
+                                : language === "uz"
+                                  ? "Kompaniya nomi"
+                                  : "Company name"
+                            }
+                            value={investorFormData.company}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="position">{t.investorModal.position}</Label>
+                          <Input
+                            id="position"
+                            placeholder={
+                              language === "ru"
+                                ? "Ваша должность"
+                                : language === "uz"
+                                  ? "Sizning lavozimingiz"
+                                  : "Your position"
+                            }
+                            value={investorFormData.position}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                          <Select 
+                            value={investorFormData.investmentAmount}
+                            onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder={t.investorModal.selectRange} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="100k">$100K - $500K</SelectItem>
+                              <SelectItem value="500k">$500K - $1M</SelectItem>
+                              <SelectItem value="1m">$1M - $5M</SelectItem>
+                              <SelectItem value="5m">$5M+</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                          <Textarea 
+                            id="investor-message" 
+                            placeholder={t.investorModal.messagePlaceholder}
+                            value={investorFormData.message}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                            required
+                          />
+                        </div>
+                        
+                        {submitStatus === 'success' && (
+                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                            {t.investorModal.success}
+                          </div>
+                        )}
+                        
+                        {submitStatus === 'error' && (
+                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                            {t.investorModal.error}
+                          </div>
+                        )}
+                        
+                        <Button 
+                          type="submit" 
+                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                        </Button>
+                      </form>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -1387,7 +1558,7 @@ export default function HomePage() {
 
             {/* Карта */}
             <div className="w-full rounded-2xl overflow-hidden shadow-md mb-8 aspect-video"> {/* Увеличена высота и mb */}
-              <img src="/images/uzbekistan.png" alt="Карта станций замены" className="object-cover w-full h-full" />
+              <img src="/images/uzbekistan.jpg" alt="Карта станций замены" className="object-cover w-full h-full" />
             </div>
 
             {/* Информация о точках (перенесена вверх для мобильных) */}
@@ -1447,7 +1618,7 @@ export default function HomePage() {
             <div className="grid lg:grid-cols-3 gap-8 items-start bg-white rounded-3xl shadow-xl p-8 items-center"> {/* Общая структура двух колонок */}
               {/* Map Column (2/3 width) */}
               <div className="lg:col-span-2 relative aspect-video">
-                <img src="/images/uzbekistan.png" alt="Станции замены в Узбекистане" className="rounded-2xl object-cover w-full h-full" />
+                <img src="/images/uzbekistan.jpg" alt="Станции замены в Узбекистане" className="rounded-2xl object-cover w-full h-full" />
                 {/* Overlay for active/coming soon/planned locations */}
                 {/* <div className="absolute top-3 left-3 sm:top-6 sm:left-6 md:top-8 md:left-8 bg-white rounded-xl p-4 sm:p-6 shadow-xl">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.swapNetwork.locations.title}</h3>
