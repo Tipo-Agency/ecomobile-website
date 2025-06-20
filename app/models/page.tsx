@@ -76,6 +76,7 @@ function ModelsPageContent() {
       overview: "Обзор моделей",
       specifications: "Технические характеристики",
       features: "Особенности",
+      advantage: "Оптимизация использования личных автомобилей",
       selectModel: "Выберите модель",
       viewDetails: "Подробнее",
       backToOverview: "Вернуться к обзору",
@@ -109,6 +110,7 @@ function ModelsPageContent() {
       overview: "Modellar bo'yicha ma'lumot",
       specifications: "Texnik xususiyatlar",
       features: "Xususiyatlar",
+      advantage: "Transport vositalaridan foydalanishni optimallashtirish",
       selectModel: "Modelni tanlang",
       viewDetails: "Batafsil",
       backToOverview: "Ma'lumotga qaytish",
@@ -142,6 +144,7 @@ function ModelsPageContent() {
       overview: "Model Overview",
       specifications: "Technical Specifications",
       features: "Features",
+      advantage: 'Optimizing the use of personal vehicles',
       selectModel: "Select Model",
       viewDetails: "View Details",
       backToOverview: "Back to Overview",
@@ -288,7 +291,7 @@ function ModelsPageContent() {
                   onClick={() => handleModelSelect(model.id)}
                 >
                   <CardContent className="p-6">
-                    <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                    <div className="rounded-lg overflow-hidden mb-4">
                       <img
                         src={model.image}
                         alt={translation.name}
@@ -310,6 +313,31 @@ function ModelsPageContent() {
           </div>
         </div>
       </section>
+
+      {/* Passenger Flow Block */}
+      {/* <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-green-600">
+            {language === "ru" && "Увеличить пассажиропоток в 4 раза"}
+            {language === "uz" && "Yo'lovchilar oqimini 4 baravar oshirish"}
+            {language === "en" && "Increase passenger flow by 4 times"}
+          </h2>
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
+            <div className="relative w-full md:w-1/2 max-w-md flex-shrink-0">
+              <img src="/images/car.jpg" alt="car seats" className="rounded-xl w-full h-auto shadow-lg" />
+            </div>
+            <div className="relative w-full md:w-1/2 max-w-md flex-shrink-0">
+              <img src="/images/road_with_cars.png" alt="road with cars" className="rounded-xl w-full h-auto shadow-lg" />
+              <div className="absolute left-[50%] top-[50%] text-green-600 text-4xl font-extrabold" style={{ transform: 'translate(-50%, -50%)' }}>×4</div>
+            </div>
+          </div>
+          <div className="text-center text-gray-500 text-lg mt-8 max-w-2xl mx-auto">
+            {language === "ru" && "Пассажирские сиденья в личных транспортных средствах не используются более 90% времени"}
+            {language === "uz" && "Shaxsiy transport vositalaridagi yo'lovchi o'rindiqlari vaqting 90% dan ortig'ida ishlatilmaydi"}
+            {language === "en" && "Passenger seats in private vehicles are unused more than 90% of the time"}
+          </div>
+        </div>
+      </section> */}
 
       {/* Model Details Section */}
       <section className="py-24 bg-white" id="model">
@@ -366,8 +394,8 @@ function ModelsPageContent() {
                     <form onSubmit={handleFormSubmit} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">{t.orderForm.name}</Label>
-                        <Input 
-                          id="name" 
+                        <Input
+                          id="name"
                           placeholder={t.orderForm.name}
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -376,8 +404,8 @@ function ModelsPageContent() {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">{t.orderForm.phone}</Label>
-                        <Input 
-                          id="phone" 
+                        <Input
+                          id="phone"
                           placeholder="+998 90 123 45 67"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -386,9 +414,9 @@ function ModelsPageContent() {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">{t.orderForm.email}</Label>
-                        <Input 
-                          id="email" 
-                          type="email" 
+                        <Input
+                          id="email"
+                          type="email"
                           placeholder="your@email.com"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -397,29 +425,29 @@ function ModelsPageContent() {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="message">{t.orderForm.message}</Label>
-                        <Textarea 
-                          id="message" 
+                        <Textarea
+                          id="message"
                           placeholder={t.orderForm.message}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           required
                         />
                       </div>
-                      
+
                       {submitStatus === 'success' && (
                         <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
                           {t.orderForm.success}
                         </div>
                       )}
-                      
+
                       {submitStatus === 'error' && (
                         <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
                           {t.orderForm.error}
                         </div>
                       )}
-                      
-                      <Button 
-                        type="submit" 
+
+                      <Button
+                        type="submit"
                         className="w-full bg-green-600 hover:bg-green-700"
                         disabled={isSubmitting}
                       >
@@ -440,50 +468,74 @@ function ModelsPageContent() {
             </div>
 
           </div>
-          <div className="bg-gradient-to-b from-white to-green-200/35 rounded-xl shadow-xl px-6 py-6 md:px-8 md:py-8">
-            <div className="flex flex-col lg:flex-row gap-8">
+          <div className="rounded-xl shadow-xl px-4 py-4 md:px-6 md:py-6">
+            <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
               {/* Технические характеристики */}
               <div className="w-full lg:w-1/2">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">{t.specifications}</h3>
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.dimensions}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.cargoVolume}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.maxPayload}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.maxSpeed}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.rangePerCharge}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="font-semibold text-gray-900 text-base md:text-lg">{currentTranslation.batterySwapTime}</span>
-                  </div>
+                <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">{t.specifications}</h3>
+                <div className="space-y-1 md:space-y-2">
+                  {[ 
+                    currentTranslation.dimensions,
+                    currentTranslation.cargoVolume,
+                    currentTranslation.maxPayload,
+                    currentTranslation.maxSpeed,
+                    currentTranslation.rangePerCharge,
+                    currentTranslation.batterySwapTime,
+                    currentTranslation.power,
+                    currentTranslation.torque,
+                    currentTranslation.driveType,
+                    currentTranslation.suspension,
+                    currentTranslation.brakes,
+                    currentTranslation.clearance,
+                    currentTranslation.climbAbility
+                  ].map((item, idx) => (
+                    <div key={idx} className={`flex justify-between items-center py-1 ${idx < 12 ? 'border-b border-gray-100' : ''}`}>
+                      <span className="text-gray-900 text-xs md:text-sm">{item}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {/* Особенности */}
-              <div className="w-full lg:w-1/2">
-                <h3 className="text-xl text-center md:text-2xl font-bold text-gray-900 mb-4 md:mb-6">{t.features}</h3>
-                <div className="grid md:grid-cols-2 gap-3 md:gap-4">
-                  <div className="flex items-center space-x-3 p-3 rounded-lg">
-                    <Snowflake className="w-7 md:w-9 md:h-7 text-green-600" />
-                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.climateControl}</span>
+              <div className="w-full lg:w-1/2 flex flex-col items-center">
+                <h3 className="text-lg text-center md:text-xl font-semibold text-gray-900 mb-2">{t.features}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 w-full">
+                  <div className="flex items-center space-x-2 p-2 rounded-lg">
+                    <Snowflake className="w-8 h-8 text-green-600" />
+                    <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.climateControl}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg">
-                    <MapPin className="w-7 md:w-9 md:h-10 lg:w-16 text-blue-600" />
-                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.navigation}</span>
+                  <div className="flex items-center space-x-2 p-2 rounded-lg">
+                    <MapPin className="w-11 h-11 text-blue-600" />
+                    <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.navigation}</span>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg">
-                    <Camera className="w-7 md:w-9 md:h-10 lg:w-16 text-purple-600" />
-                    <span className="text-gray-700 text-sm md:text-base">{currentTranslation.features.camera}</span>
+                  <div className="flex items-center space-x-2 p-2 rounded-lg">
+                    <Camera className="w-12 h-12 text-purple-600" />
+                    <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.camera}</span>
                   </div>
                 </div>
+
+                {(currentModel?.id === "ikki" || currentModel?.id === "yuki") && (
+                  <>
+                    <h3 className="text-base text-center md:text-lg font-semibold text-gray-900 mb-2 mt-auto">{t.advantage}</h3>
+                    <div className="flex flex-col md:flex-row gap-2 items-center w-full">
+                      {/* Слева: автомобиль с сиденьями + текст ниже */}
+                      <div className="flex flex-col items-center w-full md:w-1/2 max-w-xs flex-shrink-0">
+                        <div className="relative w-full flex justify-center items-center">
+                          <img src="/images/car.jpeg" alt="car seats" className="rounded-lg w-full h-auto" style={{ maxWidth: '140px' }} />
+                        </div>
+                        <div className="mt-1 text-center font-semibold text-xs md:text-sm text-gray-700 max-w-xs">
+                          {language === "ru" && "Пассажирские сиденья в личных транспортных средствах не используются более 90% времени"}
+                          {language === "uz" && "Shaxsiy transport vositalaridagi yo'lovchi o'rindiqlari vaqting 90% dan ortig'ida ishlatilmaydi"}
+                          {language === "en" && "Passenger seats in private vehicles are unused more than 90% of the time"}
+                        </div>
+                      </div>
+                      {/* Справа: дорога с машинами */}
+                      <div className="relative w-full md:w-1/2 max-w-xs flex-shrink-0 flex justify-center items-center">
+                        <img src="/images/road_with_cars.png" alt="road with cars" className="rounded-lg w-full h-auto shadow" style={{ maxWidth: '140px' }} />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

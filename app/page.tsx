@@ -1321,7 +1321,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
                 <img
-                  src="/images/ecotruck.jpeg"
+                  src="/images/cargo.jpeg"
                   alt={
                     language === "ru"
                       ? "Электромобиль Ecomobile"
@@ -1359,7 +1359,7 @@ export default function HomePage() {
             <Card className="border-0 shadow-xl bg-white rounded-xl p-6 text-center">
               <CardContent className="p-0">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <BatteryCharging className="w-10 h-10 text-green-600" />
+                  <img src="images/swap_battery_icon.png" className="w-11 h-11" alt="" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.featuresSection.swappableBattery.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{t.featuresSection.swappableBattery.description}</p>
@@ -1698,8 +1698,8 @@ export default function HomePage() {
             <div className="order-2 lg:order-1">
               <div className="relative">
                 <img
-                  src="/images/ecotruck.jpeg"
-                  alt="EcoTruck"
+                  src="/images/cargo.jpeg"
+                  alt="CarGo"
                   className="rounded-2xl object-cover w-full h-auto "
                 />
                 <div className="absolute inset-0  rounded-2xl"></div>
@@ -1745,9 +1745,9 @@ export default function HomePage() {
               {/* Дополнительная информация */}
               <div className="bg-white p-8 rounded-2xl shadow-lg">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {language === "ru" && "Почему выбирают EcoTruck?"}
-                  {language === "uz" && "Nega EcoTruck tanlanadi?"}
-                  {language === "en" && "Why choose EcoTruck?"}
+                  {language === "ru" && "Почему выбирают CarGo?"}
+                  {language === "uz" && "Nega CarGo tanlanadi?"}
+                  {language === "en" && "Why choose CarGo?"}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center">
