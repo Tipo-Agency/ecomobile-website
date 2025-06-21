@@ -1698,7 +1698,7 @@ export default function HomePage() {
             <div className="order-2 lg:order-1">
               <div className="relative">
                 <img
-                  src="/images/cargo.jpeg"
+                  src="/images/cargo_white.png"
                   alt="CarGo"
                   className="rounded-2xl object-cover w-full h-auto "
                 />

@@ -37,7 +37,7 @@ export interface ModelTranslation {
 export const modelsData: ModelData[] = [
   {
     id: "cargo",
-    image: "/images/cargo.jpeg",
+    image: "/images/cargo_blue.png",
     translations: {
         ru: {
           name: "CarGo",
