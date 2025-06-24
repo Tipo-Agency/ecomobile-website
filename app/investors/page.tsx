@@ -26,7 +26,6 @@ export default function InvestorsPage() {
   const { language } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     company: '',
     message: ''
   })
@@ -137,7 +136,6 @@ export default function InvestorsPage() {
         title: "Запрос встречи",
         description: "Мы свяжемся с вами для назначения встречи",
         name: "Имя",
-        email: "Email",
         company: "Компания",
         message: "Сообщение",
         placeholder: "Расскажите о ваших инвестиционных интересах...",
@@ -253,7 +251,6 @@ export default function InvestorsPage() {
         title: "Uchrashuv so'rovi",
         description: "Uchrashuv belgilash uchun siz bilan bog'lanamiz",
         name: "Ism",
-        email: "Email",
         company: "Kompaniya",
         message: "Xabar",
         placeholder: "Investitsiya qiziqishlaringiz haqida gapirib bering...",
@@ -365,7 +362,6 @@ export default function InvestorsPage() {
         title: "Meeting Request",
         description: "We will contact you to schedule a meeting",
         name: "Name",
-        email: "Email",
         company: "Company",
         message: "Message",
         placeholder: "Tell us about your investment interests...",
@@ -387,7 +383,6 @@ export default function InvestorsPage() {
     try {
       const result = await sendToTelegram({
         name: formData.name,
-        email: formData.email,
         company: formData.company,
         message: formData.message,
         source: 'Страница инвесторов'
@@ -395,7 +390,7 @@ export default function InvestorsPage() {
 
       if (result.success) {
         setSubmitStatus('success')
-        setFormData({ name: '', email: '', company: '', message: '' })
+        setFormData({ name: '', company: '', message: '' })
         setTimeout(() => {
           setSubmitStatus('idle')
         }, 3000)
@@ -840,17 +835,6 @@ export default function InvestorsPage() {
                         placeholder="Ваше имя"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="meeting-email">{t.modal.email}</Label>
-                      <Input 
-                        id="meeting-email" 
-                        type="email" 
-                        placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         required
                       />
                     </div>

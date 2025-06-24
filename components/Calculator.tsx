@@ -250,7 +250,7 @@ export default function CalculatorComponent() {
             </Card>
 
             {/* Your Estimated Savings (Right Column) */}
-            <Card className="border-0 shadow-none bg-transparent pt-8 lg:pt-0 border-l lg:border-l-gray-200 lg:pl-12">
+            <Card className="border-0 shadow-none bg-transparent pt-8 lg:pt-0 lg:border-l lg:border-l-gray-200 lg:pl-12">
               <CardContent className="p-0 space-y-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-8">{t.estimatedSavings}</h3>
                 <div className="space-y-6">

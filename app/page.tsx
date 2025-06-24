@@ -58,7 +58,6 @@ export default function HomePage() {
   const [orderFormData, setOrderFormData] = useState({
     name: '',
     phone: '',
-    email: '',
     message: ''
   })
   const [investorFormData, setInvestorFormData] = useState({
@@ -221,12 +220,11 @@ export default function HomePage() {
         description: "Мы свяжемся с вами для обсуждения деталей",
         name: "Имя",
         phone: "Телефон",
-        email: "Email",
         message: "Сообщение",
         submit: "Отправить заявку",
         submitting: "Отправка...",
-        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
-        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
+        success: "Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "Ошибка при отправке заявки. Попробуйте еще раз.",
       },
       investorModal: {
         title: "Связаться по поводу инвестиций",
@@ -405,12 +403,11 @@ export default function HomePage() {
         description: "Tafsilotlarni muhokama qilish uchun siz bilan bog'lanamiz",
         name: "Ism",
         phone: "Telefon",
-        email: "Email",
         message: "Xabar",
         submit: "Ariza yuborish",
         submitting: "Yuborish...",
-        success: "✅ Ariza muvaffaqiyatli yuborildi! Siz bilan tez orada aloqaga chiqamiz.",
-        error: "❌ Xato yuz berdi yuborish jarayonida. Iltimos, qayta urinib ko'ring.",
+        success: "Ariza muvaffaqiyatli yuborildi! Siz bilan tez orada aloqaga chiqamiz.",
+        error: "Xato yuz berdi yuborish jarayonida. Iltimos, qayta urinib ko'ring.",
       },
       investorModal: {
         title: "Investitsiya bo'yicha bog'lanish",
@@ -589,12 +586,11 @@ export default function HomePage() {
         description: "We will contact you to discuss the details",
         name: "Name",
         phone: "Phone",
-        email: "Email",
         message: "Message",
         submit: "Submit Request",
         submitting: "Sending...",
-        success: "✅ Your request has been successfully sent! We'll get back to you shortly.",
-        error: "❌ There was an error sending your request. Please try again.",
+        success: "Your request has been successfully sent! We'll get back to you shortly.",
+        error: "There was an error sending your request. Please try again.",
       },
       investorModal: {
         title: "Contact about investments",
@@ -1072,7 +1068,7 @@ export default function HomePage() {
 
       if (result.success) {
         setSubmitStatus('success')
-        setOrderFormData({ name: '', phone: '', email: '', message: '' })
+        setOrderFormData({ name: '', phone: '', message: '' })
         setTimeout(() => {
           setIsOrderModalOpen(false)
           setSubmitStatus('idle')
@@ -1120,229 +1116,378 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="py-20 inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30">
+      <section className="py-10 lg:py-20  inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                {/* <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-                  {language === "ru" && "Инновационная технология CATL"}
-                  {language === "uz" && "CATL innovatsion texnologiyasi"}
-                  {language === "en" && "Innovative CATL technology"}
-                </Badge> */}
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
-                <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
-              </div>
+            {/* Левая часть: текст и кнопки для десктопа */}
+            {!isMobile && (
+              <><div className="space-y-8">
+                <div className="space-y-4">
+                  {/* <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+      {language === "ru" && "Инновационная технология CATL"}
+      {language === "uz" && "CATL innovatsion texnologiyasi"}
+      {language === "en" && "Innovative CATL technology"}
+    </Badge> */}
+                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
+                  <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
+                </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
-                  <DialogTrigger asChild>
-                    <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
-                      {t.hero.buyButton}
-                      <ChevronRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>{t.orderForm.title}</DialogTitle>
-                      <DialogDescription>{t.orderForm.description}</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <form onSubmit={handleOrderFormSubmit} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">{t.orderForm.name}</Label>
-                          <Input 
-                            id="name" 
-                            placeholder={t.orderForm.name}
-                            value={orderFormData.name}
-                            onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="phone">{t.orderForm.phone}</Label>
-                          <Input 
-                            id="phone" 
-                            placeholder="+998 90 123 45 67"
-                            value={orderFormData.phone}
-                            onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="email">{t.orderForm.email}</Label>
-                          <Input 
-                            id="email" 
-                            type="email" 
-                            placeholder="your@email.com"
-                            value={orderFormData.email}
-                            onChange={(e) => setOrderFormData({ ...orderFormData, email: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="message">{t.orderForm.message}</Label>
-                          <Textarea 
-                            id="message" 
-                            placeholder={t.orderForm.message}
-                            value={orderFormData.message}
-                            onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
-                            required
-                          />
-                        </div>
-                        
-                        {submitStatus === 'success' && (
-                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
-                            {t.orderForm.success}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                    <DialogTrigger asChild>
+                      <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
+                        {t.hero.buyButton}
+                        <ChevronRight className="ml-2 w-5 h-5" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>{t.orderForm.title}</DialogTitle>
+                        <DialogDescription>{t.orderForm.description}</DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="name">{t.orderForm.name}</Label>
+                            <Input
+                              id="name"
+                              placeholder={t.orderForm.name}
+                              value={orderFormData.name}
+                              onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                              required />
                           </div>
-                        )}
-                        
-                        {submitStatus === 'error' && (
-                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
-                            {t.orderForm.error}
+                          <div className="space-y-2">
+                            <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                            <Input
+                              id="phone"
+                              placeholder="+998 90 123 45 67"
+                              value={orderFormData.phone}
+                              onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                              required />
                           </div>
-                        )}
-                        
-                        <Button 
-                          type="submit" 
-                          className="w-full bg-green-600 hover:bg-green-700"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
-                        </Button>
-                      </form>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                          <div className="space-y-2">
+                            <Label htmlFor="message">{t.orderForm.message}</Label>
+                            <Textarea
+                              id="message"
+                              placeholder={t.orderForm.message}
+                              value={orderFormData.message}
+                              onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                              required />
+                          </div>
 
-                <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="px-8 py-3 border-blue-200 text-blue-700 hover:bg-blue-50"
-                    >
-                      {t.hero.forInvestors}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle>{t.investorModal.title}</DialogTitle>
-                      <DialogDescription>{t.investorModal.description}</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="company">{t.investorModal.company}</Label>
-                          <Input
-                            id="company"
-                            placeholder={
-                              language === "ru"
+                          {submitStatus === 'success' && (
+                            <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                              {t.orderForm.success}
+                            </div>
+                          )}
+
+                          {submitStatus === 'error' && (
+                            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                              {t.orderForm.error}
+                            </div>
+                          )}
+
+                          <Button
+                            type="submit"
+                            className="w-full bg-green-600 hover:bg-green-700"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                          </Button>
+                        </form>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="px-8 py-3 border-blue-200 text-blue-700 hover:bg-blue-50"
+                      >
+                        {t.hero.forInvestors}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>{t.investorModal.title}</DialogTitle>
+                        <DialogDescription>{t.investorModal.description}</DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="company">{t.investorModal.company}</Label>
+                            <Input
+                              id="company"
+                              placeholder={language === "ru"
                                 ? "Название компании"
                                 : language === "uz"
                                   ? "Kompaniya nomi"
-                                  : "Company name"
-                            }
-                            value={investorFormData.company}
-                            onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="position">{t.investorModal.position}</Label>
-                          <Input
-                            id="position"
-                            placeholder={
-                              language === "ru"
+                                  : "Company name"}
+                              value={investorFormData.company}
+                              onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                              required />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="position">{t.investorModal.position}</Label>
+                            <Input
+                              id="position"
+                              placeholder={language === "ru"
                                 ? "Ваша должность"
                                 : language === "uz"
                                   ? "Sizning lavozimingiz"
-                                  : "Your position"
-                            }
-                            value={investorFormData.position}
-                            onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
-                          <Select 
-                            value={investorFormData.investmentAmount}
-                            onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder={t.investorModal.selectRange} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="100k">$100K - $500K</SelectItem>
-                              <SelectItem value="500k">$500K - $1M</SelectItem>
-                              <SelectItem value="1m">$1M - $5M</SelectItem>
-                              <SelectItem value="5m">$5M+</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="investor-message">{t.investorModal.message}</Label>
-                          <Textarea 
-                            id="investor-message" 
-                            placeholder={t.investorModal.messagePlaceholder}
-                            value={investorFormData.message}
-                            onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
-                            required
-                          />
-                        </div>
-                        
-                        {submitStatus === 'success' && (
-                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
-                            {t.investorModal.success}
+                                  : "Your position"}
+                              value={investorFormData.position}
+                              onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                              required />
                           </div>
-                        )}
-                        
-                        {submitStatus === 'error' && (
-                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
-                            {t.investorModal.error}
+                          <div className="space-y-2">
+                            <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                            <Select
+                              value={investorFormData.investmentAmount}
+                              onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder={t.investorModal.selectRange} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="100k">$100K - $500K</SelectItem>
+                                <SelectItem value="500k">$500K - $1M</SelectItem>
+                                <SelectItem value="1m">$1M - $5M</SelectItem>
+                                <SelectItem value="5m">$5M+</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
-                        )}
-                        
-                        <Button 
-                          type="submit" 
-                          className="w-full bg-blue-600 hover:bg-blue-700"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
-                        </Button>
-                      </form>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                            <Textarea
+                              id="investor-message"
+                              placeholder={t.investorModal.messagePlaceholder}
+                              value={investorFormData.message}
+                              onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                              required />
+                          </div>
 
-            <div className="relative">
-              <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
-                <img
-                  src="/images/cargo.jpeg"
-                  alt={
-                    language === "ru"
-                      ? "Электромобиль Ecomobile"
-                      : language === "uz"
-                        ? "Ecomobile elektromobili"
-                        : "Ecomobile Electric Vehicle"
-                  }
-                  className="rounded-2xl object-cover w-full h-full"
-                />
-              </div>
-              {/* <div className="absolute -bottom-6 -right-2 bg-white p-4 rounded-xl shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <Battery className="w-6 h-6 text-green-600" />
-                  <span className="font-semibold">
-                    {language === "ru" && "Замена за 1 мин"}
-                    {language === "uz" && "1 daqiqada almashtirish"}
-                    {language === "en" && "1-min swap"}
-                  </span>
+                          {submitStatus === 'success' && (
+                            <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                              {t.investorModal.success}
+                            </div>
+                          )}
+
+                          {submitStatus === 'error' && (
+                            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                              {t.investorModal.error}
+                            </div>
+                          )}
+
+                          <Button
+                            type="submit"
+                            className="w-full bg-blue-600 hover:bg-blue-700"
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                          </Button>
+                        </form>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
-              </div> */}
-            </div>
+              </div><div className="relative">
+                  <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
+                    <img
+                      src="/images/cargo.jpeg"
+                      alt={language === "ru"
+                        ? "Электромобиль Ecomobile"
+                        : language === "uz"
+                          ? "Ecomobile elektromobili"
+                          : "Ecomobile Electric Vehicle"}
+                      className="rounded-2xl object-cover w-full h-full" />
+                  </div>
+                </div></>
+            )}
+
+            {/* Для мобильных: кнопки под изображением */}
+            {isMobile && (
+              <><div className="space-y-4">
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
+                <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
+              </div>
+                <div className="col-span-2">
+                  <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
+                    <img
+                      src="/images/cargo.jpeg"
+                      alt={language === "ru"
+                        ? "Электромобиль Ecomobile"
+                        : language === "uz"
+                          ? "Ecomobile elektromobili"
+                          : "Ecomobile Electric Vehicle"}
+                      className="rounded-2xl object-cover w-full h-full" />
+                  </div>
+                  <div className="flex flex-col gap-4 mt-6">
+                    <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                      <DialogTrigger asChild>
+                        <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 w-full">
+                          {t.hero.buyButton}
+                          <ChevronRight className="ml-2 w-5 h-5" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{t.orderForm.title}</DialogTitle>
+                          <DialogDescription>{t.orderForm.description}</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="name">{t.orderForm.name}</Label>
+                              <Input
+                                id="name"
+                                placeholder={t.orderForm.name}
+                                value={orderFormData.name}
+                                onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                                required />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                              <Input
+                                id="phone"
+                                placeholder="+998 90 123 45 67"
+                                value={orderFormData.phone}
+                                onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                                required />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="message">{t.orderForm.message}</Label>
+                              <Textarea
+                                id="message"
+                                placeholder={t.orderForm.message}
+                                value={orderFormData.message}
+                                onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                                required />
+                            </div>
+
+                            {submitStatus === 'success' && (
+                              <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                {t.orderForm.success}
+                              </div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                              <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                {t.orderForm.error}
+                              </div>
+                            )}
+
+                            <Button
+                              type="submit"
+                              className="w-full bg-green-600 hover:bg-green-700"
+                              disabled={isSubmitting}
+                            >
+                              {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                            </Button>
+                          </form>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+
+                    <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="lg"
+                          className="px-8 py-3 border-blue-200 text-blue-700 hover:bg-blue-50 w-full"
+                        >
+                          {t.hero.forInvestors}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{t.investorModal.title}</DialogTitle>
+                          <DialogDescription>{t.investorModal.description}</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="company">{t.investorModal.company}</Label>
+                              <Input
+                                id="company"
+                                placeholder={language === "ru"
+                                  ? "Название компании"
+                                  : language === "uz"
+                                    ? "Kompaniya nomi"
+                                    : "Company name"}
+                                value={investorFormData.company}
+                                onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                                required />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="position">{t.investorModal.position}</Label>
+                              <Input
+                                id="position"
+                                placeholder={language === "ru"
+                                  ? "Ваша должность"
+                                  : language === "uz"
+                                    ? "Sizning lavozimingiz"
+                                    : "Your position"}
+                                value={investorFormData.position}
+                                onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                                required />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                              <Select
+                                value={investorFormData.investmentAmount}
+                                onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder={t.investorModal.selectRange} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="100k">$100K - $500K</SelectItem>
+                                  <SelectItem value="500k">$500K - $1M</SelectItem>
+                                  <SelectItem value="1m">$1M - $5M</SelectItem>
+                                  <SelectItem value="5m">$5M+</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                              <Textarea
+                                id="investor-message"
+                                placeholder={t.investorModal.messagePlaceholder}
+                                value={investorFormData.message}
+                                onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                                required />
+                            </div>
+
+                            {submitStatus === 'success' && (
+                              <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                {t.investorModal.success}
+                              </div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                              <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                {t.investorModal.error}
+                              </div>
+                            )}
+
+                            <Button
+                              type="submit"
+                              className="w-full bg-blue-600 hover:bg-blue-700"
+                              disabled={isSubmitting}
+                            >
+                              {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                            </Button>
+                          </form>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div></>
+            )}
+
           </div>
         </div>
       </section>

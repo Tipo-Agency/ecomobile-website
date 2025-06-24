@@ -6,7 +6,7 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, phone, email, message, company, position, investmentAmount, model, source } = body
+    const { name, phone, message, company, position, investmentAmount, model, source } = body
 
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
       console.error('Telegram credentials not configured')
@@ -29,10 +29,6 @@ export async function POST(request: NextRequest) {
 
     if (phone) {
       telegramMessage += `📞 *Телефон:* ${phone}\n`
-    }
-
-    if (email) {
-      telegramMessage += `📧 *Email:* ${email}\n`
     }
 
     if (company) {

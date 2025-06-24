@@ -21,7 +21,6 @@ export default function ContactsPage() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: '',
     phone: '',
     company: '',
     subject: '',
@@ -364,7 +363,6 @@ export default function ContactsPage() {
     try {
       const result = await sendToTelegram({
         name: `${formData.firstName} ${formData.lastName}`.trim(),
-        email: formData.email,
         phone: formData.phone,
         company: formData.company,
         message: `Тема: ${formData.subject}\n\n${formData.message}`,
@@ -373,7 +371,7 @@ export default function ContactsPage() {
 
       if (result.success) {
         setSubmitStatus('success')
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', company: '', subject: '', message: '' })
+        setFormData({ firstName: '', lastName: '', phone: '', company: '', subject: '', message: '' })
         setTimeout(() => {
           setSubmitStatus('idle')
         }, 3000)
@@ -541,20 +539,6 @@ export default function ContactsPage() {
                           required 
                         />
                       </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">
-                        {t.form.email} {t.form.required}
-                      </Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        placeholder="your@email.com" 
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required 
-                      />
                     </div>
 
                     <div className="space-y-2">

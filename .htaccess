@@ -1,3 +1,4 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
 # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
 PassengerAppRoot "/home/yaxspacy/eco-mobile/ecomobile-website_3"
 PassengerBaseURI "/"
@@ -6,16 +7,17 @@ PassengerAppType node
 PassengerStartupFile server.js
 # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
 RewriteEngine On
-
 # Перенаправление с http на https
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
 # Перенаправление с без-www на www
 RewriteCond %{HTTP_HOST} ^ecomobile\.world$ [NC]
 RewriteRule ^ https://www.ecomobile.world%{REQUEST_URI} [L,R=301]
-
 PassengerEnabled on
 PassengerAppEnv production
 PassengerBaseURI /
 PassengerNodejs /opt/alt/alt-nodejs18/root/usr/bin/node
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

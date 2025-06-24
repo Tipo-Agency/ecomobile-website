@@ -35,7 +35,6 @@ function ModelsPageContent() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    email: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -95,12 +94,11 @@ function ModelsPageContent() {
         description: "Пожалуйста, заполните форму ниже, и наш менеджер свяжется с вами в ближайшее время.",
         name: "Имя",
         phone: "Телефон",
-        email: "Электронная почта",
         message: "Сообщение",
         submit: "Отправить",
         submitting: "Отправка...",
-        success: "✅ Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
-        error: "❌ Ошибка при отправке заявки. Попробуйте еще раз.",
+        success: "Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.",
+        error: "Ошибка при отправке заявки. Попробуйте еще раз.",
       },
     },
     uz: {
@@ -129,12 +127,11 @@ function ModelsPageContent() {
         description: "Iltimos, quyida to'ldirilgan shaklni to'ldiring, va biz siz bilan aloqaniyatishadi.",
         name: "Ism",
         phone: "Telefon",
-        email: "Elektron pochta",
         message: "Xabar",
         submit: "Yuborish",
         submitting: "Yuborish...",
-        success: "✅ Buyurtma muvaffaqiyatli yuborildi! Biz siz bilan aloqaniyatishadi.",
-        error: "❌ Buyurtma yuborishda xatolik. Iltimos, qayta urinib ko'ring.",
+        success: "Buyurtma muvaffaqiyatli yuborildi! Biz siz bilan aloqaniyatishadi.",
+        error: "Buyurtma yuborishda xatolik. Iltimos, qayta urinib ko'ring.",
       },
     },
     en: {
@@ -163,12 +160,11 @@ function ModelsPageContent() {
         description: "Please fill out the form below, and our manager will contact you shortly.",
         name: "Name",
         phone: "Phone",
-        email: "Email",
         message: "Message",
         submit: "Submit",
         submitting: "Submitting...",
-        success: "✅ Order submitted successfully! We will contact you shortly.",
-        error: "❌ Error submitting order. Please try again.",
+        success: "Order submitted successfully! We will contact you shortly.",
+        error: "Error submitting order. Please try again.",
       },
     },
   }
@@ -209,7 +205,7 @@ function ModelsPageContent() {
 
       if (result.success) {
         setSubmitStatus('success')
-        setFormData({ name: '', phone: '', email: '', message: '' })
+        setFormData({ name: '', phone: '', message: '' })
         setTimeout(() => {
           setIsOrderModalOpen(false)
           setSubmitStatus('idle')
@@ -409,17 +405,6 @@ function ModelsPageContent() {
                           placeholder="+998 90 123 45 67"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">{t.orderForm.email}</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="your@email.com"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           required
                         />
                       </div>
