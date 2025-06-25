@@ -1116,18 +1116,13 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="py-10 lg:py-20  inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="min-h-screen inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30">
+        <div className="container mx-auto px-4 h-full">
+          <div className="grid lg:grid-cols-2 gap-12 items-start lg:min-h-screen lg:py-20 md:py-10">
             {/* Левая часть: текст и кнопки для десктопа */}
             {!isMobile && (
-              <><div className="space-y-8">
+              <><div className="space-y-8  lg:flex lg:flex-col ">
                 <div className="space-y-4">
-                  {/* <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-      {language === "ru" && "Инновационная технология CATL"}
-      {language === "uz" && "CATL innovatsion texnologiyasi"}
-      {language === "en" && "Innovative CATL technology"}
-    </Badge> */}
                   <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
                   <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
                 </div>
@@ -1293,8 +1288,9 @@ export default function HomePage() {
                     </DialogContent>
                   </Dialog>
                 </div>
-              </div><div className="relative">
-                  <div className="aspect-video bg-gray-100 rounded-2xl overflow-hidden">
+              </div>
+              <div className="relative lg:flex  ёlg:items-end lg:flex-col lg:justify-end lg:pb-20">
+                  <div className="bg-gray-100 rounded-2xl lg:w-full lg:h-[515px] lg:overflow-visible">
                     <img
                       src="/images/cargo.jpeg"
                       alt={language === "ru"
@@ -1309,7 +1305,7 @@ export default function HomePage() {
 
             {/* Для мобильных: кнопки под изображением */}
             {isMobile && (
-              <><div className="space-y-4">
+              <><div className="space-y-4 py-10">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">{t.hero.title}</h1>
                 <p className="text-xl text-gray-600 leading-relaxed">{t.hero.description}</p>
               </div>
