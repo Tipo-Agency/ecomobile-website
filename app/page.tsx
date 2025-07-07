@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -47,6 +47,9 @@ export default function HomePage() {
   const [currentModelIndex, setCurrentModelIndex] = useState(0)
   const [isModelsOpen, setIsModelsOpen] = useState(false)
   const [currentHeroSlide, setCurrentHeroSlide] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [fadeIn, setFadeIn] = useState(true)
+  const heroRef = useRef<HTMLDivElement>(null)
   const [calculatorData, setCalculatorData] = useState({
     fleetSize: 5,
     averageDailyDistance: 120,
@@ -132,34 +135,42 @@ export default function HomePage() {
     }
   ]
 
-  // Добавить состояние для анимации
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [prevHeroSlide, setPrevHeroSlide] = useState(currentHeroSlide);
-
-  useEffect(() => {
-    if (prevHeroSlide !== currentHeroSlide) {
-      setIsAnimating(true);
-      const timeout = setTimeout(() => {
-        setIsAnimating(false);
-        setPrevHeroSlide(currentHeroSlide);
-      }, 300); // длительность анимации
-      return () => clearTimeout(timeout);
-    }
-  }, [currentHeroSlide, prevHeroSlide]);
-
-  // Effect for hero slider
+  // Effect for hero slider with improved animation
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentHeroSlide((prevSlide) => (prevSlide + 1) % heroSlides.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [heroSlides.length]);
+      if (!isAnimating) {
+        setIsAnimating(true)
+        setFadeIn(false)
+        
+        setTimeout(() => {
+          setCurrentHeroSlide((prevSlide) => (prevSlide + 1) % heroSlides.length)
+          setFadeIn(true)
+          setIsAnimating(false)
+        }, 300)
+      }
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [heroSlides.length, isAnimating])
+
+  // Manual slide change with animation
+  const changeSlide = (index: number) => {
+    if (!isAnimating && index !== currentHeroSlide) {
+      setIsAnimating(true)
+      setFadeIn(false)
+      
+      setTimeout(() => {
+        setCurrentHeroSlide(index)
+        setFadeIn(true)
+        setIsAnimating(false)
+      }, 200)
+    }
+  }
 
   // Effect for auto-scrolling models
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentModelIndex((prevIndex) => (prevIndex + 1) % modelsData.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [modelsData.length]);
 
@@ -1198,105 +1209,629 @@ export default function HomePage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="min-h-screen inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30 relative overflow-hidden">
+      <section ref={heroRef} className="min-h-screen inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30 relative overflow-hidden">
         <div className="container mx-auto px-4 h-full relative">
           {/* Десктопная версия */}
           {!isMobile && (
             <>
               {/* Специальный макет для второго слайда (ecotruck_2.png) */}
               {currentHeroSlide === 1 ? (
-                <div className="lg:min-h-screen md:min-h-screen lg:py-20 md:py-16 relative lg:m-[-22px] md:m-[-22px]">
+                <div className="lg:min-h-screen md:min-h-screen lg:py-20 md:py-16 relative lg:m-[-28px] md:m-[-28px]">
                   {/* Изображение слева внизу - абсолютное позиционирование */}
-                  <div className={`absolute bottom-0 left-0 lg:w-[70%] lg:h-[80%] md:w-full md:h-[50%] transition-all duration-700 ease-in-out ${isAnimating ? 'opacity-0 -translate-x-16 pointer-events-none' : 'opacity-100 translate-x-0'}`}
-                    key={currentHeroSlide + '-img'}>
+                  <div className={`absolute bottom-0 left-0 lg:w-[70%] lg:h-[80%] md:w-full md:h-[50%] transition-opacity duration-500 ease-out ${
+                    fadeIn ? 'opacity-100' : 'opacity-0'
+                  }`}>
                     <img
+                      key={currentHeroSlide}
                       src={heroSlides[currentHeroSlide].image}
                       alt={heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain transition-opacity duration-500 ease-out"
                     />
                   </div>
-                  {/* Текст справа вверху */}
-                  <div className={`absolute top-20 right-0 lg:w-[50%] md:w-full space-y-8 transition-all duration-700 ease-in-out z-10 text-right ${isAnimating ? 'opacity-0 translate-x-16 pointer-events-none' : 'opacity-100 translate-x-0'}`}
-                    key={currentHeroSlide + '-text'}>
+
+                  {/* Текст справа вверху (2-й слайд) */}
+                  <div className={`absolute top-20 right-0 lg:w-[50%] md:w-full space-y-8 transition-opacity duration-500 ease-out z-10 text-right min-h-[200px] ${
+                    fadeIn ? 'opacity-100' : 'opacity-0'
+                  }`}>
                     <div className="space-y-4">
-                      <h1 className="text-4xl lg:text-4xl md:text-4xl font-bold text-gray-900">
+                      <h1 className="text-4xl lg:text-4xl md:text-4xl font-bold text-gray-900 transition-opacity duration-500 ease-out text-right hover:text-green-600">
                         {heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
                       </h1>
-                      <p className="text-xl md:text-lg text-gray-600 max-w-2xl">
+                      <p className="text-xl md:text-lg text-gray-600 max-w-2xl transition-opacity duration-500 ease-out text-right ml-auto hover:text-gray-800">
                         {heroSlides[currentHeroSlide].description[language as 'ru' | 'uz' | 'en']}
                       </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row md:flex-row md:gap-4 justify-end mt-8">
-                      {/* ...кнопки заказа и инвесторов... */}
+
+                    <div className={`flex flex-col sm:flex-row md:flex-row md:gap-4 justify-end transition-opacity duration-500 ease-out ${
+                      fadeIn ? 'opacity-100' : 'opacity-0'
+                    }`}>
+                      <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 md:px-6 md:py-2 transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+                            {t.hero.buyButton}
+                            <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{t.orderForm.title}</DialogTitle>
+                            <DialogDescription>{t.orderForm.description}</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="name">{t.orderForm.name}</Label>
+                                <Input
+                                  id="name"
+                                  placeholder={t.orderForm.name}
+                                  value={orderFormData.name}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                                <Input
+                                  id="phone"
+                                  placeholder="+998 90 123 45 67"
+                                  value={orderFormData.phone}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="message">{t.orderForm.message}</Label>
+                                <Textarea
+                                  id="message"
+                                  placeholder={t.orderForm.message}
+                                  value={orderFormData.message}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                                  required />
+                              </div>
+
+                              {submitStatus === 'success' && (
+                                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                  {t.orderForm.success}
+                                </div>
+                              )}
+
+                              {submitStatus === 'error' && (
+                                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                  {t.orderForm.error}
+                                </div>
+                              )}
+
+                              <Button
+                                type="submit"
+                                className="w-full bg-green-600 hover:bg-green-700"
+                                disabled={isSubmitting}
+                              >
+                                {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                              </Button>
+                            </form>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            className="px-8 py-3 ml-4 mt-0 md:ml-0 md:px-6 md:py-2 border-blue-200 text-blue-700 hover:bg-blue-50 transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                          >
+                            {t.hero.forInvestors}
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{t.investorModal.title}</DialogTitle>
+                            <DialogDescription>{t.investorModal.description}</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="company">{t.investorModal.company}</Label>
+                                <Input
+                                  id="company"
+                                  placeholder={language === "ru"
+                                    ? "Название компании"
+                                    : language === "uz"
+                                      ? "Kompaniya nomi"
+                                      : "Company name"}
+                                  value={investorFormData.company}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="position">{t.investorModal.position}</Label>
+                                <Input
+                                  id="position"
+                                  placeholder={language === "ru"
+                                    ? "Ваша должность"
+                                    : language === "uz"
+                                      ? "Sizning lavozimingiz"
+                                      : "Your position"}
+                                  value={investorFormData.position}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                                <Select
+                                  value={investorFormData.investmentAmount}
+                                  onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={t.investorModal.selectRange} />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="100k">$100K - $500K</SelectItem>
+                                    <SelectItem value="500k">$500K - $1M</SelectItem>
+                                    <SelectItem value="1m">$1M - $5M</SelectItem>
+                                    <SelectItem value="5m">$5M+</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                                <Textarea
+                                  id="investor-message"
+                                  placeholder={t.investorModal.messagePlaceholder}
+                                  value={investorFormData.message}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                                  required />
+                              </div>
+
+                              {submitStatus === 'success' && (
+                                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                  {t.investorModal.success}
+                                </div>
+                              )}
+
+                              {submitStatus === 'error' && (
+                                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                  {t.investorModal.error}
+                                </div>
+                              )}
+
+                              <Button
+                                type="submit"
+                                className="w-full bg-blue-600 hover:bg-blue-700"
+                                disabled={isSubmitting}
+                              >
+                                {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                              </Button>
+                            </form>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
-                  </div>
-                  {/* Индикаторы */}
-                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 mb-5">
-                    {heroSlides.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentHeroSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          index === currentHeroSlide 
-                            ? 'bg-green-600 scale-125' 
-                            : 'bg-gray-300 hover:bg-gray-500'
-                        }`}
-                        aria-label={`Перейти к слайду ${index + 1}`}
-                      />
-                    ))}
                   </div>
                 </div>
               ) : (
                 /* Макет для 1-го и 3-го слайдов */
-                <div className="lg:min-h-screen md:min-h-screen lg:py-20 md:py-16 relative lg:m-[-22px] md:m-[-22px]">
+                <div className="lg:min-h-screen md:min-h-screen lg:py-20 md:py-16 relative lg:m-[-28px] md:m-[-28px]">
                   {/* Изображение справа внизу - абсолютное позиционирование */}
-                  <div className={`absolute bottom-0 transition-all duration-700 ease-in-out ${
+                  <div className={`absolute bottom-0 transition-opacity duration-500 ease-out ${
                     currentHeroSlide === 2 
                       ? 'right-0 transform translate-x-16 bottom-12 lg:w-[80%] lg:h-[70%] md:w-full md:h-[50%]' 
                       : 'right-0 transform translate-x-32 lg:w-[90%] lg:h-[90%] md:w-full md:h-[60%]'
-                  } ${isAnimating ? (currentHeroSlide === 2 ? 'opacity-0 -translate-x-16 pointer-events-none' : 'opacity-0 translate-x-16 pointer-events-none') : 'opacity-100 translate-x-0'}`}
-                    key={currentHeroSlide + '-img'}>
+                  } ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
                     <img
+                      key={currentHeroSlide}
                       src={heroSlides[currentHeroSlide].image}
                       alt={heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain transition-opacity duration-500 ease-out"
                     />
                   </div>
-                  {/* Текст слева вверху */}
-                  <div className={`absolute left-0 top-20 lg:w-[50%] md:w-full space-y-8 transition-all duration-700 ease-in-out z-10 ${isAnimating ? (currentHeroSlide === 2 ? 'opacity-0 translate-x-16 pointer-events-none' : 'opacity-0 -translate-x-16 pointer-events-none') : 'opacity-100 translate-x-0'}`}
-                    key={currentHeroSlide + '-text'}>
+
+                  {/* Текст слева вверху (1 и 3 слайд) */}
+                  <div className={`absolute left-0 top-20 lg:w-[50%] md:w-full space-y-8 transition-opacity duration-500 ease-out z-10 min-h-[200px] ${
+                    fadeIn ? 'opacity-100' : 'opacity-0'
+                  }`}>
                     <div className="space-y-4">
-                      <h1 className="text-4xl lg:text-5xl md:text-4xl font-bold text-gray-900">
+                      <h1 className="text-4xl lg:text-5xl md:text-4xl font-bold text-gray-900 transition-opacity duration-500 ease-out hover:text-green-600">
                         {heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
                       </h1>
-                      <p className="text-xl md:text-lg text-gray-600 max-w-2xl">
+                      <p className="text-xl md:text-lg text-gray-600 max-w-2xl transition-opacity duration-500 ease-out hover:text-gray-800">
                         {heroSlides[currentHeroSlide].description[language as 'ru' | 'uz' | 'en']}
                       </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row md:flex-row md:gap-4 mt-8">
-                      {/* ...кнопки заказа и инвесторов... */}
+
+                    <div className={`flex flex-col sm:flex-row md:flex-row md:gap-4 transition-opacity duration-500 ease-out ${
+                      fadeIn ? 'opacity-100' : 'opacity-0'
+                    }`}>
+                      <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 md:px-6 md:py-2 transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+                            {t.hero.buyButton}
+                            <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{t.orderForm.title}</DialogTitle>
+                            <DialogDescription>{t.orderForm.description}</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="name">{t.orderForm.name}</Label>
+                                <Input
+                                  id="name"
+                                  placeholder={t.orderForm.name}
+                                  value={orderFormData.name}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                                <Input
+                                  id="phone"
+                                  placeholder="+998 90 123 45 67"
+                                  value={orderFormData.phone}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="message">{t.orderForm.message}</Label>
+                                <Textarea
+                                  id="message"
+                                  placeholder={t.orderForm.message}
+                                  value={orderFormData.message}
+                                  onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                                  required />
+                              </div>
+
+                              {submitStatus === 'success' && (
+                                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                  {t.orderForm.success}
+                                </div>
+                              )}
+
+                              {submitStatus === 'error' && (
+                                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                  {t.orderForm.error}
+                                </div>
+                              )}
+
+                              <Button
+                                type="submit"
+                                className="w-full bg-green-600 hover:bg-green-700"
+                                disabled={isSubmitting}
+                              >
+                                {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                              </Button>
+                            </form>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="lg"
+                            className="px-8 py-3 ml-4 mt-0 md:ml-0 md:px-6 md:py-2 border-blue-200 text-blue-700 hover:bg-blue-50 transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                          >
+                            {t.hero.forInvestors}
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{t.investorModal.title}</DialogTitle>
+                            <DialogDescription>{t.investorModal.description}</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="company">{t.investorModal.company}</Label>
+                                <Input
+                                  id="company"
+                                  placeholder={language === "ru"
+                                    ? "Название компании"
+                                    : language === "uz"
+                                      ? "Kompaniya nomi"
+                                      : "Company name"}
+                                  value={investorFormData.company}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="position">{t.investorModal.position}</Label>
+                                <Input
+                                  id="position"
+                                  placeholder={language === "ru"
+                                    ? "Ваша должность"
+                                    : language === "uz"
+                                      ? "Sizning lavozimingiz"
+                                      : "Your position"}
+                                  value={investorFormData.position}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                                  required />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                                <Select
+                                  value={investorFormData.investmentAmount}
+                                  onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={t.investorModal.selectRange} />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="100k">$100K - $500K</SelectItem>
+                                    <SelectItem value="500k">$500K - $1M</SelectItem>
+                                    <SelectItem value="1m">$1M - $5M</SelectItem>
+                                    <SelectItem value="5m">$5M+</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                                <Textarea
+                                  id="investor-message"
+                                  placeholder={t.investorModal.messagePlaceholder}
+                                  value={investorFormData.message}
+                                  onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                                  required />
+                              </div>
+
+                              {submitStatus === 'success' && (
+                                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                  {t.investorModal.success}
+                                </div>
+                              )}
+
+                              {submitStatus === 'error' && (
+                                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                  {t.investorModal.error}
+                                </div>
+                              )}
+
+                              <Button
+                                type="submit"
+                                className="w-full bg-blue-600 hover:bg-blue-700"
+                                disabled={isSubmitting}
+                              >
+                                {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                              </Button>
+                            </form>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
-                  </div>
-                  {/* Индикаторы */}
-                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 mb-5">
-                    {heroSlides.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentHeroSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          index === currentHeroSlide 
-                            ? 'bg-green-600 scale-125' 
-                            : 'bg-gray-300 hover:bg-gray-500'
-                        }`}
-                        aria-label={`Перейти к слайду ${index + 1}`}
-                      />
-                    ))}
                   </div>
                 </div>
               )}
+              
+              {/* Индикаторы для десктопа */}
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10 mb-5">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => changeSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentHeroSlide 
+                        ? 'bg-green-600 scale-125' 
+                        : 'bg-gray-300 hover:bg-gray-500'
+                    }`}
+                    aria-label={`Перейти к слайду ${index + 1}`}
+                  />
+                ))}
+              </div>
             </>
           )}
-          {/* Мобильная версия аналогично, если нужно — добавлю */}
+
+          {/* Мобильная версия */}
+          {isMobile && (
+            <div className="flex flex-col min-h-screen py-10">
+              {/* 1. Текст */}
+              <div className={`space-y-4 mb-8 transition-opacity duration-500 ease-out ${
+                fadeIn ? 'opacity-100' : 'opacity-0'
+              }`}>
+                <h1 className="text-2xl font-bold text-gray-900 leading-tight transition-opacity duration-500 ease-out hover:text-green-600">
+                  {heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
+                </h1>
+                <p className="text-lg text-gray-600 leading-relaxed transition-opacity duration-500 ease-out hover:text-gray-800">
+                  {heroSlides[currentHeroSlide].description[language as 'ru' | 'uz' | 'en']}
+                </p>
+              </div>
+              
+              {/* 2. Картинка */}
+              <div className={`mb-8 transition-opacity duration-500 ease-out ${
+                fadeIn ? 'opacity-100' : 'opacity-0'
+              }`}>
+                <div className="aspect-video bg-transparent rounded-2xl overflow-hidden">
+                  <img
+                    key={currentHeroSlide}
+                    src={heroSlides[currentHeroSlide].image}
+                    alt={heroSlides[currentHeroSlide].title[language as 'ru' | 'uz' | 'en']}
+                    className="rounded-2xl object-cover w-full h-full transition-opacity duration-500 ease-out hover:scale-105" />
+                </div>
+              </div>
+              
+              {/* 3. Индикаторы */}
+              <div className="flex justify-center space-x-2 mb-8">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => changeSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index === currentHeroSlide 
+                        ? 'bg-green-600 scale-125' 
+                        : 'bg-gray-300 hover:bg-gray-500'
+                    }`}
+                    aria-label={`Перейти к слайду ${index + 1}`}
+                  />
+                ))}
+              </div>
+              
+              {/* 4. Кнопки */}
+              <div className={`flex flex-col gap-4 transition-opacity duration-500 ease-out ${
+                fadeIn ? 'opacity-100' : 'opacity-0'
+              }`}>
+                <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 w-full transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95">
+                      {t.hero.buyButton}
+                      <ChevronRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>{t.orderForm.title}</DialogTitle>
+                      <DialogDescription>{t.orderForm.description}</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <form onSubmit={handleOrderFormSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">{t.orderForm.name}</Label>
+                          <Input
+                            id="name"
+                            placeholder={t.orderForm.name}
+                            value={orderFormData.name}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, name: e.target.value })}
+                            required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">{t.orderForm.phone}</Label>
+                          <Input
+                            id="phone"
+                            placeholder="+998 90 123 45 67"
+                            value={orderFormData.phone}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, phone: e.target.value })}
+                            required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="message">{t.orderForm.message}</Label>
+                          <Textarea
+                            id="message"
+                            placeholder={t.orderForm.message}
+                            value={orderFormData.message}
+                            onChange={(e) => setOrderFormData({ ...orderFormData, message: e.target.value })}
+                            required />
+                        </div>
+
+                        {submitStatus === 'success' && (
+                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                            {t.orderForm.success}
+                          </div>
+                        )}
+
+                        {submitStatus === 'error' && (
+                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                            {t.orderForm.error}
+                          </div>
+                        )}
+
+                        <Button
+                          type="submit"
+                          className="w-full bg-green-600 hover:bg-green-700"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? t.orderForm.submitting : t.orderForm.submit}
+                        </Button>
+                      </form>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog open={isInvestorModalOpen} onOpenChange={setIsInvestorModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="px-8 py-3 border-blue-200 text-blue-700 hover:bg-blue-50 w-full transition-all duration-300 ease-out transform hover:scale-105 hover:shadow-lg active:scale-95"
+                    >
+                      {t.hero.forInvestors}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>{t.investorModal.title}</DialogTitle>
+                      <DialogDescription>{t.investorModal.description}</DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <form onSubmit={handleInvestorFormSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="company">{t.investorModal.company}</Label>
+                          <Input
+                            id="company"
+                            placeholder={language === "ru"
+                              ? "Название компании"
+                              : language === "uz"
+                                ? "Kompaniya nomi"
+                                : "Company name"}
+                            value={investorFormData.company}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, company: e.target.value })}
+                            required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="position">{t.investorModal.position}</Label>
+                          <Input
+                            id="position"
+                            placeholder={language === "ru"
+                              ? "Ваша должность"
+                              : language === "uz"
+                                ? "Sizning lavozimingiz"
+                                : "Your position"}
+                            value={investorFormData.position}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, position: e.target.value })}
+                            required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="investment">{t.investorModal.investmentAmount}</Label>
+                          <Select
+                            value={investorFormData.investmentAmount}
+                            onValueChange={(value) => setInvestorFormData({ ...investorFormData, investmentAmount: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder={t.investorModal.selectRange} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="100k">$100K - $500K</SelectItem>
+                              <SelectItem value="500k">$500K - $1M</SelectItem>
+                              <SelectItem value="1m">$1M - $5M</SelectItem>
+                              <SelectItem value="5m">$5M+</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="investor-message">{t.investorModal.message}</Label>
+                          <Textarea
+                            id="investor-message"
+                            placeholder={t.investorModal.messagePlaceholder}
+                            value={investorFormData.message}
+                            onChange={(e) => setInvestorFormData({ ...investorFormData, message: e.target.value })}
+                            required />
+                        </div>
+
+                        {submitStatus === 'success' && (
+                          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                            {t.investorModal.success}
+                          </div>
+                        )}
+
+                        {submitStatus === 'error' && (
+                          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                            {t.investorModal.error}
+                          </div>
+                        )}
+
+                        <Button
+                          type="submit"
+                          className="w-full bg-blue-600 hover:bg-blue-700"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? t.investorModal.submitting : t.investorModal.submit}
+                        </Button>
+                      </form>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
