@@ -276,7 +276,7 @@ function ModelsPageContent() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12">
             {modelsData.map((model) => {
               const translation = model.translations[language as keyof typeof model.translations]
               return (
@@ -347,6 +347,9 @@ function ModelsPageContent() {
                 className="max-w-full h-auto rounded-2xl bg-white mb-8"
                 style={{ maxHeight: 320 }}
               />
+                            <div className="flex items-center mb-8">
+                <span className="text-2xl md:text-3xl font-extrabold text-center text-green-700 mr-4">{currentTranslation.price}</span>
+              </div>
 
             </div>
 
@@ -373,6 +376,8 @@ function ModelsPageContent() {
                   <span className="text-xs md:text-sm text-purple-700">Грузоподъемность</span>
                 </div>
               </div>
+
+
 
               {/* Кнопки */}
               <div className="flex flex-col sm:flex-row gap-4 w-full mb-8">
@@ -484,9 +489,9 @@ function ModelsPageContent() {
               {/* Особенности */}
               <div className="w-full lg:w-1/2 flex flex-col items-center">
                 <h3 className="text-lg text-center md:text-xl font-semibold text-gray-900 mb-2">{t.features}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 w-full">
+                <div className="grid grid-cols-1  gap-2 md:gap-4 w-full">
                   <div className="flex items-center space-x-2 p-2 rounded-lg">
-                    <Snowflake className="w-8 h-8 text-green-600" />
+                    <Snowflake className="w-11 h-11 text-green-600" />
                     <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.climateControl}</span>
                   </div>
                   <div className="flex items-center space-x-2 p-2 rounded-lg">

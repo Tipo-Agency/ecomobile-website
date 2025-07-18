@@ -2299,6 +2299,10 @@ export default function HomePage() {
                 {currentModel.translations[language as keyof typeof currentModel.translations].description}
               </p>
 
+              <div className="flex items-center mb-8">
+                <span className="text-xl md:text-3xl font-extrabold text-center text-green-700 mr-4">{currentModel.translations[language as keyof typeof currentModel.translations].price}</span>
+              </div>
+
               <div className="space-y-4 transition-all duration-700 ease-in-out transform translate-y-0 opacity-100">
                 <h4 className="text-2xl font-bold text-gray-900">
                   {language === "ru" && "Технические характеристики"}
