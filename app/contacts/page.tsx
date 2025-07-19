@@ -420,7 +420,7 @@ export default function ContactsPage() {
               <div className="space-y-6">
 
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                  <a href="tel:+998990969969">
+                  <a href="tel:+998901756707">
                     <CardContent className="p-6">
                       <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -662,11 +662,11 @@ export default function ContactsPage() {
               </Card>
 
               <Card className="text-center border-0 shadow-lg">
-              <a href="tel:+998990969969">
+              <a href="tel:+998901756707">
                 <CardContent className="p-6">
                   <Phone className="w-8 h-8 text-blue-600 mx-auto mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">{t.map.phoneCard.title}</h3>
-                  <p className="text-sm text-gray-600">+998 99 096 99 69</p>
+                  <p className="text-sm text-gray-600">+998 90 175 67 07</p>
                   <p className="text-sm text-gray-600">{t.map.phoneCard.available}</p>
                 </CardContent>
               </a>

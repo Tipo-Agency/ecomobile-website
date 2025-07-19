@@ -237,13 +237,13 @@ function ModelsPageContent() {
       <Header />
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-green-50 to-blue-50">
+      {/* <section className="py-20 bg-gradient-to-br from-green-50 to-blue-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge className="bg-green-100 text-green-800 hover:bg-green-100 mb-6">{t.badge}</Badge>
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">{t.title}</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.subtitle}</p>
-          </div>
+          </div> */}
 
           {/* Model Navigation */}
           {/* <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -261,20 +261,20 @@ function ModelsPageContent() {
               </button>
             ))}
           </div> */}
-        </div>
-      </section>
+        {/* </div>
+      </section> */}
 
       {/* All Models Overview */}
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          {/* <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.overview}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === "ru" && "Сравните все наши модели электромобилей"}
               {language === "uz" && "Barcha elektromobil modellarimizni taqqoslang"}
               {language === "en" && "Compare all our electric vehicle models"}
             </p>
-          </div>
+          </div> */}
 
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12">
             {modelsData.map((model) => {

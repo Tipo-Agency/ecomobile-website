@@ -188,15 +188,17 @@ export default function Header() {
                     <ChevronDown className="h-4 w-4" />
                   </Link>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48 p-2 ">
-                  {modelsData.map((model) => (
-                    <DropdownMenuItem key={model.id} asChild>
-                      <Link href={`/models#${model.id}`} className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer">
-                        <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={40} height={40} className="rounded-md" />
-                        <span>{model.translations[language as keyof typeof model.translations].name}</span>
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
+                <DropdownMenuContent className="p-1">
+                  <div className="flex flex-row gap-1">
+                    {modelsData.map((model) => (
+                      <DropdownMenuItem key={model.id} asChild>
+                        <Link href={`/models#${model.id}`} className="flex flex-col items-center hover:bg-gray-100 rounded-md cursor-pointer">
+                          <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={100} height={100} className="rounded-md mb-1" />
+                          <span className="text-sm font-medium text-center">{model.translations[language as keyof typeof model.translations].name}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
                 </DropdownMenuContent>
               </DropdownMenu>
               <Link
