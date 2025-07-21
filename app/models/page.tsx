@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Battery, Route, Package, ChevronRight, ArrowLeft, ArrowRight, Snowflake, MapPin, Camera } from "lucide-react"
+import { Battery, Route, Package, ChevronRight, ArrowLeft, ArrowRight, Snowflake, MapPin, Camera, Car, CarFront, Music } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useLanguage } from "@/contexts/language-context"
@@ -88,6 +88,7 @@ function ModelsPageContent() {
       },
       hero: {
         buyButton: "Купить",
+        creditCalculatorButton: "В кредит",
       },
       orderForm: {
         title: "Заказать звонок",
@@ -121,6 +122,7 @@ function ModelsPageContent() {
       },
       hero: {
         buyButton: "Sotib olish",
+        creditCalculatorButton: "Kredit",
       },
       orderForm: {
         title: "Zvonok qilish",
@@ -154,6 +156,7 @@ function ModelsPageContent() {
       },
       hero: {
         buyButton: "Buy",
+        creditCalculatorButton: "Credit",
       },
       orderForm: {
         title: "Order a Call",
@@ -446,6 +449,13 @@ function ModelsPageContent() {
                     </form>
                   </DialogContent>
                 </Dialog>
+                
+                <Link href={`/credit?model=${selectedModelId || modelsData[0]?.id || 'cargo'}`} className="flex-1">
+                  <Button size="lg" variant="outline" className="w-full text-white bg-blue-600 hover:bg-blue-700 hover:text-white text-base md:text-lg font-semibold flex items-center justify-center">
+                    {t.hero?.creditCalculatorButton || "Кредит"} <ChevronRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                
                 <Link href="/contacts" className="flex-1">
                   <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold flex items-center justify-center">
                     Связаться с нами
@@ -495,13 +505,33 @@ function ModelsPageContent() {
                     <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.climateControl}</span>
                   </div>
                   <div className="flex items-center space-x-2 p-2 rounded-lg">
-                    <MapPin className="w-11 h-11 text-blue-600" />
+                    <MapPin className="w-11 h-11 text-green-600" />
                     <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.navigation}</span>
                   </div>
+                  {currentTranslation.features.camera && (
                   <div className="flex items-center space-x-2 p-2 rounded-lg">
-                    <Camera className="w-12 h-12 text-purple-600" />
+                    <Camera className="w-12 h-12 text-green-600" />
                     <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.camera}</span>
                   </div>
+                  )}
+                  {currentTranslation.features.electricWindows && (
+                    <div className="flex items-center space-x-2 p-2 rounded-lg">
+                      <CarFront className="w-12 h-12 text-green-600" />
+                      <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.electricWindows}</span>
+                    </div>
+                  )}
+                  {currentTranslation.features.transmission && (
+                    <div className="flex items-center space-x-2 p-2 rounded-lg">
+                      <Car className="w-12 h-12 text-green-600" />
+                      <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.transmission}</span>
+                    </div>
+                  )}
+                  {currentTranslation.features.multimedia && (
+                    <div className="flex items-center space-x-2 p-2 rounded-lg">
+                      <Music className="w-12 h-12 text-green-600" />
+                      <span className="text-gray-700 text-base md:text-lg font-medium">{currentTranslation.features.multimedia}</span>
+                    </div>
+                  )}
                 </div>
 
                 {(currentModel?.id === "ikki" || currentModel?.id === "yuki") && (

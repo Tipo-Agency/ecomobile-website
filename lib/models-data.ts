@@ -27,9 +27,12 @@ export interface ModelTranslation {
     climbAbility: string;
     features: {
       title: string;
-      climateControl: string;
-      navigation: string;
-      camera: string;
+      climateControl?: string;
+      navigation?: string;
+      camera?: string;
+      electricWindows?: string;
+      transmission?: string;
+      multimedia?: string;
     };
     learnMore: string;
   }
@@ -59,9 +62,12 @@ export const modelsData: ModelData[] = [
           climbAbility: "Преодолеваемый уклон: ≥20%",
           features: {
             title: "Особенности",
-            climateControl: "Удобный салон с вентиляцией",
+            climateControl: "Удобный салон с кондиционером",
             navigation: "Базовая система навигации и мониторинга маршрута",
-            camera: "Зеркала заднего вида и хорошая обзорность для манёвров",
+            camera: "Камера заднего вида и дисплей",
+            electricWindows: "Электромеханизм открывания окон",
+            transmission: "Автоматическая коробка передач",
+            multimedia: "Мультимедиа система и Bluetooth",
           },
           learnMore: "Подробнее",
         },
@@ -84,9 +90,12 @@ export const modelsData: ModelData[] = [
           climbAbility: "Ko‘tarilish qobiliyati: ≥20%",
           features: {
             title: "Xususiyatlar",
-            climateControl: "Ventilyatsiyali qulay kabina",
+            climateControl: "Konditsionerli qulay kabina",
             navigation: "Asosiy navigatsiya va marshrut monitoringi tizimi",
-            camera: "Manevr qilish uchun keng ko‘rinishli orqa ko‘zgular",
+            camera: "Orqa kamera va displey",
+            electricWindows: "Oynalarni ochuvchi elektromexanik tizim",
+            transmission: "Avtomatik uzatmalar qutisi",
+            multimedia: "Multimedia tizimi va Bluetooth",
           },
           learnMore: "Batafsil",
         },
@@ -109,9 +118,12 @@ export const modelsData: ModelData[] = [
           climbAbility: "Gradeability: ≥20%",
           features: {
             title: "Features",
-            climateControl: "Comfortable Cabin with Ventilation",
+            climateControl: "Comfortable Cabin with Conditioner",
             navigation: "Basic Navigation & Route Monitoring System",
-            camera: "Wide Rear Mirrors for Urban Maneuvering",
+            camera: "Rear Camera & Display",
+            electricWindows: "Electric Window Opener",
+            transmission: "Automatic Transmission",
+            multimedia: "Multimedia System & Bluetooth",
           },
           learnMore: "Learn More",
         },
@@ -140,9 +152,9 @@ export const modelsData: ModelData[] = [
           climbAbility: "Преодолеваемый уклон: ≥20%",
           features: {
             title: "Особенности",
-            climateControl: "Удобный салон с вентиляцией",
+            climateControl: "Удобный салон с кондиционером",
             navigation: "Базовая система навигации и мониторинга маршрута",
-            camera: "Зеркала заднего вида и хорошая обзорность для манёвров",
+            transmission: "Автоматическая коробка передач",
           },
           learnMore: "Подробнее",
         },
@@ -165,9 +177,9 @@ export const modelsData: ModelData[] = [
           climbAbility: "Ko‘tarilish qobiliyati: ≥20%",
           features: {
             title: "Xususiyatlar",
-            climateControl: "Ventilyatsiyali qulay kabina",
+            climateControl: "Konditsionerli qulay kabina",
             navigation: "Asosiy navigatsiya va marshrut monitoringi tizimi",
-            camera: "Manevr qilish uchun keng ko‘rinishli orqa ko‘zgular",
+            transmission: "Avtomatik uzatmalar qutisi",
           },
           learnMore: "Batafsil",
         },
@@ -190,9 +202,9 @@ export const modelsData: ModelData[] = [
           climbAbility: "Gradeability: ≥20%",
           features: {
             title: "Features",
-            climateControl: "Comfortable Cabin with Ventilation",
+            climateControl: "Comfortable Cabin with Conditioner",
             navigation: "Basic Navigation & Route Monitoring System",
-            camera: "Wide Rear Mirrors for Urban Maneuvering",
+            transmission: "Automatic Transmission",
           },
           learnMore: "Learn More",
         },

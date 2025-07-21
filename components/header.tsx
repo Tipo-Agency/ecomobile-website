@@ -77,7 +77,7 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b border-b-[0.25px] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
+    <header className="border-b-[0.25px] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image src="/logo-main.png" alt="EcoMobile" width={150} height={40} className="h-10 w-auto" />
@@ -114,30 +114,13 @@ export default function Header() {
                   >
                     {t.nav.home}
                   </Link>
-                  <div className="flex flex-col space-y-2">
-                    <div
-                      onClick={() => setIsModelsOpen(!isModelsOpen)}
-                      className={`transition-colors text-lg cursor-pointer flex items-center justify-between ${pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700"
-                        }`}
-                    >
-                      {t.nav.models.title}
-                      <ChevronDown className={`h-5 w-5 transition-transform ${isModelsOpen ? 'rotate-180' : ''}`} />
-                    </div>
-                    {isModelsOpen && (
-                      <div className="pl-4 space-y-2">
-                        {modelsData.map((model) => (
-                          <Link
-                            key={model.id}
-                            href={`/models#${model.id}`}
-                            className="flex items-center space-x-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                          >
-                            <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={40} height={40} className="rounded-md" />
-                            <span>{model.translations[language as keyof typeof model.translations].name}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                  <Link
+                    href="/models"
+                    className={`transition-colors text-lg ${isActive("/models") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                      }`}
+                  >
+                    {t.nav.models.title}
+                  </Link>
                   <Link
                     href="/about"
                     className={`transition-colors text-lg ${isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
@@ -177,30 +160,13 @@ export default function Header() {
               >
                 {t.nav.home}
               </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Link
-                    href="#"
-                    onClick={(e) => e.preventDefault()}
-                    className={`transition-colors flex items-center gap-1 ${pathname.startsWith("/models") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600 border-o"}`}
-                  >
-                    {t.nav.models.title}
-                    <ChevronDown className="h-4 w-4" />
-                  </Link>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="p-1">
-                  <div className="flex flex-row gap-1">
-                    {modelsData.map((model) => (
-                      <DropdownMenuItem key={model.id} asChild>
-                        <Link href={`/models#${model.id}`} className="flex flex-col items-center hover:bg-gray-100 rounded-md cursor-pointer">
-                          <Image src={model.image} alt={model.translations[language as keyof typeof model.translations].name} width={100} height={100} className="rounded-md mb-1" />
-                          <span className="text-sm font-medium text-center">{model.translations[language as keyof typeof model.translations].name}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Link
+                href="/models"
+                className={`transition-colors ${isActive("/models") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"
+                  }`}
+              >
+                {t.nav.models.title}
+              </Link>
               <Link
                 href="/about"
                 className={`transition-colors ${isActive("/about") ? "text-green-600 font-medium" : "text-gray-700 hover:text-green-600"

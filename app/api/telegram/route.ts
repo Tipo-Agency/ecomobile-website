@@ -6,7 +6,24 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, phone, message, company, position, investmentAmount, model, source } = body
+    const { 
+      name, 
+      phone, 
+      message, 
+      company, 
+      position, 
+      investmentAmount, 
+      model, 
+      source,
+      // Кредитные данные
+      city,
+      personType,
+      vehiclePrice,
+      downPayment,
+      loanTerm,
+      loanAmount,
+      monthlyPayment
+    } = body
 
     if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
       console.error('Telegram credentials not configured')
@@ -17,7 +34,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Формируем сообщение для Telegram
-    let telegramMessage = `🔔 *Новая заявка с сайта*\n\n`
+    const isCreditApplication = vehiclePrice || loanAmount || monthlyPayment
+    let telegramMessage = isCreditApplication 
+      ? `💳 *Заявка на кредит*\n\n`
+      : `🔔 *Новая заявка с сайта*\n\n`
     
     if (source) {
       telegramMessage += `📍 *Источник:* ${source}\n\n`
@@ -45,6 +65,35 @@ export async function POST(request: NextRequest) {
 
     if (model) {
       telegramMessage += `🚗 *Модель:* ${model}\n`
+    }
+
+    // Кредитная информация
+    if (city) {
+      telegramMessage += `🏙️ *Город:* ${city}\n`
+    }
+
+    if (personType) {
+      telegramMessage += `👥 *Тип лица:* ${personType}\n`
+    }
+
+    if (vehiclePrice) {
+      telegramMessage += `💰 *Цена автомобиля:* ${vehiclePrice}\n`
+    }
+
+    if (downPayment) {
+      telegramMessage += `💳 *Первоначальный взнос:* ${downPayment}\n`
+    }
+
+    if (loanTerm) {
+      telegramMessage += `📅 *Срок кредита:* ${loanTerm}\n`
+    }
+
+    if (loanAmount) {
+      telegramMessage += `🏦 *Сумма кредита:* ${loanAmount}\n`
+    }
+
+    if (monthlyPayment) {
+      telegramMessage += `📊 *Ежемесячный платеж:* ${monthlyPayment}\n`
     }
 
     if (message) {

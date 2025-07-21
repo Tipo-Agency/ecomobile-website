@@ -180,7 +180,7 @@ export default function CalculatorComponent() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.subtitle}</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl items-center">
+          <div className="grid lg:grid-cols-2 gap-12 items-start bg-white p-8 rounded-3xl shadow-xl ">
             {/* Input Your Details (Left Column) */}
             <Card className="border-0 shadow-none bg-transparent">
               <CardContent className="p-0 space-y-6">

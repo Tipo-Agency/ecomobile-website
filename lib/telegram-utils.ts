@@ -8,6 +8,14 @@ export interface FormData {
   investmentAmount?: string
   model?: string
   source?: string
+  // Кредитные поля
+  city?: string
+  personType?: string
+  vehiclePrice?: string
+  downPayment?: string
+  loanTerm?: string
+  loanAmount?: string
+  monthlyPayment?: string
 }
 
 export async function sendToTelegram(formData: FormData): Promise<{ success: boolean; error?: string }> {

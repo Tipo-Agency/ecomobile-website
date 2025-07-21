@@ -430,7 +430,7 @@ export default function ContactsPage() {
                           <h3 className="text-lg font-semibold text-gray-900 mb-2">{t.contact.phone.title}</h3>
                           <p className="text-gray-600 mb-2">{t.contact.phone.description}</p>
                           <div className="space-y-1">
-                            <p className="font-medium text-gray-900">+998 99 096-99-69</p>
+                            <p className="font-medium text-gray-900">+998 90 175 67 07</p>
                             <p className="text-sm text-gray-500">{t.contact.phone.hours}</p>
                           </div>
                         </div>
