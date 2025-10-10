@@ -15,13 +15,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign, Shield, X, BatteryCharging, Route, Package, Utensils, Mail, Activity, AlertTriangle } from "lucide-react"
+import { Battery, Leaf, Sun, Truck, Users, TrendingUp, ChevronRight, DollarSign, Shield, X, Route, Package, Utensils, Mail, Activity } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import CalculatorComponent from "@/components/Calculator"
 import { useLanguage } from "@/contexts/language-context"
-import Script from 'next/script'
 import { useMobile } from '@/hooks/use-mobile'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import Link from "next/link"
@@ -72,22 +70,6 @@ export default function HomePage() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
-  // Scam warning modal state
-  const [isScamWarningOpen, setIsScamWarningOpen] = useState(false)
-
-  useEffect(() => {
-    try {
-      const hasSeen = localStorage.getItem('scam-warning-seen')
-      if (!hasSeen) {
-        setIsScamWarningOpen(true)
-        localStorage.setItem('scam-warning-seen', 'true')
-      }
-    } catch (e) {
-      // noop: localStorage might be unavailable
-      setIsScamWarningOpen(true)
-    }
-  }, [])
 
   const modelsData = getAllModels();
 
@@ -1224,37 +1206,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Scam Warning Modal */}
-      <Dialog open={isScamWarningOpen} onOpenChange={setIsScamWarningOpen}>
-        <DialogContent className="max-w-lg sm:max-w-xl md:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-red-700">
-              <AlertTriangle className="h-5 w-5 text-red-600" />
-              Осторожно! Мошенническая схема!
-            </DialogTitle>
-            <DialogDescription>
-              Данное лицо распространяет ложную информацию! Это лицо никакого отношения не имеет к компании Ecomobile World. Будьте аккуратны и не попадайтесь на обман.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="w-full">
-              <img src="/images/scammer.jpeg" alt="Мошенник" className="w-full h-56 md:h-64 object-contain rounded-md bg-gray-50" />
-            </div>
-            <div className="flex items-center">
-              <div className="space-y-2 text-sm text-gray-700 leading-relaxed">
-                <p>Осторожно! Мошенническая схема!</p>
-                <p>Данное лицо распространяет ложную информацию!</p>
-                <p>Это лицо никакого отношения не имеет к компании Ecomobile World.</p>
-                <p className="font-semibold text-gray-900">Будьте аккуратны и не попадайтесь на обман.</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={() => setIsScamWarningOpen(false)}>Закрыть</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
       {/* Hero Section */}
       <section ref={heroRef} className="min-h-screen inset-0 bg-gradient-to-br from-green-50/50 via-white to-blue-50/30 relative overflow-hidden">
         <div className="container mx-auto px-4 h-full relative">
@@ -2150,7 +2101,7 @@ export default function HomePage() {
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.swapNetwork.subtitle}</p>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8 items-start bg-white rounded-3xl shadow-xl p-8 items-center"> {/* Общая структура двух колонок */}
+            <div className="grid lg:grid-cols-3 gap-8 bg-white rounded-3xl shadow-xl p-8 items-center"> {/* Общая структура двух колонок */}
               {/* Map Column (2/3 width) */}
               <div className="lg:col-span-2 relative aspect-video">
                 <img src="/images/uzbekistan.jpg" alt="Станции замены в Узбекистане" className="rounded-2xl object-cover w-full h-full" />
