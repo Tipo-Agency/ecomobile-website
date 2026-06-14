@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect, createContext, useContext, Fragment } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
+import { NEWS, newsBySlug, relatedNews } from "./news-data";
 
     /* ===================== i18n ===================== */
     const T = {
@@ -122,6 +123,19 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       const ref=useRef(null); const inView=useInView(ref,{once:true,margin:"-12% 0px"});
       const M=motion[as]||motion.div;
       return <M ref={ref} className={className} initial={{y}} animate={inView?{y:0}:{}} transition={{duration:.8,delay,ease:[0.16,1,0.3,1]}}>{children}</M>;
+    }
+    /* count-up number — fallback shows the final value so it's visible even if rAF is frozen */
+    function CountUp({to,prefix="",suffix="",decimals=0,className}){
+      const ref=useRef(null); const inView=useInView(ref,{once:true,margin:"-12% 0px"});
+      const [v,setV]=useState(to);
+      useEffect(()=>{ if(!inView) return; let raf,start=null,done=false;
+        const tick=(ts)=>{ if(done) return; if(start===null) start=ts;
+          const p=Math.min(1,(ts-start)/1300), e=1-Math.pow(1-p,3); setV(to*e);
+          if(p<1) raf=requestAnimationFrame(tick); };
+        raf=requestAnimationFrame(tick); return ()=>{done=true; cancelAnimationFrame(raf);};
+      },[inView,to]);
+      const txt=decimals>0?v.toFixed(decimals):Math.round(v).toLocaleString("en-US");
+      return <span ref={ref} className={className}>{prefix}{txt}{suffix}</span>;
     }
     function Btn({children,primary,ghost,lg,light,outline,onClick}){
       const ref=useRef(null); const x=useMotionValue(0),y=useMotionValue(0);
@@ -399,7 +413,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       const R=200,cx=300,cy=300;
       const pos=t.eco.map((_,i)=>{const a=(-90+i*(360/t.eco.length))*Math.PI/180;return [cx+R*Math.cos(a),cy+R*Math.sin(a)];});
       return (<section id="ecosystem" className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
-        <Head n="04" title={t.ecoTitle} lead={t.ecoLead} center/>
+        <Head n="05" title={t.ecoTitle} lead={t.ecoLead} center/>
         <Reveal delay={.1}><div className="relative mx-auto mt-16 w-full max-w-[600px] aspect-square">
           <svg viewBox="0 0 600 600" className="absolute inset-0 w-full h-full">
             <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(11,166,120,.22)" strokeWidth="1.5" strokeDasharray="2 8"/>
@@ -421,7 +435,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
 
     function Open(){ const t=useContext(L);
       return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
-        <Head n="05" title={t.openTitle} center/>
+        <Head n="06" title={t.openTitle} center/>
         <div className="mt-14 grid md:grid-cols-2 gap-6">
           <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10 h-full">
             <div className="flex items-center justify-between"><div className="eyebrow" style={{color:"#9aa1ab"}}>Closed ecosystem</div><span className="text-xs text-[#b7bdc6]">isolated</span></div>
@@ -440,7 +454,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
     function Taxi(){ const t=useContext(L);
       const ic=["car","clock","bolt"];
       return (<section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36 grid md:grid-cols-2 gap-12 items-center">
-        <div><Head n="06" title={t.taxiTitle} lead={t.taxiLead}/>
+        <div><Head n="07" title={t.taxiTitle} lead={t.taxiLead}/>
           <Reveal delay={.1}><div className="mt-8 softcard p-7">
             <div className="text-sm font-semibold">Trips per day</div>
             <div className="mt-5 space-y-4">
@@ -455,12 +469,99 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       </div></section>);
     }
 
+    /* count-up impact band */
+    function Numbers(){
+      const items=[
+        {to:2,suffix:" min",label:"To swap a full battery",sub:"About the time it takes to refuel a car."},
+        {to:500,suffix:" km",label:"Range on a single pack",sub:"On CATL swappable battery tech."},
+        {to:20,suffix:"×",label:"Faster than charging",sub:"Two minutes vs ~40 at a fast charger."},
+        {to:5,suffix:"",label:"Countries on the roadmap",sub:"Across Central Asia by 2030."},
+      ];
+      return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
+        <Reveal><div className="text-center"><div className="eyebrow inline-flex items-center gap-2" style={{color:"#9aa1ab"}}><span className="h-1.5 w-1.5 rounded-full bg-green"/>By the numbers</div>
+          <h2 className="mt-4 mx-auto max-w-2xl font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(1.9rem,4.4vw,3rem)"}}>Numbers that move the needle.</h2></div></Reveal>
+        <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#e9eaee] rounded-[26px] overflow-hidden border border-[#e9eaee]">
+          {items.map((it,i)=><Reveal key={i} delay={i*.06}><div className="bg-white h-full px-6 py-9 md:px-8 md:py-11 text-center md:text-left">
+            <div className="font-bold tracking-[-.035em] text-green leading-none" style={{fontSize:"clamp(2.4rem,5vw,3.6rem)"}}><CountUp to={it.to} suffix={it.suffix}/></div>
+            <div className="mt-3 font-semibold">{it.label}</div><p className="muted mt-1.5 text-sm leading-relaxed">{it.sub}</p>
+          </div></Reveal>)}
+        </div>
+      </section>);
+    }
+
+    /* comparison matrix + 5-year running cost */
+    function Compare(){
+      const rows=[
+        ["Time to a full tank / charge","~5 min","40–60 min","≈ 2 min"],
+        ["Downtime during the day","Refuel stops","Long charge breaks","Near-zero"],
+        ["Upfront battery cost","—","Included · high","On subscription"],
+        ["Tailpipe emissions","High","Zero","Zero"],
+        ["Energy cost per km","High","Low","Lowest"],
+        ["Doubles as grid storage","no","no","yes"],
+      ];
+      const cost=[["Petrol car","100%",100,""],["Plug-in EV","~58%",58,"#aeb4bd"],["ECOMOBILE","~34%",34,"grad"]];
+      const gt={gridTemplateColumns:"1.3fr 1fr 1fr 1.15fr"};
+      const mark=(v)=> v==="yes"
+        ? <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-green text-white text-[12px] font-bold">✓</span>
+        : <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-[#eef0f3] text-[#aab0b9] text-[12px]">✕</span>;
+      return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
+        <Head n="04" title="Swap, charge or fuel?" lead="How a two-minute battery swap stacks up against the alternatives." center/>
+        <Reveal delay={.1}><div className="mt-14 overflow-x-auto pb-1">
+          <div className="min-w-[660px] rounded-[26px] border border-[#e9eaee] overflow-hidden" style={{boxShadow:"0 30px 70px -40px rgba(16,24,40,.18)"}}>
+            <div className="grid items-stretch" style={gt}>
+              <div className="bg-white px-5 py-5"/>
+              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">Petrol car</div>
+              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">Plug-in EV</div>
+              <div className="px-5 py-5 text-white" style={{background:"linear-gradient(180deg,#0ba678,#078a64)"}}><div className="text-sm font-bold tracking-tight">ECOMOBILE</div><div className="text-[10px] uppercase tracking-[.14em] text-white/70">battery swap</div></div>
+            </div>
+            {rows.map((r,i)=><div key={i} className="grid items-center border-t border-[#eef0f3]" style={gt}>
+              <div className="px-5 py-4 text-sm font-medium text-[#4b5563] bg-[#fafbfc]">{r[0]}</div>
+              <div className="px-5 py-4 text-sm">{r[1]==="yes"||r[1]==="no"?mark(r[1]):<span className="text-[#8a909b]">{r[1]}</span>}</div>
+              <div className="px-5 py-4 text-sm">{r[2]==="yes"||r[2]==="no"?mark(r[2]):<span className="text-[#8a909b]">{r[2]}</span>}</div>
+              <div className="px-5 py-4 text-sm font-semibold bg-[#f0faf5]">{r[3]==="yes"||r[3]==="no"?mark(r[3]):<span className="text-[#0a0b0d]">{r[3]}</span>}</div>
+            </div>)}
+          </div>
+        </div></Reveal>
+        <Reveal delay={.12}><div className="mt-8 softcard p-8 md:p-10">
+          <div className="flex items-center justify-between"><span className="font-semibold">5-year running cost</span><span className="text-xs text-[#9aa1ab] uppercase tracking-wider">illustrative · lower is better</span></div>
+          <div className="mt-7 space-y-5">
+            {cost.map(([lab,val,w,c],i)=><div key={i}>
+              <div className="flex justify-between text-sm mb-2"><span className={c==="grad"?"font-medium":"muted"}>{lab}</span><span className={c==="grad"?"font-bold text-green":"font-semibold text-[#8a909b]"}>{val}</span></div>
+              <div className="h-3.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:w+"%",background:c==="grad"?"linear-gradient(90deg,#0ba678,#10b981)":(c||"#cfd4dc")}}/></div>
+            </div>)}
+          </div>
+          <p className="muted text-sm mt-7">Lower energy cost, near-zero downtime and battery-on-subscription can cut total running cost by up to <b className="text-green">~60%</b> versus petrol.</p>
+        </div></Reveal>
+      </section>);
+    }
+
+    /* horizontal roadmap timeline */
+    function Roadmap(){
+      const road=[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations live in Tashkent."],["2027","Scale","A dense station network across Uzbekistan; NAYMAN at volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; the battery standard opens to partners."],["2030","Platform","A region-wide energy + mobility network across five countries."]];
+      return (<section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-32">
+        <Head n="·" title="The road ahead." lead="From the first stations to a region-wide energy network." center/>
+        <div className="mt-16 relative">
+          <div className="hidden md:block absolute left-2 right-2 top-[7px] h-px" style={{background:"linear-gradient(90deg,#0ba678,rgba(11,166,120,.15))"}}/>
+          <div className="grid md:grid-cols-4 gap-9 md:gap-6">
+            {road.map(([y,h,d],i)=><Reveal key={i} delay={i*.08}><div className="relative md:pr-4">
+              <div className="flex items-center gap-3 md:block">
+                <span className="relative z-10 block h-4 w-4 rounded-full bg-green ring-4 ring-[#fafbfc]"/>
+                <div className="text-green font-bold text-lg md:mt-5">{y}</div>
+              </div>
+              <div className="mt-2 md:mt-3 text-lg font-semibold">{h}</div>
+              <p className="muted mt-2 text-sm leading-relaxed md:max-w-[24ch]">{d}</p>
+            </div></Reveal>)}
+          </div>
+        </div>
+      </div></section>);
+    }
+
     function Network(){ const t=useContext(L);
       const col={live:"#0ba678",plan:"#5ccda7",future:"#c7ccd4"};
       const legendCol=[col.live,col.plan,col.future];
       const leftLabel=new Set(["Bukhara","Dushanbe","Ashgabat","Nukus"]);
       return (<section id="network" className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
-        <Head n="07" title={t.netTitle} lead={t.netLead} center/>
+        <Head n="08" title={t.netTitle} lead={t.netLead} center/>
         <Reveal delay={.12}><div className="mt-12 overflow-hidden rounded-[28px] border border-[#e9eaee] p-3 md:p-8" style={{background:"radial-gradient(120% 110% at 50% -10%, #f1faf6 0%, #ffffff 60%)"}}>
           <svg viewBox={CA_VIEWBOX} className="w-full h-auto" style={{maxHeight:560}}>
             <defs>
@@ -486,7 +587,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
 
     function Energy(){ const t=useContext(L);
       return (<section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36 grid md:grid-cols-2 gap-12 items-center">
-        <div><Head n="08" title={t.energyTitle} lead={t.energyLead}/>
+        <div><Head n="09" title={t.energyTitle} lead={t.energyLead}/>
           <div className="mt-8 grid grid-cols-2 gap-3">{t.energy.map((b,i)=><Reveal key={i} delay={i*.05}><div className="rounded-xl border border-[#e9eaee] bg-white px-5 py-4 text-sm font-medium hover:border-green/50 transition-colors">{b}</div></Reveal>)}</div>
         </div>
         <Reveal delay={.1}><div className="rounded-[26px] p-7 md:p-9 text-white" style={{background:"radial-gradient(120% 100% at 50% 0,#12161c,#0a0b0d)",boxShadow:"0 30px 70px -34px rgba(16,24,40,.5)"}}>
@@ -685,42 +786,80 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       </main>);
     }
 
-    const NEWS=[
-      ["Jun 2026","Launch","First swap stations go live in Tashkent","The first ECOMOBILE battery-swap stations open across the capital, cutting charging downtime from forty minutes to two — and proving the model at city scale.","/images/station-1.png"],
-      ["May 2026","Vehicles","BARLAS deliveries begin","The business-class battery-swap sedan reaches its first customers across Uzbekistan.","/images/barlas-side.jpg"],
-      ["Apr 2026","Vehicles","NAYMAN electric SUV unveiled","The swap-compatible SUV joins the lineup with up to 500 km of range and available all-wheel drive.","/images/nayman-hero.jpg"],
-      ["Mar 2026","Platform","Open battery standard announced","ECOMOBILE opens its battery standard to other brands — one shared network for the whole region.","/images/chassis.jpg"],
-      ["Feb 2026","Partners","CATL partnership confirmed","Swappable CATL packs power the BARLAS and NAYMAN platforms.","/images/interior.jpg"],
-      ["Jan 2026","Network","Central Asia expansion roadmap","Stations planned across Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan.","/images/lifestyle.jpg"],
-      ["Dec 2025","Energy","Stations to double as grid storage","Idle battery packs will balance the grid and absorb renewable energy when demand is low.","/images/station-2.png"],
-      ["Nov 2025","Vehicles","BARLAS interior revealed","A first look inside the business-class cabin — panoramic roof and a large central display.","/images/interior-2.jpg"],
-    ];
+    /* NEWS data now lives in ./news-data.ts (objects with slug + full article body) */
     function NewsPage(){
-      const cats=["All","Vehicles","Network","Platform","Energy"];
-      const rest=NEWS.slice(1);
+      const cats=["All","Launch","Vehicles","Network","Platform","Partners","Energy"];
+      const [cat,setCat]=useState("All");
+      const list=cat==="All"?NEWS:NEWS.filter(n=>n.cat===cat);
+      const feat=list[0]; const rest=list.slice(1);
       return (<main>
         <PageHero eyebrow="Newsroom" title="News & updates" sub="Launches, stations and milestones across the ECOMOBILE platform."/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8">
-          <div className="flex flex-wrap gap-2">{cats.map((c,i)=><span key={i} className={"rounded-full px-4 py-2 text-sm font-medium cursor-pointer "+(i===0?"bg-[#0a0b0d] text-white":"border border-[#e4e7ec] text-[#4b5563] hover:border-[#cfd4dc]")}>{c}</span>)}</div>
+          <div className="flex flex-wrap gap-2">{cats.map((c)=><button key={c} onClick={()=>setCat(c)} className={"rounded-full px-4 py-2 text-sm font-medium transition-colors "+(cat===c?"bg-[#0a0b0d] text-white":"border border-[#e4e7ec] text-[#4b5563] hover:border-[#cfd4dc]")}>{c}</button>)}</div>
         </section>
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-10 md:py-14">
-          <Reveal><article className="softcard overflow-hidden grid md:grid-cols-2 group cursor-pointer">
-            <div className="relative aspect-[16/11] md:aspect-auto overflow-hidden bg-[#f4f6f8]"><img src={NEWS[0][4]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-4 left-4 rounded-full bg-white/85 backdrop-blur px-3 py-1 text-xs font-semibold">{NEWS[0][1]}</span></div>
-            <div className="p-8 md:p-12 flex flex-col justify-center"><div className="eyebrow" style={{color:"#9aa1ab"}}>{NEWS[0][0]} · Featured</div><h2 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight leading-tight">{NEWS[0][2]}</h2><p className="muted mt-4 text-lg">{NEWS[0][3]}</p><div className="mt-6 text-green font-medium">Read more →</div></div>
+        {feat && <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-10 md:py-14">
+          <Reveal><article onClick={()=>go("/news/"+feat.slug)} className="softcard overflow-hidden grid md:grid-cols-2 group cursor-pointer">
+            <div className="relative aspect-[16/11] md:aspect-auto md:min-h-[340px] overflow-hidden bg-[#f4f6f8]"><img src={feat.img} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-4 left-4 rounded-full bg-white/85 backdrop-blur px-3 py-1 text-xs font-semibold">{feat.cat}</span></div>
+            <div className="p-8 md:p-12 flex flex-col justify-center"><div className="eyebrow" style={{color:"#9aa1ab"}}>{feat.date} · Featured · {feat.read}</div><h2 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight leading-tight group-hover:text-green transition-colors">{feat.title}</h2><p className="muted mt-4 text-lg">{feat.excerpt}</p><div className="mt-6 text-green font-medium">Read more →</div></div>
           </article></Reveal>
-        </section>
+        </section>}
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-12 md:pb-16">
-          <div className="grid md:grid-cols-3 gap-6">
-            {rest.map(([date,cat,title,ex,img],i)=><Reveal key={i} delay={(i%3)*.06}><article className="softcard overflow-hidden h-full group cursor-pointer">
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{cat}</span></div>
-              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{date}</div><h3 className="mt-3 text-lg font-semibold leading-snug">{title}</h3><p className="muted mt-2 text-sm">{ex}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
+          {rest.length>0 ? <div className="grid md:grid-cols-3 gap-6">
+            {rest.map((n,i)=><Reveal key={n.slug} delay={(i%3)*.06}><article onClick={()=>go("/news/"+n.slug)} className="softcard overflow-hidden h-full group cursor-pointer">
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{n.cat}</span></div>
+              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{n.date} · {n.read}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{n.title}</h3><p className="muted mt-2 text-sm">{n.excerpt}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
             </article></Reveal>)}
-          </div>
+          </div> : <p className="muted text-center py-10">No stories in this category yet.</p>}
         </section>
         <section className="bg-[#fafbfc] border-t border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 text-center">
           <Head n="·" title="Get ECOMOBILE updates" lead="New stations, models and milestones — straight to your inbox." center/>
           <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder="Your email" className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>Subscribe</Btn></form>
         </div></section>
+      </main>);
+    }
+
+    function ArticlePage({slug}){
+      const a=newsBySlug(slug);
+      if(!a) return (<main className="mx-auto max-w-[820px] px-5 md:px-8 pt-40 pb-32 text-center">
+        <h1 className="text-3xl font-bold">Story not found</h1>
+        <p className="muted mt-4">This article may have moved.</p>
+        <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/news")}>Back to newsroom</Btn></div>
+      </main>);
+      const more=relatedNews(slug,3);
+      return (<main>
+        <section className="hero-stage relative overflow-hidden pt-32 md:pt-40 pb-8">
+          <div className="dotgrid-light"/>
+          <div className="relative z-10 mx-auto max-w-[820px] px-5 md:px-8">
+            <Reveal><a href="/news" className="inline-flex items-center gap-2 text-sm text-[#6b7280] hover:text-green transition-colors">← Newsroom</a></Reveal>
+            <Reveal delay={.05}><div className="mt-6 flex flex-wrap items-center gap-3 text-sm"><span className="rounded-full bg-green-50 text-green font-semibold px-3 py-1 text-xs">{a.cat}</span><span className="muted">{a.date}</span><span className="text-[#cfd4dc]">·</span><span className="muted">{a.read}</span></div></Reveal>
+            <Reveal delay={.1}><h1 className="mt-5 font-bold tracking-[-.03em] leading-[1.06]" style={{fontSize:"clamp(2rem,4.6vw,3.4rem)"}}>{a.title}</h1></Reveal>
+            <Reveal delay={.15}><p className="muted mt-5 text-lg md:text-xl leading-relaxed">{a.excerpt}</p></Reveal>
+          </div>
+        </section>
+        <section className="mx-auto max-w-[1100px] px-5 md:px-8 mt-2 md:mt-4">
+          <Reveal><div className="relative overflow-hidden rounded-[26px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.22)"}}><img src={a.img} alt="" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>
+        </section>
+        {a.facts && <section className="mx-auto max-w-[820px] px-5 md:px-8 mt-10"><Reveal><div className="grid grid-cols-3 gap-px bg-[#e9eaee] rounded-2xl overflow-hidden border border-[#e9eaee]">
+          {a.facts.map(([n,l],i)=><div key={i} className="bg-white px-4 py-5 text-center"><div className="text-xl md:text-2xl font-bold text-green tracking-tight">{n}</div><div className="muted mt-1 text-xs leading-tight">{l}</div></div>)}
+        </div></Reveal></section>}
+        <article className="mx-auto max-w-[720px] px-5 md:px-8 py-12 md:py-16">
+          {a.body.map((p,i)=><Fragment key={i}>
+            <Reveal delay={Math.min(i,3)*.03}><p className="text-[1.1rem] md:text-[1.16rem] leading-[1.85] text-[#2c313a] mb-6">{p}</p></Reveal>
+            {a.quote && i===1 && <Reveal><blockquote className="my-10 border-l-2 border-green pl-6 text-xl md:text-2xl font-semibold tracking-[-.01em] leading-snug text-[#0a0b0d]">“{a.quote}”</blockquote></Reveal>}
+          </Fragment>)}
+          <div className="mt-10 border-t border-[#eef0f3] pt-7"><a href="/news" className="text-sm font-medium text-green">← Back to newsroom</a></div>
+        </article>
+        <section className="bg-[#fafbfc] border-t border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-24">
+          <Head n="·" title="More from the newsroom"/>
+          <div className="mt-10 grid md:grid-cols-3 gap-6">{more.map((n,i)=><Reveal key={n.slug} delay={i*.06}><article onClick={()=>go("/news/"+n.slug)} className="softcard overflow-hidden h-full group cursor-pointer">
+            <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{n.cat}</span></div>
+            <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{n.date}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{n.title}</h3><p className="muted mt-2 text-sm">{n.excerpt}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
+          </article></Reveal>)}</div>
+        </div></section>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20 text-center">
+          <Head n="·" title="Stay in the loop" lead="New stations, models and milestones — straight to your inbox." center/>
+          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder="Your email" className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>Subscribe</Btn></form>
+        </section>
       </main>);
     }
 
@@ -875,7 +1014,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
     }
 
     function HomePage(){
-      return (<main><Hero/><Trust/><Models/><Why/><Meet/><Swap/><Ecosystem/><Open/><Taxi/><Network/><Energy/><CTA/></main>);
+      return (<main><Hero/><Trust/><Numbers/><Models/><Why/><Meet/><Swap/><Compare/><Ecosystem/><Open/><Taxi/><Network/><Energy/><Roadmap/><CTA/></main>);
     }
 
     function App(){
@@ -886,6 +1025,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       if(route==="/barlas") page=<VehiclePage slug="barlas"/>;
       else if(route==="/nayman") page=<VehiclePage slug="nayman"/>;
       else if(route==="/swap") page=<SwapPage/>;
+      else if(route.startsWith("/news/")) page=<ArticlePage slug={route.slice(6)}/>;
       else if(route==="/news") page=<NewsPage/>;
       else if(route==="/faq") page=<FaqPage/>;
       else if(route==="/investors") page=<InvestorsPage/>;
@@ -898,4 +1038,4 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       </L.Provider>);
     }
 
-export { HomePage, VehiclePage, SwapPage, NewsPage, FaqPage, InvestorsPage, ContactsPage, AboutPage };
+export { HomePage, VehiclePage, SwapPage, NewsPage, ArticlePage, FaqPage, InvestorsPage, ContactsPage, AboutPage };
