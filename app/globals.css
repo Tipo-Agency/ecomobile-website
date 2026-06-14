@@ -105,3 +105,14 @@ body {
 @keyframes pulse{ 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.7);opacity:1} }
 @keyframes spin{ to{ transform:rotate(360deg) } }
 @keyframes floaty{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+/* ===== hero soap bubbles ===== */
+@keyframes floatA{0%,100%{transform:translate(0,0)}50%{transform:translate(7px,-18px)}}
+@keyframes floatB{0%,100%{transform:translate(0,0)}50%{transform:translate(-9px,-14px)}}
+@keyframes floatC{0%,100%{transform:translate(0,0)}50%{transform:translate(5px,-22px)}}
+.soap{border-radius:50%;display:grid;place-items:center;text-align:center;color:#0a0b0d;
+  background:radial-gradient(120% 120% at 30% 22%, rgba(255,255,255,.96), rgba(255,255,255,.35) 38%, rgba(255,255,255,.06) 60%),conic-gradient(from 210deg at 50% 50%, rgba(255,120,200,.20), rgba(120,200,255,.20), rgba(120,255,200,.20), rgba(255,235,140,.20), rgba(255,120,200,.20));
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 24px 50px -22px rgba(16,24,40,.30), inset 0 3px 12px rgba(255,255,255,.75), inset 0 -14px 24px rgba(110,160,255,.12);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);position:relative}
+.soap::after{content:"";position:absolute;top:12%;left:16%;width:30%;height:20%;border-radius:50%;background:radial-gradient(closest-side, rgba(255,255,255,.95), transparent);filter:blur(1px)}

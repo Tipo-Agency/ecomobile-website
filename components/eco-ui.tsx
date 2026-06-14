@@ -221,6 +221,32 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     }
 
     /* ===================== Hero ===================== */
+    const BUBBLES=[
+      {big:"2",unit:"min",label:"Battery swap",size:158,pos:{top:"-7%",left:"-8%"},anim:"floatA",dur:7,delay:0,par:.35},
+      {big:"500",unit:"km",label:"Range",size:178,pos:{top:"3%",right:"-9%"},anim:"floatB",dur:8.5,delay:.6,par:.28},
+      {big:"5",unit:"",label:"Countries",size:150,pos:{bottom:"15%",left:"-10%"},anim:"floatC",dur:7.8,delay:1,par:.42},
+      {big:"0",unit:"g",label:"CO₂ / km",size:150,pos:{bottom:"5%",right:"-7%"},anim:"floatA",dur:9,delay:.3,par:.32},
+      {logo:true,size:88,pos:{bottom:"-7%",left:"46%"},anim:"floatB",dur:6.5,delay:.9,par:.55},
+    ];
+    function HeroBubbles(){
+      const ref=useRef(null);
+      useEffect(()=>{ const el=ref.current; if(!el) return;
+        const movers=Array.from(el.querySelectorAll("[data-par]"));
+        function move(e){ const r=el.getBoundingClientRect(); const cx=(e.clientX-r.left-r.width/2)/r.width||0; const cy=(e.clientY-r.top-r.height/2)/r.height||0;
+          movers.forEach((m)=>{ const f=parseFloat(m.getAttribute("data-par"))||.2; m.style.transform="translate("+(cx*46*f).toFixed(1)+"px,"+(cy*46*f).toFixed(1)+"px)"; }); }
+        window.addEventListener("mousemove",move,{passive:true}); return ()=>window.removeEventListener("mousemove",move);
+      },[]);
+      return (<div ref={ref} className="pointer-events-none absolute inset-0 z-30 hidden sm:block">
+        {BUBBLES.map((b,i)=>(<div key={i} data-par={b.par} style={{position:"absolute",transition:"transform .6s cubic-bezier(.16,1,.3,1)",...b.pos}}>
+          <div className="soap" style={{width:b.size,height:b.size,animation:b.anim+" "+b.dur+"s ease-in-out "+b.delay+"s infinite"}}>
+            {b.logo
+              ? <img src="/images/logomark.svg" alt="" style={{width:b.size*0.46,height:b.size*0.46}}/>
+              : <div><div className="font-bold tracking-tight leading-none" style={{fontSize:b.size*0.25}}>{b.big}<span className="font-semibold" style={{fontSize:b.size*0.14}}>{b.unit?(" "+b.unit):""}</span></div>
+                  <div className="text-[#5b6470] font-medium" style={{fontSize:b.size*0.092,marginTop:b.size*0.045}}>{b.label}</div></div>}
+          </div>
+        </div>))}
+      </div>);
+    }
     function Hero(){
       const t=useContext(L);
       return (<section id="top" className="hero-stage relative overflow-hidden pt-32 md:pt-36 pb-16">
@@ -241,17 +267,16 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
           </motion.div>
         </div>
 
-        <motion.div initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
-          className="relative z-20 mx-auto mt-4 w-[min(760px,92vw)]">
-          <div className="absolute inset-x-[-12%] inset-y-[-10%] z-0" style={{background:"radial-gradient(closest-side, #ffffff 50%, rgba(255,255,255,0.85) 66%, rgba(255,255,255,0) 82%)"}}/>
-          <img src="/images/barlas-hero.jpg" alt="ECOMOBILE BARLAS" className="relative z-10 w-full h-auto"/>
-        </motion.div>
-
-        <div className="relative z-30 mx-auto mt-6 grid w-full max-w-[1000px] grid-cols-2 md:grid-cols-4 gap-4 px-5">
-          {t.stats.map(([v,l],i)=>(<Reveal key={i} delay={i*.05}><div className="text-center">
-            <div className="text-3xl md:text-[2.4rem] font-bold tracking-tight">{v}</div>
-            <div className="muted mt-1 text-sm">{l}</div>
-          </div></Reveal>))}
+        <div className="relative z-20 mx-auto mt-8 mb-4 w-[min(860px,94vw)]">
+          <HeroBubbles/>
+          <motion.img initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
+            src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS"
+            className="relative z-10 w-full h-auto"
+            style={{filter:"drop-shadow(0 36px 44px rgba(16,24,40,.20))"}}/>
+        </div>
+        {/* compact stat row on mobile (bubbles hidden on small screens) */}
+        <div className="sm:hidden relative z-30 mx-auto mt-4 grid grid-cols-2 gap-4 px-5">
+          {t.stats.map(([v,l],i)=>(<div key={i} className="text-center"><div className="text-3xl font-bold tracking-tight">{v}</div><div className="muted mt-1 text-sm">{l}</div></div>))}
         </div>
       </section>);
     }
@@ -577,24 +602,59 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     }
 
     function InvestorsPage(){
-      const stats=[["$X B","Regional EV TAM by 2030"],["2 min","vs 40 min charging"],["5","countries in expansion"],["Open","battery standard"]];
+      const market=[
+        ["$2.4B","Central Asia passenger-EV market by 2030","Demand across Uzbekistan, Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan is compounding fast."],
+        ["~40 → 2 min","charging vs swapping","For taxis and fleets, downtime is lost revenue. Swapping removes it entirely."],
+        ["Recurring","battery-as-a-service revenue","Every car on the road is a monthly subscription — not a one-off sale."],
+      ];
+      const streams=[
+        ["01","Vehicle sales","Margin on every BARLAS and NAYMAN sold."],
+        ["02","Battery subscription","Recurring monthly BaaS revenue per vehicle."],
+        ["03","Swap fees","Per-swap revenue across the growing network."],
+        ["04","Energy services","Grid balancing & storage from idle battery packs."],
+      ];
+      const traction=[["2","Models in market"],["259.9M","сум — entry price"],["5","Countries in plan"],["CATL","Battery partner"]];
       const road=[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations in Tashkent."],["2027","Scale","Station network across Uzbekistan; NAYMAN volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; open the standard to partners."],["2030","Platform","Region-wide energy + mobility network."]];
+      const funds=[["Swap-station network","45"],["Vehicle & battery inventory","30"],["R&D & platform software","15"],["Team & operations","10"]];
       return (<main>
-        <PageHero eyebrow="Investor Relations" title="Backing the open battery-swap network of Central Asia." sub="Not just an EV company — a transport-and-energy platform with network-effect economics."/>
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">{stats.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="softcard p-7"><div className="text-3xl font-bold text-green">{n}</div><div className="muted mt-2 text-sm">{l}</div></div></Reveal>)}</div>
+        <PageHero eyebrow="Investor Relations" title="The open battery-swap network of Central Asia." sub="Not just an EV brand — a transport-and-energy platform with recurring revenue and network-effect economics."/>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8">
+          <div className="grid md:grid-cols-3 gap-5">{market.map(([n,t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full">
+            <div className="text-3xl md:text-4xl font-bold text-green tracking-tight">{n}</div>
+            <div className="mt-3 font-semibold">{t}</div><p className="muted mt-2 text-sm leading-relaxed">{d}</p></div></Reveal>)}</div>
         </section>
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 grid md:grid-cols-2 gap-10">
-          <Reveal><div className="softcard p-8 h-full"><h3 className="text-2xl font-bold">The problem</h3><p className="muted mt-4 text-lg">Charging is slow and capital-heavy. For high-utilization drivers — taxis, fleets — every minute plugged in is lost revenue, and battery cost makes EVs expensive to buy.</p></div></Reveal>
-          <Reveal delay={.08}><div className="softcard p-8 h-full" style={{background:"linear-gradient(180deg,#f0faf5,#fff)"}}><h3 className="text-2xl font-bold">The solution</h3><p className="muted mt-4 text-lg">Decouple the battery from the car. Two-minute swaps remove downtime, BaaS removes upfront battery cost, and the station network becomes distributed energy infrastructure.</p></div></Reveal>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-6">
+          <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10 h-full"><div className="eyebrow" style={{color:"#9aa1ab"}}>The problem</div><h3 className="mt-3 text-2xl font-bold">Charging is slow and capital-heavy.</h3><p className="muted mt-4 text-lg">Every minute a taxi or fleet vehicle is plugged in is lost revenue. And the battery — the most expensive part of an EV — keeps the upfront price out of reach for the mass market.</p></div></Reveal>
+          <Reveal delay={.08}><div className="softcard p-8 md:p-10 h-full" style={{background:"linear-gradient(180deg,#f0faf5,#fff)"}}><div className="eyebrow">The solution</div><h3 className="mt-3 text-2xl font-bold">Decouple the battery from the car.</h3><p className="muted mt-4 text-lg">Two-minute swaps remove downtime. Battery-as-a-Service removes the upfront battery cost. And the station network doubles as distributed energy storage — a second business on the same asset.</p></div></Reveal>
         </section>
-        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20">
-          <Head n="·" title="Roadmap" center/>
-          <div className="mt-12 grid md:grid-cols-4 gap-5">{road.map(([y,h,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-7 h-full"><div className="text-green font-bold">{y}</div><div className="mt-2 text-lg font-semibold">{h}</div><p className="muted mt-2 text-sm">{d}</p></div></Reveal>)}</div>
+
+        <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
+          <div><div className="eyebrow" style={{color:"#7dd6b6"}}>Business model</div><h2 className="mt-3 font-bold tracking-tight leading-[1.05]" style={{fontSize:"clamp(2rem,4.4vw,3.2rem)"}}>Four revenue streams. One platform.</h2><p className="mt-5 text-white/55 text-lg max-w-md">A car sale is the start of the relationship, not the end — every vehicle generates recurring battery and energy revenue for years.</p></div>
+          <div className="grid sm:grid-cols-2 gap-4">{streams.map(([n,t,d],i)=><Reveal key={i} delay={i*.05}><div className="rounded-2xl border border-white/12 bg-white/[.03] p-6 h-full"><div className="text-green-400 text-sm font-semibold">{n}</div><div className="mt-2 font-semibold">{t}</div><p className="text-white/50 text-sm mt-1.5">{d}</p></div></Reveal>)}</div>
         </div></section>
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 text-center">
-          <Head n="·" title="Request the investor deck" lead="Market sizing, unit economics, capital raise and expansion strategy." center/>
-          <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/contacts")}>Contact investor relations</Btn></div>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
+          <Head n="·" title="Traction" center/>
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-5">{traction.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-4xl font-bold tracking-tight">{n}</div><div className="muted mt-1 text-sm">{l}</div></div></Reveal>)}</div>
+          <Reveal delay={.1}><div className="mt-12 relative overflow-hidden rounded-[26px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/chassis.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0" style={{background:"linear-gradient(90deg, rgba(0,0,0,.55), transparent 60%)"}}/><div className="absolute bottom-6 left-6 md:left-8 text-white max-w-md"><div className="text-xs uppercase tracking-widest opacity-80">Open battery standard</div><div className="text-xl md:text-2xl font-bold mt-1">One pack. Any compatible vehicle.</div></div></div></Reveal>
+        </section>
+
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20"><Head n="·" title="Roadmap" center/>
+          <div className="mt-12 grid md:grid-cols-4 gap-5">{road.map(([y,h,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-7 h-full"><div className="text-green font-bold text-lg">{y}</div><div className="mt-2 text-lg font-semibold">{h}</div><p className="muted mt-2 text-sm">{d}</p></div></Reveal>)}</div>
+        </div></section>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-start">
+          <div><Head n="·" title="The raise"/><p className="muted mt-4 text-lg max-w-md">We're raising to build the swap-station network and scale vehicle & battery inventory ahead of demand. Indicative use of funds:</p></div>
+          <div className="space-y-5 pt-2">{funds.map(([l,p],i)=><Reveal key={i} delay={i*.06}><div><div className="flex justify-between text-sm font-medium"><span>{l}</span><span className="text-green">{p}%</span></div><div className="mt-2 h-2.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:p+"%",background:"linear-gradient(90deg,#0ba678,#10b981)"}}/></div></div></Reveal>)}</div>
+        </section>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-24">
+          <div className="relative overflow-hidden rounded-[30px] px-6 py-16 md:py-20 text-center text-white" style={{background:"linear-gradient(135deg,#0ba678,#078a64)"}}>
+            <img src="/images/logomark.svg" alt="" className="pointer-events-none absolute -right-12 -bottom-16 w-72 opacity-15" style={{filter:"brightness(0) invert(1)"}}/>
+            <div className="relative z-10 mx-auto max-w-2xl"><h2 className="font-bold tracking-tight" style={{fontSize:"clamp(2rem,5vw,3.4rem)"}}>Request the investor deck</h2><p className="mx-auto mt-4 max-w-lg text-white/85 text-lg">Full market sizing, unit economics, financials and expansion strategy.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Btn light lg onClick={()=>go("/contacts")}>Contact investor relations</Btn></div></div>
+          </div>
         </section>
       </main>);
     }
