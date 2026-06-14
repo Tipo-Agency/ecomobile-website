@@ -2,7 +2,8 @@
 import React, { useRef, useState, useEffect, createContext, useContext, Fragment } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
-import { NEWS, newsBySlug, relatedNews } from "./news-data";
+import { NEWS, newsBySlug, relatedNews, pick, pickArr, CAT_LABELS, NEWS_UI } from "./news-data";
+import { useLanguage } from "@/contexts/language-context";
 
     /* ===================== i18n ===================== */
     const T = {
@@ -40,7 +41,17 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
         energyLead:"Every swap station doubles as distributed storage — balancing the grid and absorbing renewables.",
         energy:["Load balancing","Renewable integration","Peak-demand reduction","Distributed storage"],
         ctaTitle:"Build the network with us.", ctaSub:"Partner, invest, or bring ECOMOBILE to your city.",
-        ctaP:"Become a Partner", ctaC:"Talk to us", footTag:"A green-transport platform for the future of mobility." },
+        ctaP:"Become a Partner", ctaC:"Talk to us", footTag:"A green-transport platform for the future of mobility.",
+        numEyebrow:"By the numbers", numTitle:"Numbers that move the needle.",
+        numbers:[[2," min","To swap a full battery","About the time it takes to refuel a car."],[500," km","Range on a single pack","On CATL swappable battery tech."],[20,"×","Faster than charging","Two minutes vs ~40 at a fast charger."],[5,"","Countries on the roadmap","Across Central Asia by 2030."]],
+        cmpTitle:"Swap, charge or fuel?", cmpLead:"How a two-minute battery swap stacks up against the alternatives.",
+        cmpCols:["Petrol car","Plug-in EV","ECOMOBILE"], cmpBadge:"battery swap",
+        cmpRows:[["Time to a full tank / charge","~5 min","40–60 min","≈ 2 min"],["Downtime during the day","Refuel stops","Long charge breaks","Near-zero"],["Upfront battery cost","—","Included · high","On subscription"],["Tailpipe emissions","High","Zero","Zero"],["Energy cost per km","High","Low","Lowest"],["Doubles as grid storage","no","no","yes"]],
+        cmpCostTitle:"5-year running cost", cmpCostNote:"illustrative · lower is better",
+        cmpCost:[["100%",100],["~58%",58],["~34%",34]],
+        cmpFoot1:"Lower energy cost, near-zero downtime and battery-on-subscription can cut total running cost by up to ", cmpFootPct:"~60%", cmpFoot2:" versus petrol.",
+        roadTitle:"The road ahead.", roadLead:"From the first stations to a region-wide energy network.",
+        road:[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations live in Tashkent."],["2027","Scale","A dense station network across Uzbekistan; NAYMAN at volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; the battery standard opens to partners."],["2030","Platform","A region-wide energy + mobility network across five countries."]] },
       ru:{ nav:["Почему","Модели","BARLAS","Замена батареи","Экосистема","Сеть"], partner:"Стать партнёром",
         modelsTitle:"Две машины. Одна сеть.", modelsLead:"Выберите свой ECOMOBILE — обе меняют батарею в одной сети.", from:"от", configure:"Конфигуратор",
         eyebrow:"Платформа зелёного транспорта",
@@ -75,7 +86,17 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
         energyLead:"Каждая станция — распределённое хранилище: балансирует сеть и впитывает ВИЭ.",
         energy:["Балансировка нагрузки","Интеграция ВИЭ","Снижение пиков","Распределённое хранение"],
         ctaTitle:"Постройте сеть вместе с нами.", ctaSub:"Партнёрство, инвестиции или запуск ECOMOBILE в вашем городе.",
-        ctaP:"Стать партнёром", ctaC:"Связаться", footTag:"Платформа зелёного транспорта для мобильности будущего." },
+        ctaP:"Стать партнёром", ctaC:"Связаться", footTag:"Платформа зелёного транспорта для мобильности будущего.",
+        numEyebrow:"В цифрах", numTitle:"Цифры, которые меняют правила.",
+        numbers:[[2," мин","Заменить полную батарею","Примерно как заправить машину."],[500," км","Запас хода на одной батарее","На сменной батарее CATL."],[20,"×","Быстрее зарядки","Две минуты против ~40 на зарядке."],[5,"","Стран в дорожной карте","По Центральной Азии к 2030 году."]],
+        cmpTitle:"Замена, зарядка или бензин?", cmpLead:"Как двухминутная замена батареи смотрится на фоне альтернатив.",
+        cmpCols:["Бензин","Электро на зарядке","ECOMOBILE"], cmpBadge:"замена батареи",
+        cmpRows:[["Время до полного бака / заряда","~5 мин","40–60 мин","≈ 2 мин"],["Простой в течение дня","Заправки","Долгие зарядки","Почти ноль"],["Стоимость батареи сразу","—","Входит · дорого","По подписке"],["Выбросы выхлопа","Высокие","Ноль","Ноль"],["Цена энергии за км","Высокая","Низкая","Минимальная"],["Работает как накопитель сети","no","no","yes"]],
+        cmpCostTitle:"Стоимость владения за 5 лет", cmpCostNote:"ориентировочно · меньше — лучше",
+        cmpCost:[["100%",100],["~58%",58],["~34%",34]],
+        cmpFoot1:"Дешевле энергия, почти нет простоя и батарея по подписке — суммарные расходы ниже до ", cmpFootPct:"~60%", cmpFoot2:" по сравнению с бензином.",
+        roadTitle:"Дорога вперёд.", roadLead:"От первых станций до энергосети всего региона.",
+        road:[["2026","Старт","Поставки BARLAS и NAYMAN; первые станции замены в Ташкенте."],["2027","Масштаб","Плотная сеть станций по Узбекистану; NAYMAN серийно."],["2028","Экспансия","Казахстан и Кыргызстан; стандарт батареи открывается партнёрам."],["2030","Платформа","Энерго- и транспортная сеть по пяти странам региона."]] },
       uz:{ nav:["Nega","Modellar","BARLAS","Batareya","Ekotizim","Tarmoq"], partner:"Hamkor bo‘lish",
         modelsTitle:"Ikki avtomobil. Bitta tarmoq.", modelsLead:"O‘z ECOMOBILE’ingizni tanlang — ikkalasi bir tarmoqda almashadi.", from:"dan", configure:"Sozlash",
         eyebrow:"Yashil transport platformasi",
@@ -110,7 +131,17 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
         energyLead:"Har bir stansiya — taqsimlangan ombor: tarmoqni muvozanatlaydi.",
         energy:["Yuk muvozanati","Qayta tiklanuvchi integratsiya","Cho‘qqini kamaytirish","Taqsimlangan saqlash"],
         ctaTitle:"Tarmoqni biz bilan quring.", ctaSub:"Hamkorlik, investitsiya yoki ECOMOBILE’ni shahringizga olib keling.",
-        ctaP:"Hamkor bo‘lish", ctaC:"Bog‘lanish", footTag:"Kelajak harakati uchun yashil transport platformasi." },
+        ctaP:"Hamkor bo‘lish", ctaC:"Bog‘lanish", footTag:"Kelajak harakati uchun yashil transport platformasi.",
+        numEyebrow:"Raqamlarda", numTitle:"Hammasini hal qiladigan raqamlar.",
+        numbers:[[2," daq","To‘liq batareyani almashtirish","Avtomobilni quyishga ketadigan vaqtcha."],[500," km","Bitta batareyada masofa","CATL almashinuvchi batareyada."],[20,"×","Quvvatlashdan tezroq","Ikki daqiqa ~40 ga qarshi."],[5,"","Rejadagi davlatlar","2030 yilgacha Markaziy Osiyo bo‘ylab."]],
+        cmpTitle:"Almashish, quvvatlash yoki yoqilg‘i?", cmpLead:"Ikki daqiqalik batareya almashish muqobillarga qanday raqobat qiladi.",
+        cmpCols:["Benzin avto","Quvvatlanadigan EV","ECOMOBILE"], cmpBadge:"batareya almashish",
+        cmpRows:[["To‘liq bak / quvvatgacha vaqt","~5 daq","40–60 daq","≈ 2 daq"],["Kun davomidagi to‘xtash","Yoqilg‘i quyish","Uzoq quvvatlash","Deyarli nol"],["Batareya boshlang‘ich narxi","—","Kiritilgan · qimmat","Obunada"],["Egzoz chiqindilari","Yuqori","Nol","Nol"],["Har km energiya narxi","Yuqori","Past","Eng past"],["Tarmoq uchun ombor sifatida","no","no","yes"]],
+        cmpCostTitle:"5 yillik foydalanish xarajati", cmpCostNote:"taxminiy · kam — yaxshi",
+        cmpCost:[["100%",100],["~58%",58],["~34%",34]],
+        cmpFoot1:"Arzon energiya, deyarli nol to‘xtash va obunadagi batareya umumiy xarajatni ", cmpFootPct:"~60%", cmpFoot2:" gacha (benzinga nisbatan) kamaytiradi.",
+        roadTitle:"Oldindagi yo‘l.", roadLead:"Birinchi stansiyalardan butun mintaqa energiya tarmog‘igacha.",
+        road:[["2026","Start","BARLAS va NAYMAN yetkazib berish; Toshkentda birinchi stansiyalar."],["2027","Ko‘lam","O‘zbekiston bo‘ylab zich tarmoq; NAYMAN seriyali."],["2028","Kengayish","Qozog‘iston va Qirg‘iziston; batareya standarti hamkorlarga ochiladi."],["2030","Platforma","Besh davlat bo‘ylab energiya va transport tarmog‘i."]] },
     };
     const L = createContext(T.en);
     const MODELS=[
@@ -470,51 +501,36 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
     }
 
     /* count-up impact band */
-    function Numbers(){
-      const items=[
-        {to:2,suffix:" min",label:"To swap a full battery",sub:"About the time it takes to refuel a car."},
-        {to:500,suffix:" km",label:"Range on a single pack",sub:"On CATL swappable battery tech."},
-        {to:20,suffix:"×",label:"Faster than charging",sub:"Two minutes vs ~40 at a fast charger."},
-        {to:5,suffix:"",label:"Countries on the roadmap",sub:"Across Central Asia by 2030."},
-      ];
+    function Numbers(){ const t=useContext(L);
       return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-        <Reveal><div className="text-center"><div className="eyebrow inline-flex items-center gap-2" style={{color:"#9aa1ab"}}><span className="h-1.5 w-1.5 rounded-full bg-green"/>By the numbers</div>
-          <h2 className="mt-4 mx-auto max-w-2xl font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(1.9rem,4.4vw,3rem)"}}>Numbers that move the needle.</h2></div></Reveal>
+        <Reveal><div className="text-center"><div className="eyebrow inline-flex items-center gap-2" style={{color:"#9aa1ab"}}><span className="h-1.5 w-1.5 rounded-full bg-green"/>{t.numEyebrow}</div>
+          <h2 className="mt-4 mx-auto max-w-2xl font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(1.9rem,4.4vw,3rem)"}}>{t.numTitle}</h2></div></Reveal>
         <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-px bg-[#e9eaee] rounded-[26px] overflow-hidden border border-[#e9eaee]">
-          {items.map((it,i)=><Reveal key={i} delay={i*.06}><div className="bg-white h-full px-6 py-9 md:px-8 md:py-11 text-center md:text-left">
-            <div className="font-bold tracking-[-.035em] text-green leading-none" style={{fontSize:"clamp(2.4rem,5vw,3.6rem)"}}><CountUp to={it.to} suffix={it.suffix}/></div>
-            <div className="mt-3 font-semibold">{it.label}</div><p className="muted mt-1.5 text-sm leading-relaxed">{it.sub}</p>
+          {t.numbers.map(([to,suffix,label,sub],i)=><Reveal key={i} delay={i*.06}><div className="bg-white h-full px-6 py-9 md:px-8 md:py-11 text-center md:text-left">
+            <div className="font-bold tracking-[-.035em] text-green leading-none" style={{fontSize:"clamp(2.4rem,5vw,3.6rem)"}}><CountUp to={to} suffix={suffix}/></div>
+            <div className="mt-3 font-semibold">{label}</div><p className="muted mt-1.5 text-sm leading-relaxed">{sub}</p>
           </div></Reveal>)}
         </div>
       </section>);
     }
 
     /* comparison matrix + 5-year running cost */
-    function Compare(){
-      const rows=[
-        ["Time to a full tank / charge","~5 min","40–60 min","≈ 2 min"],
-        ["Downtime during the day","Refuel stops","Long charge breaks","Near-zero"],
-        ["Upfront battery cost","—","Included · high","On subscription"],
-        ["Tailpipe emissions","High","Zero","Zero"],
-        ["Energy cost per km","High","Low","Lowest"],
-        ["Doubles as grid storage","no","no","yes"],
-      ];
-      const cost=[["Petrol car","100%",100,""],["Plug-in EV","~58%",58,"#aeb4bd"],["ECOMOBILE","~34%",34,"grad"]];
+    function Compare(){ const t=useContext(L);
       const gt={gridTemplateColumns:"1.3fr 1fr 1fr 1.15fr"};
       const mark=(v)=> v==="yes"
         ? <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-green text-white text-[12px] font-bold">✓</span>
         : <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-[#eef0f3] text-[#aab0b9] text-[12px]">✕</span>;
       return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
-        <Head n="04" title="Swap, charge or fuel?" lead="How a two-minute battery swap stacks up against the alternatives." center/>
+        <Head n="04" title={t.cmpTitle} lead={t.cmpLead} center/>
         <Reveal delay={.1}><div className="mt-14 overflow-x-auto pb-1">
           <div className="min-w-[660px] rounded-[26px] border border-[#e9eaee] overflow-hidden" style={{boxShadow:"0 30px 70px -40px rgba(16,24,40,.18)"}}>
             <div className="grid items-stretch" style={gt}>
               <div className="bg-white px-5 py-5"/>
-              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">Petrol car</div>
-              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">Plug-in EV</div>
-              <div className="px-5 py-5 text-white" style={{background:"linear-gradient(180deg,#0ba678,#078a64)"}}><div className="text-sm font-bold tracking-tight">ECOMOBILE</div><div className="text-[10px] uppercase tracking-[.14em] text-white/70">battery swap</div></div>
+              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">{t.cmpCols[0]}</div>
+              <div className="bg-white px-5 py-5 text-sm font-semibold text-[#8a909b]">{t.cmpCols[1]}</div>
+              <div className="px-5 py-5 text-white" style={{background:"linear-gradient(180deg,#0ba678,#078a64)"}}><div className="text-sm font-bold tracking-tight">{t.cmpCols[2]}</div><div className="text-[10px] uppercase tracking-[.14em] text-white/70">{t.cmpBadge}</div></div>
             </div>
-            {rows.map((r,i)=><div key={i} className="grid items-center border-t border-[#eef0f3]" style={gt}>
+            {t.cmpRows.map((r,i)=><div key={i} className="grid items-center border-t border-[#eef0f3]" style={gt}>
               <div className="px-5 py-4 text-sm font-medium text-[#4b5563] bg-[#fafbfc]">{r[0]}</div>
               <div className="px-5 py-4 text-sm">{r[1]==="yes"||r[1]==="no"?mark(r[1]):<span className="text-[#8a909b]">{r[1]}</span>}</div>
               <div className="px-5 py-4 text-sm">{r[2]==="yes"||r[2]==="no"?mark(r[2]):<span className="text-[#8a909b]">{r[2]}</span>}</div>
@@ -523,23 +539,23 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
           </div>
         </div></Reveal>
         <Reveal delay={.12}><div className="mt-8 softcard p-8 md:p-10">
-          <div className="flex items-center justify-between"><span className="font-semibold">5-year running cost</span><span className="text-xs text-[#9aa1ab] uppercase tracking-wider">illustrative · lower is better</span></div>
+          <div className="flex items-center justify-between"><span className="font-semibold">{t.cmpCostTitle}</span><span className="text-xs text-[#9aa1ab] uppercase tracking-wider">{t.cmpCostNote}</span></div>
           <div className="mt-7 space-y-5">
-            {cost.map(([lab,val,w,c],i)=><div key={i}>
-              <div className="flex justify-between text-sm mb-2"><span className={c==="grad"?"font-medium":"muted"}>{lab}</span><span className={c==="grad"?"font-bold text-green":"font-semibold text-[#8a909b]"}>{val}</span></div>
-              <div className="h-3.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:w+"%",background:c==="grad"?"linear-gradient(90deg,#0ba678,#10b981)":(c||"#cfd4dc")}}/></div>
-            </div>)}
+            {t.cmpCost.map(([val,w],i)=>{const grad=i===2;return <div key={i}>
+              <div className="flex justify-between text-sm mb-2"><span className={grad?"font-medium":"muted"}>{t.cmpCols[i]}</span><span className={grad?"font-bold text-green":"font-semibold text-[#8a909b]"}>{val}</span></div>
+              <div className="h-3.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:w+"%",background:grad?"linear-gradient(90deg,#0ba678,#10b981)":(i===1?"#aeb4bd":"#cfd4dc")}}/></div>
+            </div>;})}
           </div>
-          <p className="muted text-sm mt-7">Lower energy cost, near-zero downtime and battery-on-subscription can cut total running cost by up to <b className="text-green">~60%</b> versus petrol.</p>
+          <p className="muted text-sm mt-7">{t.cmpFoot1}<b className="text-green">{t.cmpFootPct}</b>{t.cmpFoot2}</p>
         </div></Reveal>
       </section>);
     }
 
     /* horizontal roadmap timeline */
-    function Roadmap(){
-      const road=[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations live in Tashkent."],["2027","Scale","A dense station network across Uzbekistan; NAYMAN at volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; the battery standard opens to partners."],["2030","Platform","A region-wide energy + mobility network across five countries."]];
+    function Roadmap(){ const t=useContext(L);
+      const road=t.road;
       return (<section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-32">
-        <Head n="·" title="The road ahead." lead="From the first stations to a region-wide energy network." center/>
+        <Head n="·" title={t.roadTitle} lead={t.roadLead} center/>
         <div className="mt-16 relative">
           <div className="hidden md:block absolute left-2 right-2 top-[7px] h-px" style={{background:"linear-gradient(90deg,#0ba678,rgba(11,166,120,.15))"}}/>
           <div className="grid md:grid-cols-4 gap-9 md:gap-6">
@@ -787,78 +803,79 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
     }
 
     /* NEWS data now lives in ./news-data.ts (objects with slug + full article body) */
-    function NewsPage(){
+    function NewsPage(){ const {language:lg}=useLanguage(); const ui=NEWS_UI[lg]||NEWS_UI.en;
       const cats=["All","Launch","Vehicles","Network","Platform","Partners","Energy"];
+      const catLabel=(k)=> k==="All"?ui.all:pick(CAT_LABELS[k],lg);
       const [cat,setCat]=useState("All");
       const list=cat==="All"?NEWS:NEWS.filter(n=>n.cat===cat);
       const feat=list[0]; const rest=list.slice(1);
       return (<main>
-        <PageHero eyebrow="Newsroom" title="News & updates" sub="Launches, stations and milestones across the ECOMOBILE platform."/>
+        <PageHero eyebrow={ui.eyebrow} title={ui.title} sub={ui.sub}/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8">
-          <div className="flex flex-wrap gap-2">{cats.map((c)=><button key={c} onClick={()=>setCat(c)} className={"rounded-full px-4 py-2 text-sm font-medium transition-colors "+(cat===c?"bg-[#0a0b0d] text-white":"border border-[#e4e7ec] text-[#4b5563] hover:border-[#cfd4dc]")}>{c}</button>)}</div>
+          <div className="flex flex-wrap gap-2">{cats.map((c)=><button key={c} onClick={()=>setCat(c)} className={"rounded-full px-4 py-2 text-sm font-medium transition-colors "+(cat===c?"bg-[#0a0b0d] text-white":"border border-[#e4e7ec] text-[#4b5563] hover:border-[#cfd4dc]")}>{catLabel(c)}</button>)}</div>
         </section>
         {feat && <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-10 md:py-14">
           <Reveal><article onClick={()=>go("/news/"+feat.slug)} className="softcard overflow-hidden grid md:grid-cols-2 group cursor-pointer">
-            <div className="relative aspect-[16/11] md:aspect-auto md:min-h-[340px] overflow-hidden bg-[#f4f6f8]"><img src={feat.img} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-4 left-4 rounded-full bg-white/85 backdrop-blur px-3 py-1 text-xs font-semibold">{feat.cat}</span></div>
-            <div className="p-8 md:p-12 flex flex-col justify-center"><div className="eyebrow" style={{color:"#9aa1ab"}}>{feat.date} · Featured · {feat.read}</div><h2 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight leading-tight group-hover:text-green transition-colors">{feat.title}</h2><p className="muted mt-4 text-lg">{feat.excerpt}</p><div className="mt-6 text-green font-medium">Read more →</div></div>
+            <div className="relative aspect-[16/11] md:aspect-auto md:min-h-[340px] overflow-hidden bg-[#f4f6f8]"><img src={feat.img} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-4 left-4 rounded-full bg-white/85 backdrop-blur px-3 py-1 text-xs font-semibold">{pick(CAT_LABELS[feat.cat],lg)}</span></div>
+            <div className="p-8 md:p-12 flex flex-col justify-center"><div className="eyebrow" style={{color:"#9aa1ab"}}>{pick(feat.date,lg)} · {ui.featured} · {pick(feat.read,lg)}</div><h2 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight leading-tight group-hover:text-green transition-colors">{pick(feat.title,lg)}</h2><p className="muted mt-4 text-lg">{pick(feat.excerpt,lg)}</p><div className="mt-6 text-green font-medium">{ui.readMore}</div></div>
           </article></Reveal>
         </section>}
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-12 md:pb-16">
           {rest.length>0 ? <div className="grid md:grid-cols-3 gap-6">
             {rest.map((n,i)=><Reveal key={n.slug} delay={(i%3)*.06}><article onClick={()=>go("/news/"+n.slug)} className="softcard overflow-hidden h-full group cursor-pointer">
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{n.cat}</span></div>
-              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{n.date} · {n.read}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{n.title}</h3><p className="muted mt-2 text-sm">{n.excerpt}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{pick(CAT_LABELS[n.cat],lg)}</span></div>
+              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{pick(n.date,lg)} · {pick(n.read,lg)}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{pick(n.title,lg)}</h3><p className="muted mt-2 text-sm">{pick(n.excerpt,lg)}</p><div className="mt-4 text-sm font-medium text-green">{ui.readMore}</div></div>
             </article></Reveal>)}
-          </div> : <p className="muted text-center py-10">No stories in this category yet.</p>}
+          </div> : <p className="muted text-center py-10">{ui.empty}</p>}
         </section>
         <section className="bg-[#fafbfc] border-t border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 text-center">
-          <Head n="·" title="Get ECOMOBILE updates" lead="New stations, models and milestones — straight to your inbox." center/>
-          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder="Your email" className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>Subscribe</Btn></form>
+          <Head n="·" title={ui.nlTitle} lead={ui.nlSub} center/>
+          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder={ui.emailPh} className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>{ui.subscribe}</Btn></form>
         </div></section>
       </main>);
     }
 
-    function ArticlePage({slug}){
+    function ArticlePage({slug}){ const {language:lg}=useLanguage(); const ui=NEWS_UI[lg]||NEWS_UI.en;
       const a=newsBySlug(slug);
       if(!a) return (<main className="mx-auto max-w-[820px] px-5 md:px-8 pt-40 pb-32 text-center">
-        <h1 className="text-3xl font-bold">Story not found</h1>
-        <p className="muted mt-4">This article may have moved.</p>
-        <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/news")}>Back to newsroom</Btn></div>
+        <h1 className="text-3xl font-bold">{ui.notFound}</h1>
+        <p className="muted mt-4">{ui.moved}</p>
+        <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/news")}>{ui.back}</Btn></div>
       </main>);
-      const more=relatedNews(slug,3);
+      const more=relatedNews(slug,3); const body=pickArr(a.body,lg);
       return (<main>
         <section className="hero-stage relative overflow-hidden pt-32 md:pt-40 pb-8">
           <div className="dotgrid-light"/>
           <div className="relative z-10 mx-auto max-w-[820px] px-5 md:px-8">
-            <Reveal><a href="/news" className="inline-flex items-center gap-2 text-sm text-[#6b7280] hover:text-green transition-colors">← Newsroom</a></Reveal>
-            <Reveal delay={.05}><div className="mt-6 flex flex-wrap items-center gap-3 text-sm"><span className="rounded-full bg-green-50 text-green font-semibold px-3 py-1 text-xs">{a.cat}</span><span className="muted">{a.date}</span><span className="text-[#cfd4dc]">·</span><span className="muted">{a.read}</span></div></Reveal>
-            <Reveal delay={.1}><h1 className="mt-5 font-bold tracking-[-.03em] leading-[1.06]" style={{fontSize:"clamp(2rem,4.6vw,3.4rem)"}}>{a.title}</h1></Reveal>
-            <Reveal delay={.15}><p className="muted mt-5 text-lg md:text-xl leading-relaxed">{a.excerpt}</p></Reveal>
+            <Reveal><a href="/news" className="inline-flex items-center gap-2 text-sm text-[#6b7280] hover:text-green transition-colors">← {ui.backShort}</a></Reveal>
+            <Reveal delay={.05}><div className="mt-6 flex flex-wrap items-center gap-3 text-sm"><span className="rounded-full bg-green-50 text-green font-semibold px-3 py-1 text-xs">{pick(CAT_LABELS[a.cat],lg)}</span><span className="muted">{pick(a.date,lg)}</span><span className="text-[#cfd4dc]">·</span><span className="muted">{pick(a.read,lg)}</span></div></Reveal>
+            <Reveal delay={.1}><h1 className="mt-5 font-bold tracking-[-.03em] leading-[1.06]" style={{fontSize:"clamp(2rem,4.6vw,3.4rem)"}}>{pick(a.title,lg)}</h1></Reveal>
+            <Reveal delay={.15}><p className="muted mt-5 text-lg md:text-xl leading-relaxed">{pick(a.excerpt,lg)}</p></Reveal>
           </div>
         </section>
         <section className="mx-auto max-w-[1100px] px-5 md:px-8 mt-2 md:mt-4">
           <Reveal><div className="relative overflow-hidden rounded-[26px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.22)"}}><img src={a.img} alt="" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>
         </section>
         {a.facts && <section className="mx-auto max-w-[820px] px-5 md:px-8 mt-10"><Reveal><div className="grid grid-cols-3 gap-px bg-[#e9eaee] rounded-2xl overflow-hidden border border-[#e9eaee]">
-          {a.facts.map(([n,l],i)=><div key={i} className="bg-white px-4 py-5 text-center"><div className="text-xl md:text-2xl font-bold text-green tracking-tight">{n}</div><div className="muted mt-1 text-xs leading-tight">{l}</div></div>)}
+          {(a.facts[lg]||a.facts.en).map(([n,l],i)=><div key={i} className="bg-white px-4 py-5 text-center"><div className="text-xl md:text-2xl font-bold text-green tracking-tight">{n}</div><div className="muted mt-1 text-xs leading-tight">{l}</div></div>)}
         </div></Reveal></section>}
         <article className="mx-auto max-w-[720px] px-5 md:px-8 py-12 md:py-16">
-          {a.body.map((p,i)=><Fragment key={i}>
+          {body.map((p,i)=><Fragment key={i}>
             <Reveal delay={Math.min(i,3)*.03}><p className="text-[1.1rem] md:text-[1.16rem] leading-[1.85] text-[#2c313a] mb-6">{p}</p></Reveal>
-            {a.quote && i===1 && <Reveal><blockquote className="my-10 border-l-2 border-green pl-6 text-xl md:text-2xl font-semibold tracking-[-.01em] leading-snug text-[#0a0b0d]">“{a.quote}”</blockquote></Reveal>}
+            {a.quote && i===1 && <Reveal><blockquote className="my-10 border-l-2 border-green pl-6 text-xl md:text-2xl font-semibold tracking-[-.01em] leading-snug text-[#0a0b0d]">“{pick(a.quote,lg)}”</blockquote></Reveal>}
           </Fragment>)}
-          <div className="mt-10 border-t border-[#eef0f3] pt-7"><a href="/news" className="text-sm font-medium text-green">← Back to newsroom</a></div>
+          <div className="mt-10 border-t border-[#eef0f3] pt-7"><a href="/news" className="text-sm font-medium text-green">← {ui.back}</a></div>
         </article>
         <section className="bg-[#fafbfc] border-t border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-24">
-          <Head n="·" title="More from the newsroom"/>
+          <Head n="·" title={ui.more}/>
           <div className="mt-10 grid md:grid-cols-3 gap-6">{more.map((n,i)=><Reveal key={n.slug} delay={i*.06}><article onClick={()=>go("/news/"+n.slug)} className="softcard overflow-hidden h-full group cursor-pointer">
-            <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{n.cat}</span></div>
-            <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{n.date}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{n.title}</h3><p className="muted mt-2 text-sm">{n.excerpt}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
+            <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={n.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{pick(CAT_LABELS[n.cat],lg)}</span></div>
+            <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{pick(n.date,lg)}</div><h3 className="mt-3 text-lg font-semibold leading-snug group-hover:text-green transition-colors">{pick(n.title,lg)}</h3><p className="muted mt-2 text-sm">{pick(n.excerpt,lg)}</p><div className="mt-4 text-sm font-medium text-green">{ui.readMore}</div></div>
           </article></Reveal>)}</div>
         </div></section>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20 text-center">
-          <Head n="·" title="Stay in the loop" lead="New stations, models and milestones — straight to your inbox." center/>
-          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder="Your email" className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>Subscribe</Btn></form>
+          <Head n="·" title={ui.loop} lead={ui.nlSub} center/>
+          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder={ui.emailPh} className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>{ui.subscribe}</Btn></form>
         </section>
       </main>);
     }
@@ -1038,4 +1055,4 @@ import { NEWS, newsBySlug, relatedNews } from "./news-data";
       </L.Provider>);
     }
 
-export { HomePage, VehiclePage, SwapPage, NewsPage, ArticlePage, FaqPage, InvestorsPage, ContactsPage, AboutPage };
+export { HomePage, VehiclePage, SwapPage, NewsPage, ArticlePage, FaqPage, InvestorsPage, ContactsPage, AboutPage, T, L };

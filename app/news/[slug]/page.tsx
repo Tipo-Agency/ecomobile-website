@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { ArticlePage } from "@/components/eco-ui";
-import { NEWS, newsBySlug } from "@/components/news-data";
+import { NEWS, newsBySlug, pick } from "@/components/news-data";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const a = newsBySlug(slug);
   return a
-    ? { title: `${a.title} | ECOMOBILE`, description: a.excerpt }
+    ? { title: `${pick(a.title, "ru")} | ECOMOBILE`, description: pick(a.excerpt, "ru") }
     : { title: "News | ECOMOBILE" };
 }
 

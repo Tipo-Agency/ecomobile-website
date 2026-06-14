@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/contexts/language-context"
+import I18nBridge from "@/components/i18n-bridge"
 import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={inter.className}>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider><I18nBridge>{children}</I18nBridge></LanguageProvider>
         <Toaster />
       </body>
     </html>

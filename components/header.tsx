@@ -5,20 +5,27 @@ import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/language-context";
 
 const VEHICLES = [
-  { name: "BARLAS", tag: "Business sedan", from: "259 999 000", img: "/images/barlas-hero.jpg", href: "/barlas" },
-  { name: "NAYMAN", tag: "Electric SUV", from: "289 999 000", img: "/images/nayman-hero.jpg", href: "/nayman" },
+  { key: "barlas", name: "BARLAS", from: "259 999 000", img: "/images/barlas-hero.jpg", href: "/barlas" },
+  { key: "nayman", name: "NAYMAN", from: "289 999 000", img: "/images/nayman-hero.jpg", href: "/nayman" },
 ];
 const LINKS: [string, string][] = [
-  ["/swap", "Battery Swap"],
-  ["/news", "News"],
-  ["/investors", "Investors"],
-  ["/contacts", "Contacts"],
+  ["/swap", "swap"],
+  ["/news", "news"],
+  ["/investors", "investors"],
+  ["/contacts", "contacts"],
 ];
 const LANGS: [string, string][] = [["en", "EN"], ["ru", "RU"], ["uz", "UZ"]];
+
+const HT: Record<string, any> = {
+  en: { top: "Now delivering across Central Asia — BARLAS & NAYMAN", findStation: "Find a swap station →", vehicles: "Vehicles", links: { swap: "Battery Swap", news: "News", investors: "Investors", contacts: "Contacts" }, faq: "FAQ", from: "from", explore: "Explore →", megaNote: "One battery network for both — Battery-as-a-Service", howSwap: "How swap works →", order: "Order now", tags: { barlas: "Business sedan", nayman: "Electric SUV" } },
+  ru: { top: "Уже поставляем по Центральной Азии — BARLAS и NAYMAN", findStation: "Найти станцию замены →", vehicles: "Автомобили", links: { swap: "Замена батареи", news: "Новости", investors: "Инвесторам", contacts: "Контакты" }, faq: "FAQ", from: "от", explore: "Подробнее →", megaNote: "Одна сеть батарей для обоих — батарея по подписке", howSwap: "Как работает замена →", order: "Заказать", tags: { barlas: "Бизнес-седан", nayman: "Электро-кроссовер" } },
+  uz: { top: "Markaziy Osiyo bo‘ylab yetkazyapmiz — BARLAS va NAYMAN", findStation: "Almashish stansiyasini topish →", vehicles: "Avtomobillar", links: { swap: "Batareya almashish", news: "Yangiliklar", investors: "Investorlar", contacts: "Kontaktlar" }, faq: "FAQ", from: "dan", explore: "Batafsil →", megaNote: "Ikkalasi uchun bitta batareya tarmog‘i — obunadagi batareya", howSwap: "Almashish qanday ishlaydi →", order: "Buyurtma berish", tags: { barlas: "Biznes-sedan", nayman: "Elektr krossover" } },
+};
 
 export default function Header() {
   const path = usePathname();
   const { language, setLanguage } = (useLanguage?.() as any) || { language: "en", setLanguage: () => {} };
+  const tr = HT[language] || HT.en;
   const [scrolled, setScrolled] = useState(false);
   const [veh, setVeh] = useState(false);
   const [mob, setMob] = useState(false);
@@ -46,11 +53,11 @@ export default function Header() {
         <div className="mx-auto max-w-[1240px] px-6 h-[38px] flex items-center justify-between text-[12.5px]">
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-green" style={{ boxShadow: "0 0 8px #10e07f" }} />
-            Now delivering across Central Asia — BARLAS &amp; NAYMAN
+            {tr.top}
           </span>
           <div className="flex items-center gap-6">
             <a href="tel:+998000000000" className="hover:text-white transition-colors">+998 00 000 00 00</a>
-            <Link href="/swap" className="hover:text-white transition-colors">Find a swap station →</Link>
+            <Link href="/swap" className="hover:text-white transition-colors">{tr.findStation}</Link>
           </div>
         </div>
       </div>
@@ -66,7 +73,7 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-1">
             <div className="relative" onMouseEnter={() => setVeh(true)} onMouseLeave={() => setVeh(false)}>
               <button className={"flex items-center gap-1.5 rounded-full px-4 py-2 text-[.9rem] transition-colors " + ((isActive("/barlas") || isActive("/nayman") || veh) ? "text-black bg-[#f3f5f7]" : "text-[#4b5563] hover:text-black")}>
-                Vehicles
+                {tr.vehicles}
                 <svg width="11" height="7" viewBox="0 0 11 7" className={"transition-transform " + (veh ? "rotate-180" : "")}><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
               </button>
               {/* mega menu */}
@@ -77,27 +84,27 @@ export default function Header() {
                       <Link key={v.name} href={v.href} className="group rounded-2xl border border-[#eef0f3] overflow-hidden hover:border-green/40 hover:shadow-[0_24px_50px_-28px_rgba(11,166,120,.5)] transition-all">
                         <div className="relative aspect-[16/10] bg-[#f4f6f8] overflow-hidden">
                           <img src={v.img} alt={v.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style={{ mixBlendMode: "multiply" }} />
-                          <span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold tracking-wide">{v.tag}</span>
+                          <span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold tracking-wide">{tr.tags[v.key]}</span>
                         </div>
                         <div className="p-4">
                           <div className="flex items-center justify-between">
                             <span className="text-lg font-bold tracking-tight">{v.name}</span>
-                            <span className="text-green text-sm font-medium opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">Explore →</span>
+                            <span className="text-green text-sm font-medium opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">{tr.explore}</span>
                           </div>
-                          <div className="text-xs text-[#9aa1ab] mt-1">from {v.from} сум</div>
+                          <div className="text-xs text-[#9aa1ab] mt-1">{tr.from} {v.from} сум</div>
                         </div>
                       </Link>
                     ))}
                   </div>
                   <Link href="/swap" className="mt-3 flex items-center justify-between rounded-2xl bg-[#f6f8fa] px-5 py-3.5 text-sm hover:bg-[#eef6f2] transition-colors">
-                    <span className="font-medium">One battery network for both — Battery-as-a-Service</span>
-                    <span className="text-green font-medium">How swap works →</span>
+                    <span className="font-medium">{tr.megaNote}</span>
+                    <span className="text-green font-medium">{tr.howSwap}</span>
                   </Link>
                 </div>
               </div>
             </div>
             {LINKS.map(([p, n]) => (
-              <Link key={p} href={p} className={"rounded-full px-4 py-2 text-[.9rem] transition-colors " + (isActive(p) ? "text-black bg-[#f3f5f7]" : "text-[#4b5563] hover:text-black")}>{n}</Link>
+              <Link key={p} href={p} className={"rounded-full px-4 py-2 text-[.9rem] transition-colors " + (isActive(p) ? "text-black bg-[#f3f5f7]" : "text-[#4b5563] hover:text-black")}>{tr.links[n]}</Link>
             ))}
           </nav>
 
@@ -122,7 +129,7 @@ export default function Header() {
               </div>
             </div>
             <Link href="/contacts" className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-green text-white px-5 py-2.5 text-[.85rem] font-medium shadow-[0_12px_30px_-12px_rgba(11,166,120,.7)] hover:bg-green-600 transition-colors">
-              Order now <span>→</span>
+              {tr.order} <span>→</span>
             </Link>
             <button className="lg:hidden flex flex-col gap-[5px] p-2.5 -mr-2" onClick={() => setMob((v) => !v)} aria-label="Menu">
               <span className={"h-0.5 w-6 bg-black rounded transition-transform " + (mob ? "translate-y-[7px] rotate-45" : "")} />
@@ -146,15 +153,15 @@ export default function Header() {
             {VEHICLES.map((v) => (
               <Link key={v.name} href={v.href} onClick={() => setMob(false)} className="rounded-2xl border border-[#eef0f3] overflow-hidden">
                 <div className="relative aspect-[16/11] bg-[#f4f6f8]"><img src={v.img} className="absolute inset-0 h-full w-full object-cover" style={{ mixBlendMode: "multiply" }} alt={v.name} /></div>
-                <div className="p-3"><div className="font-bold">{v.name}</div><div className="text-xs text-[#9aa1ab]">from {v.from} сум</div></div>
+                <div className="p-3"><div className="font-bold">{v.name}</div><div className="text-xs text-[#9aa1ab]">{tr.from} {v.from} сум</div></div>
               </Link>
             ))}
           </div>
           <nav className="mt-6 flex flex-col divide-y divide-[#eef0f3]">
-            {LINKS.map(([p, n]) => (<Link key={p} href={p} onClick={() => setMob(false)} className="py-4 text-xl font-medium">{n}</Link>))}
-            <Link href="/faq" onClick={() => setMob(false)} className="py-4 text-xl font-medium">FAQ</Link>
+            {LINKS.map(([p, n]) => (<Link key={p} href={p} onClick={() => setMob(false)} className="py-4 text-xl font-medium">{tr.links[n]}</Link>))}
+            <Link href="/faq" onClick={() => setMob(false)} className="py-4 text-xl font-medium">{tr.faq}</Link>
           </nav>
-          <Link href="/contacts" onClick={() => setMob(false)} className="mt-6 flex items-center justify-center gap-2 rounded-full bg-green text-white py-4 text-lg font-medium">Order now →</Link>
+          <Link href="/contacts" onClick={() => setMob(false)} className="mt-6 flex items-center justify-center gap-2 rounded-full bg-green text-white py-4 text-lg font-medium">{tr.order} →</Link>
           <div className="mt-6 flex gap-2">
             {LANGS.map(([code, label]) => (
               <button key={code} onClick={() => { setLanguage(code); setMob(false); }} className={"flex-1 rounded-xl border py-3 text-sm font-medium " + (language === code ? "border-green text-green" : "border-[#e4e7ec] text-[#4b5563]")}>{label}</button>

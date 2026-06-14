@@ -1,12 +1,45 @@
 "use client";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/language-context";
 
-const COLS: [string, [string, string][]][] = [
-  ["Vehicles", [["BARLAS Sedan", "/barlas"], ["NAYMAN SUV", "/nayman"], ["Compare & pricing", "/barlas"]]],
-  ["Network", [["Battery Swap", "/swap"], ["Battery-as-a-Service", "/swap"], ["Find a station", "/swap"]]],
-  ["Company", [["News", "/news"], ["Investors", "/investors"], ["About", "/about"]]],
-  ["Support", [["FAQ", "/faq"], ["Contacts", "/contacts"], ["Become a partner", "/contacts"]]],
-];
+const FT: Record<string, any> = {
+  en: {
+    tagline: "The electric car that never waits to charge. Two-minute battery swaps and an open energy network, built for Central Asia.",
+    nlTitle: "Stay in the loop", nlSub: "New stations, models and BARLAS updates — no spam.",
+    emailPh: "Your email", subscribe: "Subscribe", city: "Tashkent, Uzbekistan",
+    rights: "© 2026 ECOMOBILE · Green Transport Platform · Central Asia", privacy: "Privacy", terms: "Terms",
+    cols: [
+      ["Vehicles", [["BARLAS Sedan", "/barlas"], ["NAYMAN SUV", "/nayman"], ["Compare & pricing", "/barlas"]]],
+      ["Network", [["Battery Swap", "/swap"], ["Battery-as-a-Service", "/swap"], ["Find a station", "/swap"]]],
+      ["Company", [["News", "/news"], ["Investors", "/investors"], ["About", "/about"]]],
+      ["Support", [["FAQ", "/faq"], ["Contacts", "/contacts"], ["Become a partner", "/contacts"]]],
+    ],
+  },
+  ru: {
+    tagline: "Электромобиль, которому не нужно ждать зарядку. Замена батареи за две минуты и открытая энергосеть для Центральной Азии.",
+    nlTitle: "Оставайтесь на связи", nlSub: "Новые станции, модели и новости BARLAS — без спама.",
+    emailPh: "Ваш e-mail", subscribe: "Подписаться", city: "Ташкент, Узбекистан",
+    rights: "© 2026 ECOMOBILE · Платформа зелёного транспорта · Центральная Азия", privacy: "Конфиденциальность", terms: "Условия",
+    cols: [
+      ["Автомобили", [["Седан BARLAS", "/barlas"], ["Кроссовер NAYMAN", "/nayman"], ["Сравнить и цены", "/barlas"]]],
+      ["Сеть", [["Замена батареи", "/swap"], ["Батарея по подписке", "/swap"], ["Найти станцию", "/swap"]]],
+      ["Компания", [["Новости", "/news"], ["Инвесторам", "/investors"], ["О нас", "/about"]]],
+      ["Поддержка", [["FAQ", "/faq"], ["Контакты", "/contacts"], ["Стать партнёром", "/contacts"]]],
+    ],
+  },
+  uz: {
+    tagline: "Quvvatlashni kutmaydigan elektromobil. Ikki daqiqada batareya almashish va Markaziy Osiyo uchun ochiq energiya tarmog‘i.",
+    nlTitle: "Aloqada bo‘ling", nlSub: "Yangi stansiyalar, modellar va BARLAS yangiliklari — spamsiz.",
+    emailPh: "Sizning e-mail", subscribe: "Obuna bo‘lish", city: "Toshkent, O‘zbekiston",
+    rights: "© 2026 ECOMOBILE · Yashil transport platformasi · Markaziy Osiyo", privacy: "Maxfiylik", terms: "Shartlar",
+    cols: [
+      ["Avtomobillar", [["BARLAS sedan", "/barlas"], ["NAYMAN krossover", "/nayman"], ["Taqqoslash va narxlar", "/barlas"]]],
+      ["Tarmoq", [["Batareya almashish", "/swap"], ["Obunadagi batareya", "/swap"], ["Stansiyani topish", "/swap"]]],
+      ["Kompaniya", [["Yangiliklar", "/news"], ["Investorlar", "/investors"], ["Biz haqimizda", "/about"]]],
+      ["Yordam", [["FAQ", "/faq"], ["Kontaktlar", "/contacts"], ["Hamkor bo‘lish", "/contacts"]]],
+    ],
+  },
+};
 
 function Social({ d, label, href }: { d: string; label: string; href: string }) {
   return (
@@ -18,6 +51,8 @@ function Social({ d, label, href }: { d: string; label: string; href: string }) 
 }
 
 export default function Footer() {
+  const { language } = (useLanguage?.() as any) || { language: "ru" };
+  const ft = FT[language] || FT.en;
   return (
     <footer className="relative overflow-hidden bg-[#0a0b0d] text-white">
       {/* glow + rotating logomark accent */}
@@ -33,7 +68,7 @@ export default function Footer() {
               <span className="text-2xl font-extrabold tracking-tight">ECOMOBILE</span>
             </div>
             <p className="mt-5 text-white/55 text-[1.05rem] leading-relaxed">
-              The electric car that never waits to charge. Two-minute battery swaps and an open energy network, built for Central Asia.
+              {ft.tagline}
             </p>
             <div className="mt-6 flex gap-2.5">
               <Social label="Telegram" href="#" d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" />
@@ -43,16 +78,16 @@ export default function Footer() {
           </div>
 
           <div className="lg:justify-self-end w-full max-w-md">
-            <h4 className="text-lg font-semibold">Stay in the loop</h4>
-            <p className="mt-2 text-white/55 text-sm">New stations, models and BARLAS updates — no spam.</p>
+            <h4 className="text-lg font-semibold">{ft.nlTitle}</h4>
+            <p className="mt-2 text-white/55 text-sm">{ft.nlSub}</p>
             <form className="mt-4 flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" required placeholder="Your email" className="flex-1 rounded-full bg-white/[.06] border border-white/12 px-5 py-3 text-sm outline-none placeholder:text-white/35 focus:border-green/60" />
-              <button className="rounded-full bg-green text-white px-5 py-3 text-sm font-medium hover:bg-green-600 transition-colors">Subscribe</button>
+              <input type="email" required placeholder={ft.emailPh} className="flex-1 rounded-full bg-white/[.06] border border-white/12 px-5 py-3 text-sm outline-none placeholder:text-white/35 focus:border-green/60" />
+              <button className="rounded-full bg-green text-white px-5 py-3 text-sm font-medium hover:bg-green-600 transition-colors">{ft.subscribe}</button>
             </form>
             <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
               <a href="mailto:sales@ecomobile.world" className="text-white/55 hover:text-green transition-colors">sales@ecomobile.world</a>
               <a href="tel:+998000000000" className="text-white/55 hover:text-green transition-colors">+998 00 000 00 00</a>
-              <span className="text-white/40">Tashkent, Uzbekistan</span>
+              <span className="text-white/40">{ft.city}</span>
               <span className="text-white/40">ecomobile.world</span>
             </div>
           </div>
@@ -60,7 +95,7 @@ export default function Footer() {
 
         {/* link columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
-          {COLS.map(([h, items], i) => (
+          {ft.cols.map(([h, items]: [string, [string, string][]], i: number) => (
             <div key={i}>
               <h4 className="text-[12px] font-semibold uppercase tracking-[.16em] text-white/40">{h}</h4>
               <ul className="mt-4 space-y-2.5">
@@ -74,10 +109,10 @@ export default function Footer() {
 
         {/* bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-7 border-t border-white/10 text-[13px] text-white/40">
-          <span>© 2026 ECOMOBILE · Green Transport Platform · Central Asia</span>
+          <span>{ft.rights}</span>
           <div className="flex items-center gap-6">
-            <Link href="/faq" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/faq" className="hover:text-white transition-colors">Terms</Link>
+            <Link href="/faq" className="hover:text-white transition-colors">{ft.privacy}</Link>
+            <Link href="/faq" className="hover:text-white transition-colors">{ft.terms}</Link>
             <span className="text-white/30">EN · RU · UZ</span>
           </div>
         </div>
