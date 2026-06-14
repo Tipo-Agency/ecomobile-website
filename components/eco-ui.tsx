@@ -222,10 +222,10 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 
     /* ===================== Hero ===================== */
     const BUBBLES=[
-      {big:"2",unit:"min",label:"Battery swap",size:158,pos:{top:"-7%",left:"-8%"},anim:"floatA",dur:7,delay:0,par:.35},
-      {big:"500",unit:"km",label:"Range",size:178,pos:{top:"3%",right:"-9%"},anim:"floatB",dur:8.5,delay:.6,par:.28},
-      {big:"5",unit:"",label:"Countries",size:150,pos:{bottom:"15%",left:"-10%"},anim:"floatC",dur:7.8,delay:1,par:.42},
-      {big:"0",unit:"g",label:"CO₂ / km",size:150,pos:{bottom:"5%",right:"-7%"},anim:"floatA",dur:9,delay:.3,par:.32},
+      {big:"2",unit:"min",label:"Battery swap",size:132,pos:{top:"-4%",left:"-12%"},anim:"floatA",dur:7,delay:0,par:.35},
+      {big:"500",unit:"km",label:"Range",size:144,pos:{top:"4%",right:"-13%"},anim:"floatB",dur:8.5,delay:.6,par:.28},
+      {big:"5",unit:"",label:"Countries",size:120,pos:{bottom:"16%",left:"-14%"},anim:"floatC",dur:7.8,delay:1,par:.42},
+      {big:"0",unit:"g",label:"CO₂ / km",size:120,pos:{bottom:"4%",right:"-12%"},anim:"floatA",dur:9,delay:.3,par:.32},
     ];
     function HeroBubbles(){
       const ref=useRef(null);
@@ -248,34 +248,37 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     }
     function Hero(){
       const t=useContext(L);
-      return (<section id="top" className="hero-stage relative overflow-hidden pt-32 md:pt-36 pb-16">
+      return (<section id="top" className="hero-stage relative overflow-hidden flex flex-col min-h-[100svh] pt-[112px] md:pt-[128px] pb-4">
         <DotField/>
-        <div className="blob" style={{width:560,height:560,left:"-10%",top:"6%",background:"radial-gradient(closest-side,#e3f7ee,transparent)"}}/>
-        <div className="blob" style={{width:440,height:440,right:"-8%",bottom:"14%",background:"radial-gradient(closest-side,#eaf1ff,transparent)"}}/>
+        <div className="blob" style={{width:520,height:520,left:"-10%",top:"4%",background:"radial-gradient(closest-side,#e3f7ee,transparent)"}}/>
+        <div className="blob" style={{width:420,height:420,right:"-8%",bottom:"16%",background:"radial-gradient(closest-side,#eaf1ff,transparent)"}}/>
 
-        <div className="relative z-10 mx-auto max-w-[1100px] px-5 text-center">
-          <motion.div initial={{y:12}} animate={{y:0}} transition={{delay:.05,duration:.6}} className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white/70 backdrop-blur px-4 py-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-green"/><span className="eyebrow" style={{color:"#5b6470"}}>{t.eyebrow}</span>
+        <div className="relative z-10 mx-auto max-w-[1000px] px-5 text-center shrink-0">
+          <motion.div initial={{y:12}} animate={{y:0}} transition={{delay:.05,duration:.6}} className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white/70 backdrop-blur px-3.5 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-green"/><span className="eyebrow text-[11px]" style={{color:"#5b6470"}}>{t.eyebrow}</span>
           </motion.div>
           <motion.h1 initial={{y:22}} animate={{y:0}} transition={{delay:.15,duration:.8,ease:[0.16,1,0.3,1]}}
-            className="mx-auto mt-6 max-w-[15ch] font-bold tracking-[-.035em] leading-[1.02]" style={{fontSize:"clamp(2.5rem,6.2vw,5.4rem)"}}>{t.title}</motion.h1>
-          <motion.p initial={{y:16}} animate={{y:0}} transition={{delay:.28,duration:.6}} className="muted mx-auto mt-6 max-w-xl text-lg md:text-xl leading-relaxed">{t.sub}</motion.p>
-          <motion.div initial={{y:16}} animate={{y:0}} transition={{delay:.38,duration:.6}} className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            className="mx-auto mt-4 max-w-[15ch] font-bold tracking-[-.035em] leading-[1.03]" style={{fontSize:"clamp(1.95rem,4.6vw,4rem)"}}>{t.title}</motion.h1>
+          <motion.p initial={{y:16}} animate={{y:0}} transition={{delay:.28,duration:.6}} className="muted mx-auto mt-4 max-w-lg text-base md:text-lg leading-relaxed">{t.sub}</motion.p>
+          <motion.div initial={{y:16}} animate={{y:0}} transition={{delay:.38,duration:.6}} className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Btn primary onClick={()=>go("/barlas")}>{t.cta1}</Btn>
             <Btn ghost onClick={()=>go("/swap")}>{t.cta2}</Btn>
           </motion.div>
         </div>
 
-        <div className="relative z-20 mx-auto mt-8 mb-4 w-[min(860px,94vw)]">
-          <HeroBubbles/>
-          <motion.img initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
-            src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS"
-            className="relative z-10 w-full h-auto"
-            style={{filter:"drop-shadow(0 36px 44px rgba(16,24,40,.20))"}}/>
+        <div className="relative z-20 flex-1 min-h-0 w-full flex items-end justify-center">
+          <div className="relative">
+            <HeroBubbles/>
+            <motion.img initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
+              src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS"
+              className="relative z-10 block mx-auto h-auto w-auto max-h-[44vh] max-w-[86vw]"
+              style={{filter:"drop-shadow(0 30px 40px rgba(16,24,40,.20))"}}/>
+          </div>
         </div>
+
         {/* compact stat row on mobile (bubbles hidden on small screens) */}
-        <div className="sm:hidden relative z-30 mx-auto mt-4 grid grid-cols-2 gap-4 px-5">
-          {t.stats.map(([v,l],i)=>(<div key={i} className="text-center"><div className="text-3xl font-bold tracking-tight">{v}</div><div className="muted mt-1 text-sm">{l}</div></div>))}
+        <div className="sm:hidden relative z-30 mx-auto mt-3 grid grid-cols-4 gap-2 px-4 shrink-0">
+          {t.stats.map(([v,l],i)=>(<div key={i} className="text-center"><div className="text-lg font-bold tracking-tight">{v}</div><div className="muted mt-0.5 text-[10px] leading-tight">{l}</div></div>))}
         </div>
       </section>);
     }
