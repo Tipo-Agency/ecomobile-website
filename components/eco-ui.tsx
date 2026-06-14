@@ -688,22 +688,29 @@ import { useLanguage } from "@/contexts/language-context";
     const go=(p)=>{ if(typeof window!=="undefined") window.location.href=p; };
 
     const VEHICLES={
-      barlas:{ name:"BARLAS", tag:"Business sedan", tagline:"The flagship battery-swap sedan — business-class comfort with zero charging downtime.",
-        hero:"/images/barlas-hero-nobg.png", blend:false,
-        highlights:[["500 km","CATL range"],["≈2 min","Battery swap"],["~6.5 s","0–100 km/h"],["5","Business seats"]],
-        design:{img:"/images/barlas-side.jpg",title:"Aerodynamic, low and sharp.",text:"A clean fastback silhouette, flush door handles and a sculpted front cut drag and add real-world range. Every line earns its place."},
-        interior:{img:"/images/interior.jpg",title:"A calm, business-class cabin.",text:"Soft-touch materials, a panoramic roof and a large central display. Quiet, spacious and built for long days on the road."},
+      barlas:{ name:"BARLAS", hero:"/images/barlas-hero-nobg.png", blend:false,
+        tag:{en:"Business sedan",ru:"Бизнес-седан",uz:"Biznes-sedan"},
+        tagline:{en:"The flagship battery-swap sedan — business-class comfort with zero charging downtime.",ru:"Флагманский седан с заменой батареи — комфорт бизнес-класса и ноль простоя на зарядке.",uz:"Batareya almashinuvchi flagman sedan — biznes-klass qulaylik va nol quvvatlash to‘xtashi."},
+        highlights:{en:[["500 km","CATL range"],["≈2 min","Battery swap"],["~6.5 s","0–100 km/h"],["5","Business seats"]],ru:[["500 км","Запас хода CATL"],["≈2 мин","Замена батареи"],["~6.5 с","0–100 км/ч"],["5","Мест бизнес-класса"]],uz:[["500 km","CATL masofa"],["≈2 daq","Batareya almashish"],["~6.5 s","0–100 km/soat"],["5","Biznes o‘rin"]]},
+        design:{img:"/images/barlas-side.jpg",title:{en:"Aerodynamic, low and sharp.",ru:"Аэродинамичный, низкий и чёткий.",uz:"Aerodinamik, past va aniq."},text:{en:"A clean fastback silhouette, flush door handles and a sculpted front cut drag and add real-world range. Every line earns its place.",ru:"Чистый силуэт фастбэка, утопленные ручки и скульптурный перёд снижают сопротивление и добавляют реальный запас хода. Каждая линия на своём месте.",uz:"Toza fastbek silueti, botiq tutqichlar va haykaltarosh old qism qarshilikni kamaytirib, real masofa qo‘shadi. Har bir chiziq o‘z o‘rnida."}},
+        interior:{img:"/images/interior.jpg",title:{en:"A calm, business-class cabin.",ru:"Спокойный салон бизнес-класса.",uz:"Tinch, biznes-klass salon."},text:{en:"Soft-touch materials, a panoramic roof and a large central display. Quiet, spacious and built for long days on the road.",ru:"Мягкие материалы, панорамная крыша и крупный центральный дисплей. Тихо, просторно и создано для долгих дней в пути.",uz:"Yumshoq materiallar, panoramali tom va katta markaziy displey. Tinch, keng va uzoq safarlar uchun yaratilgan."}},
         gallery:["/images/barlas-side.jpg","/images/interior.jpg","/images/barlas-silver.jpg","/images/lifestyle.jpg"],
-        specs:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["0–100 km/h","~6.5 s"],["Seats","5 · business"],["Safety","Advanced ADAS"]],
+        specs:{en:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["0–100 km/h","~6.5 s"],["Seats","5 · business"],["Safety","Advanced ADAS"]],ru:[["Запас хода","до 500 км"],["Батарея","CATL · сменная"],["Замена","≈ 2 мин"],["0–100 км/ч","~6.5 с"],["Места","5 · бизнес"],["Безопасность","Современный ADAS"]],uz:[["Masofa","500 km gacha"],["Batareya","CATL · almashinuvchi"],["Almashish","≈ 2 daq"],["0–100 km/soat","~6.5 s"],["O‘rin","5 · biznes"],["Xavfsizlik","Ilg‘or ADAS"]]},
         trims:[["Comfort","259 999 000"],["Max","279 999 000"]] },
-      nayman:{ name:"NAYMAN", tag:"Electric SUV", tagline:"Space, range and two-minute swaps — the swap-compatible SUV for the whole family.",
-        hero:"/images/nayman-hero.jpg", blend:true,
-        highlights:[["500 km","CATL range"],["≈2 min","Battery swap"],["190 mm","Clearance"],["AWD","Available"]],
-        design:{img:"/images/nayman-2.jpg",title:"Built to go further.",text:"A higher stance, longer suspension travel and confident proportions — equally at home in the city and on the road beyond it."},
-        interior:{img:"/images/interior-2.jpg",title:"Room for everything.",text:"A flexible, elevated cabin with generous space for five and their gear, wrapped in premium materials and a panoramic view."},
+      nayman:{ name:"NAYMAN", hero:"/images/nayman-hero.jpg", blend:true,
+        tag:{en:"Electric SUV",ru:"Электро-кроссовер",uz:"Elektr krossover"},
+        tagline:{en:"Space, range and two-minute swaps — the swap-compatible SUV for the whole family.",ru:"Простор, запас хода и двухминутная замена — кроссовер с заменой батареи для всей семьи.",uz:"Keng joy, masofa va ikki daqiqalik almashish — butun oila uchun batareya almashinuvchi krossover."},
+        highlights:{en:[["500 km","CATL range"],["≈2 min","Battery swap"],["190 mm","Clearance"],["AWD","Available"]],ru:[["500 км","Запас хода CATL"],["≈2 мин","Замена батареи"],["190 мм","Клиренс"],["AWD","Доступен"]],uz:[["500 km","CATL masofa"],["≈2 daq","Batareya almashish"],["190 mm","Klirens"],["AWD","Mavjud"]]},
+        design:{img:"/images/nayman-2.jpg",title:{en:"Built to go further.",ru:"Создан идти дальше.",uz:"Uzoqroq yurish uchun yaratilgan."},text:{en:"A higher stance, longer suspension travel and confident proportions — equally at home in the city and on the road beyond it.",ru:"Более высокая посадка, увеличенный ход подвески и уверенные пропорции — одинаково свой и в городе, и на дороге за его пределами.",uz:"Balandroq o‘rindiq, uzunroq osma yurishi va ishonchli nisbatlar — shaharda ham, undan tashqarida ham bir xil qulay."}},
+        interior:{img:"/images/interior-2.jpg",title:{en:"Room for everything.",ru:"Место для всего.",uz:"Hamma narsaga joy."},text:{en:"A flexible, elevated cabin with generous space for five and their gear, wrapped in premium materials and a panoramic view.",ru:"Гибкий приподнятый салон с большим пространством для пятерых и их вещей, в премиальных материалах и с панорамным видом.",uz:"Beshta odam va ularning yuklari uchun keng joyga ega moslashuvchan, ko‘tarilgan salon — premium materiallar va panorama ko‘rinishi bilan."}},
         gallery:["/images/nayman-2.jpg","/images/interior-2.jpg","/images/chassis.jpg","/images/station-2.png"],
-        specs:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["Clearance","190 mm"],["Seats","5 · SUV"],["Drive","AWD available"]],
+        specs:{en:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["Clearance","190 mm"],["Seats","5 · SUV"],["Drive","AWD available"]],ru:[["Запас хода","до 500 км"],["Батарея","CATL · сменная"],["Замена","≈ 2 мин"],["Клиренс","190 мм"],["Места","5 · SUV"],["Привод","AWD доступен"]],uz:[["Masofa","500 km gacha"],["Batareya","CATL · almashinuvchi"],["Almashish","≈ 2 daq"],["Klirens","190 mm"],["O‘rin","5 · SUV"],["Uzatma","AWD mavjud"]]},
         trims:[["Comfort","289 999 000"],["Max","319 999 000"]] },
+    };
+    const VP={
+      en:{ testDrive:"Book a test drive", howSwap:"How swap works", specs:"Specifications", baas:"Battery-as-a-Service", ownSub:"A far lower entry price, predictable monthly energy, and a two-minute swap whenever you need a full charge.", seeSwap:"See how swap works", gallery:"Gallery", pricing:"Pricing", pricingLead:"Own the car, subscribe to the battery.", from:"from", top:"Top", other:"Looking for the other model?", own:(n)=>`Own the ${n}. Subscribe to the battery.`, order:(t)=>`Order ${t}`, explore:(n)=>`Explore ${n} →` },
+      ru:{ testDrive:"Записаться на тест-драйв", howSwap:"Как работает замена", specs:"Характеристики", baas:"Батарея по подписке", ownSub:"Гораздо ниже входная цена, предсказуемая ежемесячная энергия и двухминутная замена, когда нужен полный заряд.", seeSwap:"Как работает замена", gallery:"Галерея", pricing:"Цены", pricingLead:"Машина ваша, батарея — по подписке.", from:"от", top:"Топ", other:"Ищете другую модель?", own:(n)=>`Владейте ${n}. Подпишитесь на батарею.`, order:(t)=>`Заказать ${t}`, explore:(n)=>`Открыть ${n} →` },
+      uz:{ testDrive:"Test-drayvga yozilish", howSwap:"Almashish qanday ishlaydi", specs:"Xususiyatlar", baas:"Obunadagi batareya", ownSub:"Ancha past kirish narxi, oldindan aniq oylik energiya va to‘liq quvvat kerak bo‘lganda ikki daqiqalik almashish.", seeSwap:"Almashish qanday ishlaydi", gallery:"Galereya", pricing:"Narxlar", pricingLead:"Avtomobil sizniki, batareya — obunada.", from:"dan", top:"Top", other:"Boshqa modelni qidiryapsizmi?", own:(n)=>`${n} sizniki. Batareyaga obuna bo‘ling.`, order:(t)=>`${t} buyurtma`, explore:(n)=>`${n} ni ochish →` },
     };
 
     function PageHero({eyebrow,title,sub}){
@@ -717,48 +724,48 @@ import { useLanguage } from "@/contexts/language-context";
       </section>);
     }
 
-    function VehiclePage({slug}){
+    function VehiclePage({slug}){ const {language:lg}=useLanguage(); const vp=VP[lg]||VP.en;
       const v=VEHICLES[slug]; const other=slug==="barlas"?"nayman":"barlas";
       return (<main>
-        <PageHero eyebrow={v.tag} title={v.name} sub={v.tagline}/>
+        <PageHero eyebrow={pick(v.tag,lg)} title={v.name} sub={pick(v.tagline,lg)}/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 -mt-2">
           <Reveal><img src={v.hero} alt={v.name} loading="eager" className="mx-auto w-[min(800px,92vw)] h-auto" style={v.blend?{mixBlendMode:"darken"}:undefined}/></Reveal>
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-            <Btn primary onClick={()=>go("/contacts")}>Book a test drive</Btn>
-            <Btn ghost onClick={()=>go("/swap")}>How swap works</Btn>
+            <Btn primary onClick={()=>go("/contacts")}>{vp.testDrive}</Btn>
+            <Btn ghost onClick={()=>go("/swap")}>{vp.howSwap}</Btn>
           </div>
         </section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#e9eaee] rounded-2xl overflow-hidden border border-[#e9eaee]">
-            {v.highlights.map(([n,l],i)=><div key={i} className="bg-white p-6 md:p-7"><div className="text-2xl md:text-[1.9rem] font-bold tracking-tight text-green">{n}</div><div className="muted mt-1 text-sm">{l}</div></div>)}
+            {(v.highlights[lg]||v.highlights.en).map(([n,l],i)=><div key={i} className="bg-white p-6 md:p-7"><div className="text-2xl md:text-[1.9rem] font-bold tracking-tight text-green">{n}</div><div className="muted mt-1 text-sm">{l}</div></div>)}
           </div>
         </section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
           <Reveal><div className="relative aspect-[4/3] overflow-hidden rounded-[26px] border border-[#edeff3]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src={v.design.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover" alt=""/></div></Reveal>
-          <div><Head n="·" title={v.design.title}/><p className="muted mt-4 text-lg leading-relaxed">{v.design.text}</p></div>
+          <div><Head n="·" title={pick(v.design.title,lg)}/><p className="muted mt-4 text-lg leading-relaxed">{pick(v.design.text,lg)}</p></div>
         </section>
 
         <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-          <div className="md:order-2"><Head n="·" title={v.interior.title}/><p className="muted mt-4 text-lg leading-relaxed">{v.interior.text}</p></div>
+          <div className="md:order-2"><Head n="·" title={pick(v.interior.title,lg)}/><p className="muted mt-4 text-lg leading-relaxed">{pick(v.interior.text,lg)}</p></div>
           <Reveal className="md:order-1"><div className="relative aspect-[4/3] overflow-hidden rounded-[26px] border border-[#edeff3]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src={v.interior.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover" alt=""/></div></Reveal>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="Specifications" center/>
+          <Head n="·" title={vp.specs} center/>
           <div className="mt-12 grid grid-cols-2 md:grid-cols-3 gap-px bg-[#e9eaee] rounded-2xl overflow-hidden border border-[#e9eaee]">
-            {v.specs.map(([k,val],i)=><div key={i} className="bg-white p-6"><div className="text-xs uppercase tracking-wider text-[#9aa1ab]">{k}</div><div className="mt-2 text-lg font-semibold">{val}</div></div>)}
+            {(v.specs[lg]||v.specs.en).map(([k,val],i)=><div key={i} className="bg-white p-6"><div className="text-xs uppercase tracking-wider text-[#9aa1ab]">{k}</div><div className="mt-2 text-lg font-semibold">{val}</div></div>)}
           </div>
         </section>
 
         <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-7 text-center md:text-left">
-          <div className="max-w-xl"><div className="eyebrow" style={{color:"#7dd6b6"}}>Battery-as-a-Service</div><h3 className="mt-2 text-2xl md:text-[2rem] font-bold tracking-tight leading-tight">Own the {v.name}. Subscribe to the battery.</h3><p className="text-white/55 mt-3">A far lower entry price, predictable monthly energy, and a two-minute swap whenever you need a full charge.</p></div>
-          <Btn primary onClick={()=>go("/swap")}>See how swap works</Btn>
+          <div className="max-w-xl"><div className="eyebrow" style={{color:"#7dd6b6"}}>{vp.baas}</div><h3 className="mt-2 text-2xl md:text-[2rem] font-bold tracking-tight leading-tight">{vp.own(v.name)}</h3><p className="text-white/55 mt-3">{vp.ownSub}</p></div>
+          <Btn primary onClick={()=>go("/swap")}>{vp.seeSwap}</Btn>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="Gallery"/>
+          <Head n="·" title={vp.gallery}/>
           <div className="mt-10 grid md:grid-cols-2 gap-5">
             {v.gallery.map((g,i)=><Reveal key={i} delay={i*.05}><div className={"relative overflow-hidden rounded-[22px] border border-[#edeff3] "+(i===0?"md:col-span-2 aspect-[16/9]":"aspect-[4/3]")} style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}>
               <img src={g} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>)}
@@ -766,41 +773,46 @@ import { useLanguage } from "@/contexts/language-context";
         </section>
 
         <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="Pricing" lead="Own the car, subscribe to the battery." center/>
+          <Head n="·" title={vp.pricing} lead={vp.pricingLead} center/>
           <div className="mt-12 grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {v.trims.map(([trim,price],i)=><Reveal key={i} delay={i*.06}><div className={"softcard p-8 "+(i===1?"ring-1 ring-green/30":"")}>
-              <div className="flex items-center justify-between"><h3 className="text-xl font-bold">{v.name} {trim}</h3>{i===1&&<span className="rounded-full bg-green-50 text-green text-xs font-semibold px-3 py-1">Top</span>}</div>
-              <div className="muted text-sm mt-5">from</div><div className="text-2xl font-bold">{price} <span className="text-sm font-medium muted">сум</span></div>
-              <div className="mt-6"><Btn primary onClick={()=>go("/contacts")}>Order {trim}</Btn></div>
+              <div className="flex items-center justify-between"><h3 className="text-xl font-bold">{v.name} {trim}</h3>{i===1&&<span className="rounded-full bg-green-50 text-green text-xs font-semibold px-3 py-1">{vp.top}</span>}</div>
+              <div className="muted text-sm mt-5">{vp.from}</div><div className="text-2xl font-bold">{price} <span className="text-sm font-medium muted">сум</span></div>
+              <div className="mt-6"><Btn primary onClick={()=>go("/contacts")}>{vp.order(trim)}</Btn></div>
             </div></Reveal>)}
           </div>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 text-center">
-          <p className="muted">Looking for the other model?</p>
-          <button onClick={()=>go("/"+other)} className="mt-3 text-2xl font-bold tracking-tight hover:text-green transition-colors">Explore {VEHICLES[other].name} →</button>
+          <p className="muted">{vp.other}</p>
+          <button onClick={()=>go("/"+other)} className="mt-3 text-2xl font-bold tracking-tight hover:text-green transition-colors">{vp.explore(VEHICLES[other].name)}</button>
         </section>
       </main>);
     }
 
-    function SwapPage(){ const t=useContext(L);
+    function SwapPage(){ const {language:lg}=useLanguage(); const sp=SP[lg]||SP.en;
       return (<main>
-        <PageHero eyebrow="Battery Swap · BaaS" title="Two minutes. Then you're gone." sub="No cables, no waiting. An automated station swaps your depleted pack for a full one — and the network doubles as distributed energy storage."/>
+        <PageHero eyebrow={sp.eyebrow} title={sp.title} sub={sp.sub}/>
         <Swap/>
         <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-10 items-center">
           <Reveal><div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-[#edeff3]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/station-1.png" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>
-          <div><Head n="·" title="Battery-as-a-Service"/>
-            <p className="muted mt-4 text-lg">Buy the car, subscribe to the battery. You get a far lower entry price, predictable monthly energy, and you never worry about battery degradation — the network keeps every pack healthy.</p>
-            <div className="mt-6 grid grid-cols-2 gap-3">{["Lower upfront price","Predictable energy cost","Always-healthy battery","Swap anywhere on the network"].map((x,i)=><div key={i} className="flex items-center gap-2 text-sm"><span className="text-green">✓</span>{x}</div>)}</div>
+          <div><Head n="·" title={sp.baas}/>
+            <p className="muted mt-4 text-lg">{sp.baasText}</p>
+            <div className="mt-6 grid grid-cols-2 gap-3">{sp.checks.map((x,i)=><div key={i} className="flex items-center gap-2 text-sm"><span className="text-green">✓</span>{x}</div>)}</div>
           </div>
         </div></section>
         <Network/><Energy/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 text-center">
-          <Head n="·" title="Become a station partner" lead="Bring battery swap to your city and earn on every swap." center/>
-          <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/contacts")}>Partner with us</Btn></div>
+          <Head n="·" title={sp.partnerTitle} lead={sp.partnerLead} center/>
+          <div className="mt-8 flex justify-center"><Btn primary onClick={()=>go("/contacts")}>{sp.partnerBtn}</Btn></div>
         </section>
       </main>);
     }
+    const SP={
+      en:{ eyebrow:"Battery Swap · BaaS", title:"Two minutes. Then you're gone.", sub:"No cables, no waiting. An automated station swaps your depleted pack for a full one — and the network doubles as distributed energy storage.", baas:"Battery-as-a-Service", baasText:"Buy the car, subscribe to the battery. You get a far lower entry price, predictable monthly energy, and you never worry about battery degradation — the network keeps every pack healthy.", checks:["Lower upfront price","Predictable energy cost","Always-healthy battery","Swap anywhere on the network"], partnerTitle:"Become a station partner", partnerLead:"Bring battery swap to your city and earn on every swap.", partnerBtn:"Partner with us" },
+      ru:{ eyebrow:"Замена батареи · BaaS", title:"Две минуты. И вы уже в пути.", sub:"Без кабелей и ожидания. Автоматическая станция меняет разряженную батарею на полную — а сеть работает как распределённое хранилище энергии.", baas:"Батарея по подписке", baasText:"Купите машину, подпишитесь на батарею. Гораздо ниже входная цена, предсказуемая ежемесячная энергия и никаких тревог о деградации — сеть держит каждую батарею здоровой.", checks:["Ниже входная цена","Предсказуемая цена энергии","Всегда здоровая батарея","Замена в любой точке сети"], partnerTitle:"Станьте партнёром по станциям", partnerLead:"Приведите замену батарей в свой город и зарабатывайте на каждой замене.", partnerBtn:"Стать партнёром" },
+      uz:{ eyebrow:"Batareya almashish · BaaS", title:"Ikki daqiqa. Va siz yo‘ldasiz.", sub:"Kabelsiz va kutishsiz. Avtomatik stansiya bo‘shagan batareyani to‘lasiga almashtiradi — tarmoq esa taqsimlangan energiya ombori bo‘lib ishlaydi.", baas:"Obunadagi batareya", baasText:"Avtomobilni sotib oling, batareyaga obuna bo‘ling. Ancha past kirish narxi, oldindan aniq oylik energiya va eskirishdan xavotirsizlik — tarmoq har bir batareyani sog‘lom saqlaydi.", checks:["Past kirish narxi","Aniq energiya narxi","Doim sog‘lom batareya","Tarmoqning istalgan joyida almashish"], partnerTitle:"Stansiya hamkori bo‘ling", partnerLead:"Batareya almashishni shahringizga olib keling va har almashishdan daromad oling.", partnerBtn:"Hamkor bo‘lish" },
+    };
 
     /* NEWS data now lives in ./news-data.ts (objects with slug + full article body) */
     function NewsPage(){ const {language:lg}=useLanguage(); const ui=NEWS_UI[lg]||NEWS_UI.en;
@@ -880,152 +892,217 @@ import { useLanguage } from "@/contexts/language-context";
       </main>);
     }
 
-    const FAQ=[
-      ["How long does a battery swap take?","About two minutes. You pull into the station, an automated system swaps your depleted pack for a fully charged one, and you drive away — roughly the time it takes to refuel."],
-      ["What is Battery-as-a-Service (BaaS)?","You own the car and subscribe to the battery. This lowers the upfront price dramatically and turns energy into a predictable monthly cost."],
-      ["What is the range?","Up to 500 km on a full pack, using CATL swappable battery technology."],
-      ["Where can I swap batteries?","Across a growing network — starting in Uzbekistan, expanding to Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan."],
-      ["Is battery swapping safe?","Yes. Swaps happen in automated, certified stations. Every pack is inspected and charged under optimal conditions, which also extends its life."],
-      ["Can other brands use the network?","Yes — ECOMOBILE is an open platform built on a shared battery standard, so the whole industry can plug in."],
-      ["What's the difference between Comfort and Max?","Max adds range, equipment and premium finishes. Both swap on the same network. See each model page for full pricing."],
-    ];
+    const FAQ_L={
+      en:[
+        ["How long does a battery swap take?","About two minutes. You pull into the station, an automated system swaps your depleted pack for a fully charged one, and you drive away — roughly the time it takes to refuel."],
+        ["What is Battery-as-a-Service (BaaS)?","You own the car and subscribe to the battery. This lowers the upfront price dramatically and turns energy into a predictable monthly cost."],
+        ["What is the range?","Up to 500 km on a full pack, using CATL swappable battery technology."],
+        ["Where can I swap batteries?","Across a growing network — starting in Uzbekistan, expanding to Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan."],
+        ["Is battery swapping safe?","Yes. Swaps happen in automated, certified stations. Every pack is inspected and charged under optimal conditions, which also extends its life."],
+        ["Can other brands use the network?","Yes — ECOMOBILE is an open platform built on a shared battery standard, so the whole industry can plug in."],
+        ["What's the difference between Comfort and Max?","Max adds range, equipment and premium finishes. Both swap on the same network. See each model page for full pricing."],
+      ],
+      ru:[
+        ["Сколько занимает замена батареи?","Около двух минут. Вы заезжаете на станцию, автоматика меняет разряженную батарею на полностью заряженную, и вы уезжаете — примерно как заправиться."],
+        ["Что такое «Батарея по подписке» (BaaS)?","Машина ваша, а батарея — по подписке. Это резко снижает стартовую цену и превращает энергию в предсказуемый ежемесячный платёж."],
+        ["Какой запас хода?","До 500 км на полной батарее, на сменной батарее CATL."],
+        ["Где можно менять батареи?","В растущей сети — старт в Узбекистане, далее Казахстан, Кыргызстан, Таджикистан и Туркменистан."],
+        ["Безопасна ли замена батареи?","Да. Замена идёт на автоматических сертифицированных станциях. Каждая батарея проверяется и заряжается в оптимальных условиях, что продлевает её срок службы."],
+        ["Могут ли другие бренды пользоваться сетью?","Да — ECOMOBILE это открытая платформа на едином стандарте батарей, поэтому подключиться может вся отрасль."],
+        ["В чём разница между Comfort и Max?","Max добавляет запас хода, оснащение и премиальную отделку. Обе меняют батарею в одной сети. Полные цены — на странице каждой модели."],
+      ],
+      uz:[
+        ["Batareya almashish qancha vaqt oladi?","Taxminan ikki daqiqa. Stansiyaga kirasiz, avtomatika bo‘shagan batareyani to‘liq quvvatlangan batareyaga almashtiradi va siz yo‘ldasiz — deyarli yoqilg‘i quygandek."],
+        ["Battery-as-a-Service (BaaS) nima?","Avtomobil sizniki, batareya esa obunada. Bu boshlang‘ich narxni keskin pasaytiradi va energiyani oldindan aniq oylik to‘lovga aylantiradi."],
+        ["Masofa qancha?","To‘liq batareyada 500 km gacha, CATL almashinuvchi batareya texnologiyasida."],
+        ["Batareyalarni qayerda almashtirsam bo‘ladi?","O‘sayotgan tarmoqda — O‘zbekistondan boshlab, keyin Qozog‘iston, Qirg‘iziston, Tojikiston va Turkmaniston."],
+        ["Batareya almashish xavfsizmi?","Ha. Almashish avtomatik, sertifikatlangan stansiyalarda bo‘ladi. Har bir batareya tekshiriladi va optimal sharoitda quvvatlanadi, bu uning umrini uzaytiradi."],
+        ["Boshqa brendlar tarmoqdan foydalana oladimi?","Ha — ECOMOBILE yagona batareya standartiga qurilgan ochiq platforma, shu bois butun soha ulanishi mumkin."],
+        ["Comfort va Max o‘rtasidagi farq nima?","Max masofa, jihoz va premium pardozni qo‘shadi. Ikkalasi bir tarmoqda almashadi. To‘liq narxlar — har bir model sahifasida."],
+      ],
+    };
+    const FAQ_UI={
+      en:{ eyebrow:"Help", title:"Frequently asked questions", sub:"Everything about battery swap, BaaS and ownership.", still:"Still have questions?", help:"Our team is happy to help.", contact:"Contact us" },
+      ru:{ eyebrow:"Помощь", title:"Частые вопросы", sub:"Всё о замене батареи, BaaS и владении.", still:"Остались вопросы?", help:"Наша команда с радостью поможет.", contact:"Связаться" },
+      uz:{ eyebrow:"Yordam", title:"Ko‘p so‘raladigan savollar", sub:"Batareya almashish, BaaS va egalik haqida hammasi.", still:"Savollaringiz bormi?", help:"Jamoamiz yordam berishdan mamnun.", contact:"Bog‘lanish" },
+    };
     function FaqItem({q,a}){ const [o,setO]=useState(false);
       return (<div className="border-b border-[#eef0f3]"><button onClick={()=>setO(v=>!v)} className="w-full flex items-center justify-between gap-4 py-5 text-left">
         <span className="text-lg font-semibold">{q}</span><span className={"text-green transition-transform "+(o?"rotate-45":"")}>+</span></button>
         <div className="overflow-hidden transition-all duration-300" style={{maxHeight:o?"240px":"0"}}><p className="muted pb-5 pr-8">{a}</p></div></div>);
     }
-    function FaqPage(){
+    function FaqPage(){ const {language:lg}=useLanguage(); const fu=FAQ_UI[lg]||FAQ_UI.en; const items=FAQ_L[lg]||FAQ_L.en;
       return (<main>
-        <PageHero eyebrow="Help" title="Frequently asked questions" sub="Everything about battery swap, BaaS and ownership."/>
+        <PageHero eyebrow={fu.eyebrow} title={fu.title} sub={fu.sub}/>
         <section className="mx-auto max-w-[820px] px-5 md:px-8 py-12 md:py-20">
-          {FAQ.map(([q,a],i)=><Reveal key={i} delay={i*.03}><FaqItem q={q} a={a}/></Reveal>)}
-          <div className="mt-12 softcard p-8 text-center"><h3 className="text-xl font-bold">Still have questions?</h3><p className="muted mt-2">Our team is happy to help.</p><div className="mt-5 flex justify-center"><Btn primary onClick={()=>go("/contacts")}>Contact us</Btn></div></div>
+          {items.map(([q,a],i)=><Reveal key={i} delay={i*.03}><FaqItem q={q} a={a}/></Reveal>)}
+          <div className="mt-12 softcard p-8 text-center"><h3 className="text-xl font-bold">{fu.still}</h3><p className="muted mt-2">{fu.help}</p><div className="mt-5 flex justify-center"><Btn primary onClick={()=>go("/contacts")}>{fu.contact}</Btn></div></div>
         </section>
       </main>);
     }
 
-    function InvestorsPage(){
-      const market=[
-        ["$2.4B","Central Asia passenger-EV market by 2030","Demand across Uzbekistan, Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan is compounding fast."],
-        ["~40 → 2 min","charging vs swapping","For taxis and fleets, downtime is lost revenue. Swapping removes it entirely."],
-        ["Recurring","battery-as-a-service revenue","Every car on the road is a monthly subscription — not a one-off sale."],
-      ];
-      const streams=[
-        ["01","Vehicle sales","Margin on every BARLAS and NAYMAN sold."],
-        ["02","Battery subscription","Recurring monthly BaaS revenue per vehicle."],
-        ["03","Swap fees","Per-swap revenue across the growing network."],
-        ["04","Energy services","Grid balancing & storage from idle battery packs."],
-      ];
-      const traction=[["2","Models in market"],["259.9M","сум — entry price"],["5","Countries in plan"],["CATL","Battery partner"]];
-      const road=[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations in Tashkent."],["2027","Scale","Station network across Uzbekistan; NAYMAN volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; open the standard to partners."],["2030","Platform","Region-wide energy + mobility network."]];
-      const funds=[["Swap-station network","45"],["Vehicle & battery inventory","30"],["R&D & platform software","15"],["Team & operations","10"]];
+    const IV={
+      en:{ eyebrow:"Investor Relations", title:"The open battery-swap network of Central Asia.", sub:"Not just an EV brand — a transport-and-energy platform with recurring revenue and network-effect economics.",
+        market:[["$2.4B","Central Asia passenger-EV market by 2030","Demand across Uzbekistan, Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan is compounding fast."],["~40 → 2 min","charging vs swapping","For taxis and fleets, downtime is lost revenue. Swapping removes it entirely."],["Recurring","battery-as-a-service revenue","Every car on the road is a monthly subscription — not a one-off sale."]],
+        problemEy:"The problem", problemTitle:"Charging is slow and capital-heavy.", problemText:"Every minute a taxi or fleet vehicle is plugged in is lost revenue. And the battery — the most expensive part of an EV — keeps the upfront price out of reach for the mass market.",
+        solutionEy:"The solution", solutionTitle:"Decouple the battery from the car.", solutionText:"Two-minute swaps remove downtime. Battery-as-a-Service removes the upfront battery cost. And the station network doubles as distributed energy storage — a second business on the same asset.",
+        bmEy:"Business model", bmTitle:"Four revenue streams. One platform.", bmText:"A car sale is the start of the relationship, not the end — every vehicle generates recurring battery and energy revenue for years.",
+        streams:[["01","Vehicle sales","Margin on every BARLAS and NAYMAN sold."],["02","Battery subscription","Recurring monthly BaaS revenue per vehicle."],["03","Swap fees","Per-swap revenue across the growing network."],["04","Energy services","Grid balancing & storage from idle battery packs."]],
+        tractionTitle:"Traction", traction:[["2","Models in market"],["259.9M","сум — entry price"],["5","Countries in plan"],["CATL","Battery partner"]],
+        openStd:"Open battery standard", onePack:"One pack. Any compatible vehicle.",
+        roadmapTitle:"Roadmap", road:[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations in Tashkent."],["2027","Scale","Station network across Uzbekistan; NAYMAN volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; open the standard to partners."],["2030","Platform","Region-wide energy + mobility network."]],
+        raiseTitle:"The raise", raiseText:"We're raising to build the swap-station network and scale vehicle & battery inventory ahead of demand. Indicative use of funds:",
+        funds:[["Swap-station network","45"],["Vehicle & battery inventory","30"],["R&D & platform software","15"],["Team & operations","10"]],
+        deckTitle:"Request the investor deck", deckText:"Full market sizing, unit economics, financials and expansion strategy.", deckBtn:"Contact investor relations" },
+      ru:{ eyebrow:"Связи с инвесторами", title:"Открытая сеть замены батарей Центральной Азии.", sub:"Не просто бренд электромобилей — транспортно-энергетическая платформа с регулярной выручкой и экономикой сетевого эффекта.",
+        market:[["$2.4 млрд","Рынок пассажирских EV Центральной Азии к 2030","Спрос в Узбекистане, Казахстане, Кыргызстане, Таджикистане и Туркменистане растёт по экспоненте."],["~40 → 2 мин","зарядка против замены","Для такси и парков простой — потерянная выручка. Замена убирает его полностью."],["Регулярная","выручка от батареи по подписке","Каждая машина на дороге — ежемесячная подписка, а не разовая продажа."]],
+        problemEy:"Проблема", problemTitle:"Зарядка медленная и капиталоёмкая.", problemText:"Каждая минута, что такси или машина парка стоит на зарядке, — потерянная выручка. А батарея — самая дорогая часть EV — держит стартовую цену недоступной для массового рынка.",
+        solutionEy:"Решение", solutionTitle:"Отделить батарею от машины.", solutionText:"Двухминутная замена убирает простой. Батарея по подписке убирает стартовую стоимость батареи. А сеть станций работает как распределённое хранилище — второй бизнес на том же активе.",
+        bmEy:"Бизнес-модель", bmTitle:"Четыре потока выручки. Одна платформа.", bmText:"Продажа машины — начало отношений, а не конец: каждая машина годами приносит выручку от батареи и энергии.",
+        streams:[["01","Продажи авто","Маржа с каждой проданной BARLAS и NAYMAN."],["02","Подписка на батарею","Регулярная ежемесячная выручка BaaS с машины."],["03","Плата за замену","Выручка с каждой замены по растущей сети."],["04","Энергоуслуги","Балансировка сети и хранение от простаивающих батарей."]],
+        tractionTitle:"Тяга", traction:[["2","Модели на рынке"],["259.9 млн","сум — входная цена"],["5","Стран в плане"],["CATL","Партнёр по батареям"]],
+        openStd:"Открытый стандарт батарей", onePack:"Одна батарея. Любая совместимая машина.",
+        roadmapTitle:"Дорожная карта", road:[["2026","Старт","Поставки BARLAS и NAYMAN; первые станции замены в Ташкенте."],["2027","Масштаб","Сеть станций по Узбекистану; NAYMAN серийно."],["2028","Экспансия","Казахстан и Кыргызстан; открытие стандарта партнёрам."],["2030","Платформа","Энерго- и транспортная сеть по всему региону."]],
+        raiseTitle:"Раунд", raiseText:"Привлекаем средства на строительство сети станций и масштабирование запасов машин и батарей с опережением спроса. Ориентировочное использование средств:",
+        funds:[["Сеть станций замены","45"],["Запасы машин и батарей","30"],["R&D и софт платформы","15"],["Команда и операции","10"]],
+        deckTitle:"Запросить инвест-деку", deckText:"Полный объём рынка, юнит-экономика, финансы и стратегия расширения.", deckBtn:"Связаться с IR" },
+      uz:{ eyebrow:"Investorlar bilan aloqa", title:"Markaziy Osiyoning ochiq batareya almashish tarmog‘i.", sub:"Shunchaki elektromobil brendi emas — doimiy daromad va tarmoq effekti iqtisodiga ega transport va energiya platformasi.",
+        market:[["$2.4 mlrd","2030 yilga Markaziy Osiyo yo‘lovchi EV bozori","O‘zbekiston, Qozog‘iston, Qirg‘iziston, Tojikiston va Turkmanistonda talab tez o‘smoqda."],["~40 → 2 daq","quvvatlash va almashish","Taksi va parklar uchun to‘xtash — yo‘qotilgan daromad. Almashish uni butunlay olib tashlaydi."],["Doimiy","obunadagi batareya daromadi","Yo‘ldagi har bir avtomobil — oylik obuna, bir martalik savdo emas."]],
+        problemEy:"Muammo", problemTitle:"Quvvatlash sekin va kapital talab qiladi.", problemText:"Taksi yoki park avtomobili quvvatlashda turgan har daqiqa — yo‘qotilgan daromad. Batareya esa — EV ning eng qimmat qismi — boshlang‘ich narxni ommaviy bozor uchun yetib bo‘lmas qiladi.",
+        solutionEy:"Yechim", solutionTitle:"Batareyani avtomobildan ajrating.", solutionText:"Ikki daqiqalik almashish to‘xtashni olib tashlaydi. Obunadagi batareya boshlang‘ich batareya xarajatini olib tashlaydi. Stansiyalar tarmog‘i esa taqsimlangan ombor bo‘lib ishlaydi — bir aktivda ikkinchi biznes.",
+        bmEy:"Biznes-model", bmTitle:"To‘rt daromad oqimi. Bitta platforma.", bmText:"Avtomobil sotuvi — munosabatning boshi, oxiri emas: har bir avtomobil yillar davomida batareya va energiya daromadini keltiradi.",
+        streams:[["01","Avtomobil savdosi","Har sotilgan BARLAS va NAYMAN’dan marja."],["02","Batareya obunasi","Avtomobilga doimiy oylik BaaS daromadi."],["03","Almashish to‘lovi","O‘sayotgan tarmoq bo‘ylab har almashishdan daromad."],["04","Energiya xizmatlari","Bo‘sh batareyalardan tarmoq muvozanati va saqlash."]],
+        tractionTitle:"Natijalar", traction:[["2","Bozordagi model"],["259.9 mln","so‘m — kirish narxi"],["5","Rejadagi davlat"],["CATL","Batareya hamkori"]],
+        openStd:"Ochiq batareya standarti", onePack:"Bitta batareya. Har qanday mos avtomobil.",
+        roadmapTitle:"Yo‘l xaritasi", road:[["2026","Start","BARLAS va NAYMAN yetkazish; Toshkentda birinchi stansiyalar."],["2027","Ko‘lam","O‘zbekiston bo‘ylab stansiyalar tarmog‘i; NAYMAN seriyali."],["2028","Kengayish","Qozog‘iston va Qirg‘iziston; standartni hamkorlarga ochish."],["2030","Platforma","Butun mintaqa bo‘ylab energiya va transport tarmog‘i."]],
+        raiseTitle:"Investitsiya raundi", raiseText:"Stansiyalar tarmog‘ini qurish va talabdan oldinroq avtomobil hamda batareya zaxiralarini kengaytirish uchun mablag‘ jalb qilyapmiz. Mablag‘lardan taxminiy foydalanish:",
+        funds:[["Almashish stansiyalari tarmog‘i","45"],["Avtomobil va batareya zaxirasi","30"],["R&D va platforma dasturi","15"],["Jamoa va operatsiyalar","10"]],
+        deckTitle:"Investor dekasini so‘rang", deckText:"To‘liq bozor hajmi, yunit-iqtisod, moliya va kengayish strategiyasi.", deckBtn:"IR bilan bog‘lanish" },
+    };
+    function InvestorsPage(){ const {language:lg}=useLanguage(); const iv=IV[lg]||IV.en;
       return (<main>
-        <PageHero eyebrow="Investor Relations" title="The open battery-swap network of Central Asia." sub="Not just an EV brand — a transport-and-energy platform with recurring revenue and network-effect economics."/>
+        <PageHero eyebrow={iv.eyebrow} title={iv.title} sub={iv.sub}/>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8">
-          <div className="grid md:grid-cols-3 gap-5">{market.map(([n,t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full">
+          <div className="grid md:grid-cols-3 gap-5">{iv.market.map(([n,t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full">
             <div className="text-3xl md:text-4xl font-bold text-green tracking-tight">{n}</div>
             <div className="mt-3 font-semibold">{t}</div><p className="muted mt-2 text-sm leading-relaxed">{d}</p></div></Reveal>)}</div>
         </section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-6">
-          <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10 h-full"><div className="eyebrow" style={{color:"#9aa1ab"}}>The problem</div><h3 className="mt-3 text-2xl font-bold">Charging is slow and capital-heavy.</h3><p className="muted mt-4 text-lg">Every minute a taxi or fleet vehicle is plugged in is lost revenue. And the battery — the most expensive part of an EV — keeps the upfront price out of reach for the mass market.</p></div></Reveal>
-          <Reveal delay={.08}><div className="softcard p-8 md:p-10 h-full" style={{background:"linear-gradient(180deg,#f0faf5,#fff)"}}><div className="eyebrow">The solution</div><h3 className="mt-3 text-2xl font-bold">Decouple the battery from the car.</h3><p className="muted mt-4 text-lg">Two-minute swaps remove downtime. Battery-as-a-Service removes the upfront battery cost. And the station network doubles as distributed energy storage — a second business on the same asset.</p></div></Reveal>
+          <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10 h-full"><div className="eyebrow" style={{color:"#9aa1ab"}}>{iv.problemEy}</div><h3 className="mt-3 text-2xl font-bold">{iv.problemTitle}</h3><p className="muted mt-4 text-lg">{iv.problemText}</p></div></Reveal>
+          <Reveal delay={.08}><div className="softcard p-8 md:p-10 h-full" style={{background:"linear-gradient(180deg,#f0faf5,#fff)"}}><div className="eyebrow">{iv.solutionEy}</div><h3 className="mt-3 text-2xl font-bold">{iv.solutionTitle}</h3><p className="muted mt-4 text-lg">{iv.solutionText}</p></div></Reveal>
         </section>
 
         <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-center">
-          <div><div className="eyebrow" style={{color:"#7dd6b6"}}>Business model</div><h2 className="mt-3 font-bold tracking-tight leading-[1.05]" style={{fontSize:"clamp(2rem,4.4vw,3.2rem)"}}>Four revenue streams. One platform.</h2><p className="mt-5 text-white/55 text-lg max-w-md">A car sale is the start of the relationship, not the end — every vehicle generates recurring battery and energy revenue for years.</p></div>
-          <div className="grid sm:grid-cols-2 gap-4">{streams.map(([n,t,d],i)=><Reveal key={i} delay={i*.05}><div className="rounded-2xl border border-white/12 bg-white/[.03] p-6 h-full"><div className="text-green-400 text-sm font-semibold">{n}</div><div className="mt-2 font-semibold">{t}</div><p className="text-white/50 text-sm mt-1.5">{d}</p></div></Reveal>)}</div>
+          <div><div className="eyebrow" style={{color:"#7dd6b6"}}>{iv.bmEy}</div><h2 className="mt-3 font-bold tracking-tight leading-[1.05]" style={{fontSize:"clamp(2rem,4.4vw,3.2rem)"}}>{iv.bmTitle}</h2><p className="mt-5 text-white/55 text-lg max-w-md">{iv.bmText}</p></div>
+          <div className="grid sm:grid-cols-2 gap-4">{iv.streams.map(([n,t,d],i)=><Reveal key={i} delay={i*.05}><div className="rounded-2xl border border-white/12 bg-white/[.03] p-6 h-full"><div className="text-green-400 text-sm font-semibold">{n}</div><div className="mt-2 font-semibold">{t}</div><p className="text-white/50 text-sm mt-1.5">{d}</p></div></Reveal>)}</div>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="Traction" center/>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-5">{traction.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-4xl font-bold tracking-tight">{n}</div><div className="muted mt-1 text-sm">{l}</div></div></Reveal>)}</div>
-          <Reveal delay={.1}><div className="mt-12 relative overflow-hidden rounded-[26px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/chassis.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0" style={{background:"linear-gradient(90deg, rgba(0,0,0,.55), transparent 60%)"}}/><div className="absolute bottom-6 left-6 md:left-8 text-white max-w-md"><div className="text-xs uppercase tracking-widest opacity-80">Open battery standard</div><div className="text-xl md:text-2xl font-bold mt-1">One pack. Any compatible vehicle.</div></div></div></Reveal>
+          <Head n="·" title={iv.tractionTitle} center/>
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-5">{iv.traction.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-4xl font-bold tracking-tight">{n}</div><div className="muted mt-1 text-sm">{l}</div></div></Reveal>)}</div>
+          <Reveal delay={.1}><div className="mt-12 relative overflow-hidden rounded-[26px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/chassis.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0" style={{background:"linear-gradient(90deg, rgba(0,0,0,.55), transparent 60%)"}}/><div className="absolute bottom-6 left-6 md:left-8 text-white max-w-md"><div className="text-xs uppercase tracking-widest opacity-80">{iv.openStd}</div><div className="text-xl md:text-2xl font-bold mt-1">{iv.onePack}</div></div></div></Reveal>
         </section>
 
-        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20"><Head n="·" title="Roadmap" center/>
-          <div className="mt-12 grid md:grid-cols-4 gap-5">{road.map(([y,h,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-7 h-full"><div className="text-green font-bold text-lg">{y}</div><div className="mt-2 text-lg font-semibold">{h}</div><p className="muted mt-2 text-sm">{d}</p></div></Reveal>)}</div>
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20"><Head n="·" title={iv.roadmapTitle} center/>
+          <div className="mt-12 grid md:grid-cols-4 gap-5">{iv.road.map(([y,h,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-7 h-full"><div className="text-green font-bold text-lg">{y}</div><div className="mt-2 text-lg font-semibold">{h}</div><p className="muted mt-2 text-sm">{d}</p></div></Reveal>)}</div>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28 grid md:grid-cols-2 gap-12 items-start">
-          <div><Head n="·" title="The raise"/><p className="muted mt-4 text-lg max-w-md">We're raising to build the swap-station network and scale vehicle & battery inventory ahead of demand. Indicative use of funds:</p></div>
-          <div className="space-y-5 pt-2">{funds.map(([l,p],i)=><Reveal key={i} delay={i*.06}><div><div className="flex justify-between text-sm font-medium"><span>{l}</span><span className="text-green">{p}%</span></div><div className="mt-2 h-2.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:p+"%",background:"linear-gradient(90deg,#0ba678,#10b981)"}}/></div></div></Reveal>)}</div>
+          <div><Head n="·" title={iv.raiseTitle}/><p className="muted mt-4 text-lg max-w-md">{iv.raiseText}</p></div>
+          <div className="space-y-5 pt-2">{iv.funds.map(([l,p],i)=><Reveal key={i} delay={i*.06}><div><div className="flex justify-between text-sm font-medium"><span>{l}</span><span className="text-green">{p}%</span></div><div className="mt-2 h-2.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:p+"%",background:"linear-gradient(90deg,#0ba678,#10b981)"}}/></div></div></Reveal>)}</div>
         </section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-24">
           <div className="relative overflow-hidden rounded-[30px] px-6 py-16 md:py-20 text-center text-white" style={{background:"linear-gradient(135deg,#0ba678,#078a64)"}}>
             <img src="/images/logomark.svg" alt="" className="pointer-events-none absolute -right-12 -bottom-16 w-72 opacity-15" style={{filter:"brightness(0) invert(1)"}}/>
-            <div className="relative z-10 mx-auto max-w-2xl"><h2 className="font-bold tracking-tight" style={{fontSize:"clamp(2rem,5vw,3.4rem)"}}>Request the investor deck</h2><p className="mx-auto mt-4 max-w-lg text-white/85 text-lg">Full market sizing, unit economics, financials and expansion strategy.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Btn light lg onClick={()=>go("/contacts")}>Contact investor relations</Btn></div></div>
+            <div className="relative z-10 mx-auto max-w-2xl"><h2 className="font-bold tracking-tight" style={{fontSize:"clamp(2rem,5vw,3.4rem)"}}>{iv.deckTitle}</h2><p className="mx-auto mt-4 max-w-lg text-white/85 text-lg">{iv.deckText}</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Btn light lg onClick={()=>go("/contacts")}>{iv.deckBtn}</Btn></div></div>
           </div>
         </section>
       </main>);
     }
 
-    function ContactsPage(){
+    const CT={
+      en:{ eyebrow:"Contact", title:"Let's talk.", sub:"Customers, partners and investors — reach the right team.", cards:[["Sales","BARLAS & NAYMAN orders, test drives","sales@ecomobile.world"],["Partners","Swap-station & dealer partnership","partners@ecomobile.world"],["Investors","Investor relations","invest@ecomobile.world"]], city:"Tashkent, Uzbekistan · ecomobile.world", send:"Send a message", thanks:"Thanks — we'll be in touch shortly.", name:"Name", phone:"Phone or email", opts:["I'm a customer","I'm a partner","I'm an investor"], message:"Message", sendBtn:"Send message" },
+      ru:{ eyebrow:"Контакты", title:"Давайте поговорим.", sub:"Клиенты, партнёры и инвесторы — пишите нужной команде.", cards:[["Продажи","Заказы BARLAS и NAYMAN, тест-драйвы","sales@ecomobile.world"],["Партнёрам","Партнёрство по станциям и дилерам","partners@ecomobile.world"],["Инвесторам","Связи с инвесторами","invest@ecomobile.world"]], city:"Ташкент, Узбекистан · ecomobile.world", send:"Напишите нам", thanks:"Спасибо — мы скоро свяжемся с вами.", name:"Имя", phone:"Телефон или e-mail", opts:["Я клиент","Я партнёр","Я инвестор"], message:"Сообщение", sendBtn:"Отправить" },
+      uz:{ eyebrow:"Kontaktlar", title:"Keling, gaplashamiz.", sub:"Mijozlar, hamkorlar va investorlar — kerakli jamoaga yozing.", cards:[["Savdo","BARLAS va NAYMAN buyurtmalari, test-drayv","sales@ecomobile.world"],["Hamkorlar","Stansiya va diler hamkorligi","partners@ecomobile.world"],["Investorlar","Investorlar bilan aloqa","invest@ecomobile.world"]], city:"Toshkent, O‘zbekiston · ecomobile.world", send:"Bizga yozing", thanks:"Rahmat — tez orada bog‘lanamiz.", name:"Ism", phone:"Telefon yoki e-mail", opts:["Men mijozman","Men hamkorman","Men investorman"], message:"Xabar", sendBtn:"Yuborish" },
+    };
+    function ContactsPage(){ const {language:lg}=useLanguage(); const ct=CT[lg]||CT.en;
       const [sent,setSent]=useState(false);
       return (<main>
-        <PageHero eyebrow="Contact" title="Let's talk." sub="Customers, partners and investors — reach the right team."/>
+        <PageHero eyebrow={ct.eyebrow} title={ct.title} sub={ct.sub}/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-12">
           <div>
             <div className="grid gap-5">
-              {[["Sales","BARLAS & NAYMAN orders, test drives","sales@ecomobile.world"],["Partners","Swap-station & dealer partnership","partners@ecomobile.world"],["Investors","Investor relations","invest@ecomobile.world"]].map(([h,d,e],i)=>
+              {ct.cards.map(([h,d,e],i)=>
                 <Reveal key={i} delay={i*.05}><div className="softcard p-6"><div className="font-semibold">{h}</div><div className="muted text-sm mt-1">{d}</div><a href={"mailto:"+e} className="text-green text-sm font-medium mt-2 inline-block">{e}</a></div></Reveal>)}
             </div>
-            <p className="muted text-sm mt-6">Tashkent, Uzbekistan · ecomobile.world</p>
+            <p className="muted text-sm mt-6">{ct.city}</p>
           </div>
           <Reveal delay={.08}><form onSubmit={e=>{e.preventDefault();setSent(true);}} className="softcard p-8">
-            <h3 className="text-xl font-bold">Send a message</h3>
-            {sent ? <div className="mt-6 rounded-xl bg-green-50 text-green p-5 text-sm font-medium">Thanks — we'll be in touch shortly.</div> : <div className="mt-6 grid gap-4">
-              <input required placeholder="Name" className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
-              <input required placeholder="Phone or email" className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
-              <select className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green text-[#4b5563]"><option>I'm a customer</option><option>I'm a partner</option><option>I'm an investor</option></select>
-              <textarea rows="4" placeholder="Message" className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
-              <Btn primary>Send message</Btn>
+            <h3 className="text-xl font-bold">{ct.send}</h3>
+            {sent ? <div className="mt-6 rounded-xl bg-green-50 text-green p-5 text-sm font-medium">{ct.thanks}</div> : <div className="mt-6 grid gap-4">
+              <input required placeholder={ct.name} className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
+              <input required placeholder={ct.phone} className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
+              <select className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green text-[#4b5563]">{ct.opts.map((o,i)=><option key={i}>{o}</option>)}</select>
+              <textarea rows="4" placeholder={ct.message} className="rounded-xl border border-[#e2e4e9] px-4 py-3 outline-none focus:border-green"/>
+              <Btn primary>{ct.sendBtn}</Btn>
             </div>}
           </form></Reveal>
         </section>
       </main>);
     }
 
-    function AboutPage(){
-      const what=[
-        ["Battery-swap EVs","BARLAS & NAYMAN — designed around a swappable CATL pack, not a fixed one."],
-        ["Swap stations","A growing network of automated stations where a full battery takes two minutes."],
-        ["Battery-as-a-Service","Own the car, subscribe to the battery — lower cost and zero degradation worry."],
-        ["Energy network","Idle packs balance the grid and store renewable energy — a second business on every asset."],
-      ];
-      const values=[
-        ["Open by default","A shared battery standard the whole industry can build on — not a walled garden."],
-        ["Time is everything","Two minutes, not forty. Downtime is the enemy of every driver and fleet."],
-        ["Built for the region","Engineered for Central Asia's roads, climate and economics — from day one."],
-      ];
-      const stats=[["2","Models in market"],["5","Countries in plan"],["2 min","To a full battery"],["Open","Battery standard"]];
+    const AB={
+      en:{ eyebrow:"About ECOMOBILE", title:"Building the open battery-swap network of Central Asia.", sub:"ECOMOBILE is a green-transport platform — battery-swappable electric vehicles, swap stations and Battery-as-a-Service, combined into one open ecosystem for the region.",
+        mission:"Our mission", missionText:"To make electric mobility faster and cheaper than fuel — by separating the battery from the car and building the open energy network that powers it.",
+        build:"What we build", what:[["Battery-swap EVs","BARLAS & NAYMAN — designed around a swappable CATL pack, not a fixed one."],["Swap stations","A growing network of automated stations where a full battery takes two minutes."],["Battery-as-a-Service","Own the car, subscribe to the battery — lower cost and zero degradation worry."],["Energy network","Idle packs balance the grid and store renewable energy — a second business on every asset."]],
+        stats:[["2","Models in market"],["5","Countries in plan"],["2 min","To a full battery"],["Open","Battery standard"]],
+        standTitle:"What we stand for", values:[["Open by default","A shared battery standard the whole industry can build on — not a walled garden."],["Time is everything","Two minutes, not forty. Downtime is the enemy of every driver and fleet."],["Built for the region","Engineered for Central Asia's roads, climate and economics — from day one."]],
+        techPartner:"Technology partner", techTitle:"Powered by CATL battery technology.", techText:"The world's leading battery maker — swappable packs engineered for safety, range and a long service life.", howSwap:"How swap works",
+        join:"Join the movement", joinLead:"Drive one, partner with us, or invest in the network.", explore:"Explore BARLAS", getInTouch:"Get in touch" },
+      ru:{ eyebrow:"О ECOMOBILE", title:"Строим открытую сеть замены батарей Центральной Азии.", sub:"ECOMOBILE — платформа зелёного транспорта: электромобили со сменной батареей, станции замены и батарея по подписке, объединённые в одну открытую экосистему региона.",
+        mission:"Наша миссия", missionText:"Сделать электромобильность быстрее и дешевле бензина — отделив батарею от машины и построив открытую энергосеть, которая её питает.",
+        build:"Что мы строим", what:[["Электромобили с заменой","BARLAS и NAYMAN — спроектированы вокруг сменной батареи CATL, а не фиксированной."],["Станции замены","Растущая сеть автоматических станций, где полная батарея — за две минуты."],["Батарея по подписке","Машина ваша, батарея — по подписке: ниже цена и ноль тревог о деградации."],["Энергосеть","Простаивающие батареи балансируют сеть и хранят ВИЭ — второй бизнес на каждом активе."]],
+        stats:[["2","Модели на рынке"],["5","Стран в плане"],["2 мин","До полной батареи"],["Открытый","Стандарт батареи"]],
+        standTitle:"За что мы стоим", values:[["Открытость по умолчанию","Единый стандарт батарей, на котором может строить вся отрасль, а не закрытый сад."],["Время — это всё","Две минуты, а не сорок. Простой — враг любого водителя и парка."],["Создано для региона","Инженерно под дороги, климат и экономику Центральной Азии — с первого дня."]],
+        techPartner:"Технологический партнёр", techTitle:"На батареях CATL.", techText:"Ведущий мировой производитель батарей — сменные батареи, спроектированные под безопасность, запас хода и долгий срок службы.", howSwap:"Как работает замена",
+        join:"Присоединяйтесь к движению", joinLead:"Купите, станьте партнёром или инвестируйте в сеть.", explore:"Узнать о BARLAS", getInTouch:"Связаться" },
+      uz:{ eyebrow:"ECOMOBILE haqida", title:"Markaziy Osiyoning ochiq batareya almashish tarmog‘ini quryapmiz.", sub:"ECOMOBILE — yashil transport platformasi: batareya almashinuvchi elektromobillar, almashish stansiyalari va obunadagi batareya — mintaqa uchun bitta ochiq ekotizimda birlashtirilgan.",
+        mission:"Bizning vazifamiz", missionText:"Elektr harakatni yoqilg‘idan tezroq va arzonroq qilish — batareyani avtomobildan ajratib, uni quvvatlaydigan ochiq energiya tarmog‘ini qurish orqali.",
+        build:"Biz nima quramiz", what:[["Almashinuvchi elektromobillar","BARLAS va NAYMAN — qat’iy emas, almashinuvchi CATL batareyasi atrofida ishlangan."],["Almashish stansiyalari","To‘liq batareya ikki daqiqada bo‘ladigan o‘sayotgan avtomatik stansiyalar tarmog‘i."],["Obunadagi batareya","Avtomobil sizniki, batareya obunada — arzonroq va eskirishdan xavotirsiz."],["Energiya tarmog‘i","Bo‘sh batareyalar tarmoqni muvozanatlaydi va QTE saqlaydi — har aktivda ikkinchi biznes."]],
+        stats:[["2","Bozordagi model"],["5","Rejadagi davlat"],["2 daq","To‘liq batareyagacha"],["Ochiq","Batareya standarti"]],
+        standTitle:"Biz nimaga tayanamiz", values:[["Standart bo‘yicha ochiq","Butun soha qura oladigan yagona batareya standarti — yopiq bog‘ emas."],["Vaqt — hammasi","Ikki daqiqa, qirq emas. To‘xtash har bir haydovchi va parkning dushmani."],["Mintaqa uchun yaratilgan","Markaziy Osiyo yo‘llari, iqlimi va iqtisodi uchun — birinchi kundan."]],
+        techPartner:"Texnologik hamkor", techTitle:"CATL batareya texnologiyasida.", techText:"Dunyodagi yetakchi batareya ishlab chiqaruvchisi — xavfsizlik, masofa va uzoq xizmat uchun ishlangan almashinuvchi batareyalar.", howSwap:"Almashish qanday ishlaydi",
+        join:"Harakatga qo‘shiling", joinLead:"Haydang, hamkor bo‘ling yoki tarmoqqa investitsiya qiling.", explore:"BARLAS haqida", getInTouch:"Bog‘lanish" },
+    };
+    function AboutPage(){ const {language:lg}=useLanguage(); const ab=AB[lg]||AB.en;
       return (<main>
-        <PageHero eyebrow="About ECOMOBILE" title="Building the open battery-swap network of Central Asia." sub="ECOMOBILE is a green-transport platform — battery-swappable electric vehicles, swap stations and Battery-as-a-Service, combined into one open ecosystem for the region."/>
+        <PageHero eyebrow={ab.eyebrow} title={ab.title} sub={ab.sub}/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 -mt-2">
           <Reveal><div className="relative overflow-hidden rounded-[28px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/lifestyle.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>
         </section>
         <section className="mx-auto max-w-[1100px] px-5 md:px-8 py-20 md:py-28 text-center">
-          <Head n="·" title="Our mission" center/>
-          <Reveal delay={.05}><p className="mt-6 mx-auto max-w-3xl text-xl md:text-2xl leading-relaxed">To make electric mobility faster and cheaper than fuel — by separating the battery from the car and building the open energy network that powers it.</p></Reveal>
+          <Head n="·" title={ab.mission} center/>
+          <Reveal delay={.05}><p className="mt-6 mx-auto max-w-3xl text-xl md:text-2xl leading-relaxed">{ab.missionText}</p></Reveal>
         </section>
         <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="What we build" center/>
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">{what.map(([t,d],i)=><Reveal key={i} delay={i*.05}><div className="softcard p-7 h-full"><div className="grid h-11 w-11 place-items-center rounded-xl bg-green-50 text-green font-semibold">{String(i+1).padStart(2,"0")}</div><h3 className="mt-5 text-lg font-semibold">{t}</h3><p className="muted mt-2 text-sm leading-relaxed">{d}</p></div></Reveal>)}</div>
+          <Head n="·" title={ab.build} center/>
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">{ab.what.map(([t,d],i)=><Reveal key={i} delay={i*.05}><div className="softcard p-7 h-full"><div className="grid h-11 w-11 place-items-center rounded-xl bg-green-50 text-green font-semibold">{String(i+1).padStart(2,"0")}</div><h3 className="mt-5 text-lg font-semibold">{t}</h3><p className="muted mt-2 text-sm leading-relaxed">{d}</p></div></Reveal>)}</div>
         </div></section>
-        <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20"><div className="grid grid-cols-2 md:grid-cols-4 gap-8">{stats.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-5xl font-bold tracking-tight">{n}</div><div className="text-white/50 mt-1 text-sm">{l}</div></div></Reveal>)}</div></div></section>
+        <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20"><div className="grid grid-cols-2 md:grid-cols-4 gap-8">{ab.stats.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-5xl font-bold tracking-tight">{n}</div><div className="text-white/50 mt-1 text-sm">{l}</div></div></Reveal>)}</div></div></section>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="What we stand for" center/>
-          <div className="mt-12 grid md:grid-cols-3 gap-5">{values.map(([t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full"><h3 className="text-xl font-semibold">{t}</h3><p className="muted mt-3 leading-relaxed">{d}</p></div></Reveal>)}</div>
+          <Head n="·" title={ab.standTitle} center/>
+          <div className="mt-12 grid md:grid-cols-3 gap-5">{ab.values.map(([t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full"><h3 className="text-xl font-semibold">{t}</h3><p className="muted mt-3 leading-relaxed">{d}</p></div></Reveal>)}</div>
         </section>
         <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="max-w-xl"><div className="eyebrow">Technology partner</div><h3 className="mt-2 text-2xl font-bold">Powered by CATL battery technology.</h3><p className="muted mt-2">The world's leading battery maker — swappable packs engineered for safety, range and a long service life.</p></div>
-          <Btn ghost onClick={()=>go("/swap")}>How swap works</Btn>
+          <div className="max-w-xl"><div className="eyebrow">{ab.techPartner}</div><h3 className="mt-2 text-2xl font-bold">{ab.techTitle}</h3><p className="muted mt-2">{ab.techText}</p></div>
+          <Btn ghost onClick={()=>go("/swap")}>{ab.howSwap}</Btn>
         </div></section>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-24 text-center">
-          <Head n="·" title="Join the movement" lead="Drive one, partner with us, or invest in the network." center/>
-          <div className="mt-8 flex flex-wrap justify-center gap-3"><Btn primary onClick={()=>go("/barlas")}>Explore BARLAS</Btn><Btn ghost onClick={()=>go("/contacts")}>Get in touch</Btn></div>
+          <Head n="·" title={ab.join} lead={ab.joinLead} center/>
+          <div className="mt-8 flex flex-wrap justify-center gap-3"><Btn primary onClick={()=>go("/barlas")}>{ab.explore}</Btn><Btn ghost onClick={()=>go("/contacts")}>{ab.getInTouch}</Btn></div>
         </section>
       </main>);
     }
