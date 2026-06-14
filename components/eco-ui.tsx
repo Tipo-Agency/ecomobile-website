@@ -469,13 +469,19 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     const go=(p)=>{ if(typeof window!=="undefined") window.location.href=p; };
 
     const VEHICLES={
-      barlas:{ name:"BARLAS", tag:"Business sedan", tagline:"The flagship battery-swap sedan.",
-        hero:"/images/barlas-hero.jpg",
+      barlas:{ name:"BARLAS", tag:"Business sedan", tagline:"The flagship battery-swap sedan — business-class comfort with zero charging downtime.",
+        hero:"/images/barlas-hero-nobg.png", blend:false,
+        highlights:[["500 km","CATL range"],["≈2 min","Battery swap"],["~6.5 s","0–100 km/h"],["5","Business seats"]],
+        design:{img:"/images/barlas-side.jpg",title:"Aerodynamic, low and sharp.",text:"A clean fastback silhouette, flush door handles and a sculpted front cut drag and add real-world range. Every line earns its place."},
+        interior:{img:"/images/interior.jpg",title:"A calm, business-class cabin.",text:"Soft-touch materials, a panoramic roof and a large central display. Quiet, spacious and built for long days on the road."},
         gallery:["/images/barlas-side.jpg","/images/interior.jpg","/images/barlas-silver.jpg","/images/lifestyle.jpg"],
         specs:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["0–100 km/h","~6.5 s"],["Seats","5 · business"],["Safety","Advanced ADAS"]],
         trims:[["Comfort","259 999 000"],["Max","279 999 000"]] },
-      nayman:{ name:"NAYMAN", tag:"Electric SUV", tagline:"Space, range and two-minute swaps.",
-        hero:"/images/nayman-hero.jpg",
+      nayman:{ name:"NAYMAN", tag:"Electric SUV", tagline:"Space, range and two-minute swaps — the swap-compatible SUV for the whole family.",
+        hero:"/images/nayman-hero.jpg", blend:true,
+        highlights:[["500 km","CATL range"],["≈2 min","Battery swap"],["190 mm","Clearance"],["AWD","Available"]],
+        design:{img:"/images/nayman-2.jpg",title:"Built to go further.",text:"A higher stance, longer suspension travel and confident proportions — equally at home in the city and on the road beyond it."},
+        interior:{img:"/images/interior-2.jpg",title:"Room for everything.",text:"A flexible, elevated cabin with generous space for five and their gear, wrapped in premium materials and a panoramic view."},
         gallery:["/images/nayman-2.jpg","/images/interior-2.jpg","/images/chassis.jpg","/images/station-2.png"],
         specs:[["Range","up to 500 km"],["Battery","CATL · swappable"],["Swap time","≈ 2 min"],["Clearance","190 mm"],["Seats","5 · SUV"],["Drive","AWD available"]],
         trims:[["Comfort","289 999 000"],["Max","319 999 000"]] },
@@ -497,12 +503,28 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
       return (<main>
         <PageHero eyebrow={v.tag} title={v.name} sub={v.tagline}/>
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 -mt-2">
-          <Reveal><img src={v.hero} alt={v.name} className="mx-auto w-[min(860px,94vw)] h-auto" style={{mixBlendMode:"darken"}}/></Reveal>
+          <Reveal><img src={v.hero} alt={v.name} loading="eager" className="mx-auto w-[min(800px,92vw)] h-auto" style={v.blend?{mixBlendMode:"darken"}:undefined}/></Reveal>
           <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
             <Btn primary onClick={()=>go("/contacts")}>Book a test drive</Btn>
             <Btn ghost onClick={()=>go("/swap")}>How swap works</Btn>
           </div>
         </section>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#e9eaee] rounded-2xl overflow-hidden border border-[#e9eaee]">
+            {v.highlights.map(([n,l],i)=><div key={i} className="bg-white p-6 md:p-7"><div className="text-2xl md:text-[1.9rem] font-bold tracking-tight text-green">{n}</div><div className="muted mt-1 text-sm">{l}</div></div>)}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
+          <Reveal><div className="relative aspect-[4/3] overflow-hidden rounded-[26px] border border-[#edeff3]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src={v.design.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover" alt=""/></div></Reveal>
+          <div><Head n="·" title={v.design.title}/><p className="muted mt-4 text-lg leading-relaxed">{v.design.text}</p></div>
+        </section>
+
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+          <div className="md:order-2"><Head n="·" title={v.interior.title}/><p className="muted mt-4 text-lg leading-relaxed">{v.interior.text}</p></div>
+          <Reveal className="md:order-1"><div className="relative aspect-[4/3] overflow-hidden rounded-[26px] border border-[#edeff3]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src={v.interior.img} loading="lazy" className="absolute inset-0 h-full w-full object-cover" alt=""/></div></Reveal>
+        </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
           <Head n="·" title="Specifications" center/>
@@ -511,15 +533,20 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
           </div>
         </section>
 
-        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
-          <Head n="·" title="Gallery"/>
-          <div className="mt-10 grid md:grid-cols-2 gap-5">
-            {v.gallery.map((g,i)=><Reveal key={i} delay={i*.05}><div className={"relative overflow-hidden rounded-[22px] border border-[#edeff3] "+(i===0?"md:col-span-2 aspect-[16/9]":"aspect-[4/3]")} style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}>
-              <img src={g} alt="" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>)}
-          </div>
+        <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-7 text-center md:text-left">
+          <div className="max-w-xl"><div className="eyebrow" style={{color:"#7dd6b6"}}>Battery-as-a-Service</div><h3 className="mt-2 text-2xl md:text-[2rem] font-bold tracking-tight leading-tight">Own the {v.name}. Subscribe to the battery.</h3><p className="text-white/55 mt-3">A far lower entry price, predictable monthly energy, and a two-minute swap whenever you need a full charge.</p></div>
+          <Btn primary onClick={()=>go("/swap")}>See how swap works</Btn>
         </div></section>
 
         <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
+          <Head n="·" title="Gallery"/>
+          <div className="mt-10 grid md:grid-cols-2 gap-5">
+            {v.gallery.map((g,i)=><Reveal key={i} delay={i*.05}><div className={"relative overflow-hidden rounded-[22px] border border-[#edeff3] "+(i===0?"md:col-span-2 aspect-[16/9]":"aspect-[4/3]")} style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}>
+              <img src={g} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>)}
+          </div>
+        </section>
+
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
           <Head n="·" title="Pricing" lead="Own the car, subscribe to the battery." center/>
           <div className="mt-12 grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {v.trims.map(([trim,price],i)=><Reveal key={i} delay={i*.06}><div className={"softcard p-8 "+(i===1?"ring-1 ring-green/30":"")}>
@@ -528,11 +555,11 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
               <div className="mt-6"><Btn primary onClick={()=>go("/contacts")}>Order {trim}</Btn></div>
             </div></Reveal>)}
           </div>
-        </section>
+        </div></section>
 
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-24 text-center">
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 text-center">
           <p className="muted">Looking for the other model?</p>
-          <button onClick={()=>go("/"+other)} className="mt-3 text-xl font-bold tracking-tight hover:text-green transition-colors">Explore {VEHICLES[other].name} →</button>
+          <button onClick={()=>go("/"+other)} className="mt-3 text-2xl font-bold tracking-tight hover:text-green transition-colors">Explore {VEHICLES[other].name} →</button>
         </section>
       </main>);
     }
@@ -557,25 +584,41 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     }
 
     const NEWS=[
-      ["Jun 2026","First swap stations go live in Tashkent","The first ECOMOBILE battery-swap stations open, cutting charging downtime to two minutes.","/images/station-1.png"],
-      ["May 2026","BARLAS deliveries begin","The business-class battery-swap sedan reaches its first customers across Uzbekistan.","/images/barlas-side.jpg"],
-      ["Apr 2026","NAYMAN electric SUV unveiled","The swap-compatible SUV joins the lineup with up to 500 km of range.","/images/nayman-hero.jpg"],
-      ["Mar 2026","Open battery standard announced","ECOMOBILE opens its battery standard to other brands — one network for the whole region.","/images/chassis.jpg"],
-      ["Feb 2026","CATL partnership confirmed","Swappable CATL packs power the BARLAS and NAYMAN platforms.","/images/interior.jpg"],
-      ["Jan 2026","Central Asia expansion roadmap","Stations planned across Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan.","/images/lifestyle.jpg"],
+      ["Jun 2026","Launch","First swap stations go live in Tashkent","The first ECOMOBILE battery-swap stations open across the capital, cutting charging downtime from forty minutes to two — and proving the model at city scale.","/images/station-1.png"],
+      ["May 2026","Vehicles","BARLAS deliveries begin","The business-class battery-swap sedan reaches its first customers across Uzbekistan.","/images/barlas-side.jpg"],
+      ["Apr 2026","Vehicles","NAYMAN electric SUV unveiled","The swap-compatible SUV joins the lineup with up to 500 km of range and available all-wheel drive.","/images/nayman-hero.jpg"],
+      ["Mar 2026","Platform","Open battery standard announced","ECOMOBILE opens its battery standard to other brands — one shared network for the whole region.","/images/chassis.jpg"],
+      ["Feb 2026","Partners","CATL partnership confirmed","Swappable CATL packs power the BARLAS and NAYMAN platforms.","/images/interior.jpg"],
+      ["Jan 2026","Network","Central Asia expansion roadmap","Stations planned across Kazakhstan, Kyrgyzstan, Tajikistan and Turkmenistan.","/images/lifestyle.jpg"],
+      ["Dec 2025","Energy","Stations to double as grid storage","Idle battery packs will balance the grid and absorb renewable energy when demand is low.","/images/station-2.png"],
+      ["Nov 2025","Vehicles","BARLAS interior revealed","A first look inside the business-class cabin — panoramic roof and a large central display.","/images/interior-2.jpg"],
     ];
     function NewsPage(){
+      const cats=["All","Vehicles","Network","Platform","Energy"];
+      const rest=NEWS.slice(1);
       return (<main>
-        <PageHero eyebrow="Newsroom" title="News & updates" sub="What's new across the ECOMOBILE platform."/>
-        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-12 md:py-20">
+        <PageHero eyebrow="Newsroom" title="News & updates" sub="Launches, stations and milestones across the ECOMOBILE platform."/>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8">
+          <div className="flex flex-wrap gap-2">{cats.map((c,i)=><span key={i} className={"rounded-full px-4 py-2 text-sm font-medium cursor-pointer "+(i===0?"bg-[#0a0b0d] text-white":"border border-[#e4e7ec] text-[#4b5563] hover:border-[#cfd4dc]")}>{c}</span>)}</div>
+        </section>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-10 md:py-14">
+          <Reveal><article className="softcard overflow-hidden grid md:grid-cols-2 group cursor-pointer">
+            <div className="relative aspect-[16/11] md:aspect-auto overflow-hidden bg-[#f4f6f8]"><img src={NEWS[0][4]} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-4 left-4 rounded-full bg-white/85 backdrop-blur px-3 py-1 text-xs font-semibold">{NEWS[0][1]}</span></div>
+            <div className="p-8 md:p-12 flex flex-col justify-center"><div className="eyebrow" style={{color:"#9aa1ab"}}>{NEWS[0][0]} · Featured</div><h2 className="mt-3 text-2xl md:text-3xl font-bold tracking-tight leading-tight">{NEWS[0][2]}</h2><p className="muted mt-4 text-lg">{NEWS[0][3]}</p><div className="mt-6 text-green font-medium">Read more →</div></div>
+          </article></Reveal>
+        </section>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 pb-12 md:pb-16">
           <div className="grid md:grid-cols-3 gap-6">
-            {NEWS.map(([date,title,ex,img],i)=><Reveal key={i} delay={(i%3)*.06}><article className="softcard overflow-hidden h-full group cursor-pointer">
-              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={img} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/></div>
-              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{date}</div><h3 className="mt-3 text-lg font-semibold leading-snug">{title}</h3><p className="muted mt-2 text-sm">{ex}</p>
-                <div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
+            {rest.map(([date,cat,title,ex,img],i)=><Reveal key={i} delay={(i%3)*.06}><article className="softcard overflow-hidden h-full group cursor-pointer">
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#f4f6f8]"><img src={img} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"/><span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold">{cat}</span></div>
+              <div className="p-6"><div className="eyebrow" style={{color:"#9aa1ab"}}>{date}</div><h3 className="mt-3 text-lg font-semibold leading-snug">{title}</h3><p className="muted mt-2 text-sm">{ex}</p><div className="mt-4 text-sm font-medium text-green">Read more →</div></div>
             </article></Reveal>)}
           </div>
         </section>
+        <section className="bg-[#fafbfc] border-t border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 text-center">
+          <Head n="·" title="Get ECOMOBILE updates" lead="New stations, models and milestones — straight to your inbox." center/>
+          <form onSubmit={e=>e.preventDefault()} className="mt-7 mx-auto flex max-w-md gap-2"><input type="email" required placeholder="Your email" className="flex-1 rounded-full border border-[#e2e4e9] px-5 py-3 outline-none focus:border-green"/><Btn primary>Subscribe</Btn></form>
+        </div></section>
       </main>);
     }
 
@@ -687,6 +730,48 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
       </main>);
     }
 
+    function AboutPage(){
+      const what=[
+        ["Battery-swap EVs","BARLAS & NAYMAN — designed around a swappable CATL pack, not a fixed one."],
+        ["Swap stations","A growing network of automated stations where a full battery takes two minutes."],
+        ["Battery-as-a-Service","Own the car, subscribe to the battery — lower cost and zero degradation worry."],
+        ["Energy network","Idle packs balance the grid and store renewable energy — a second business on every asset."],
+      ];
+      const values=[
+        ["Open by default","A shared battery standard the whole industry can build on — not a walled garden."],
+        ["Time is everything","Two minutes, not forty. Downtime is the enemy of every driver and fleet."],
+        ["Built for the region","Engineered for Central Asia's roads, climate and economics — from day one."],
+      ];
+      const stats=[["2","Models in market"],["5","Countries in plan"],["2 min","To a full battery"],["Open","Battery standard"]];
+      return (<main>
+        <PageHero eyebrow="About ECOMOBILE" title="Building the open battery-swap network of Central Asia." sub="ECOMOBILE is a green-transport platform — battery-swappable electric vehicles, swap stations and Battery-as-a-Service, combined into one open ecosystem for the region."/>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 -mt-2">
+          <Reveal><div className="relative overflow-hidden rounded-[28px] border border-[#edeff3] aspect-[21/9]" style={{boxShadow:"0 30px 70px -38px rgba(16,24,40,.2)"}}><img src="/images/lifestyle.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/></div></Reveal>
+        </section>
+        <section className="mx-auto max-w-[1100px] px-5 md:px-8 py-20 md:py-28 text-center">
+          <Head n="·" title="Our mission" center/>
+          <Reveal delay={.05}><p className="mt-6 mx-auto max-w-3xl text-xl md:text-2xl leading-relaxed">To make electric mobility faster and cheaper than fuel — by separating the battery from the car and building the open energy network that powers it.</p></Reveal>
+        </section>
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
+          <Head n="·" title="What we build" center/>
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">{what.map(([t,d],i)=><Reveal key={i} delay={i*.05}><div className="softcard p-7 h-full"><div className="grid h-11 w-11 place-items-center rounded-xl bg-green-50 text-green font-semibold">{String(i+1).padStart(2,"0")}</div><h3 className="mt-5 text-lg font-semibold">{t}</h3><p className="muted mt-2 text-sm leading-relaxed">{d}</p></div></Reveal>)}</div>
+        </div></section>
+        <section className="text-white" style={{background:"#0a0b0d"}}><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 md:py-20"><div className="grid grid-cols-2 md:grid-cols-4 gap-8">{stats.map(([n,l],i)=><Reveal key={i} delay={i*.05}><div className="text-center"><div className="text-3xl md:text-5xl font-bold tracking-tight">{n}</div><div className="text-white/50 mt-1 text-sm">{l}</div></div></Reveal>)}</div></div></section>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-28">
+          <Head n="·" title="What we stand for" center/>
+          <div className="mt-12 grid md:grid-cols-3 gap-5">{values.map(([t,d],i)=><Reveal key={i} delay={i*.06}><div className="softcard p-8 h-full"><h3 className="text-xl font-semibold">{t}</h3><p className="muted mt-3 leading-relaxed">{d}</p></div></Reveal>)}</div>
+        </section>
+        <section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-16 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="max-w-xl"><div className="eyebrow">Technology partner</div><h3 className="mt-2 text-2xl font-bold">Powered by CATL battery technology.</h3><p className="muted mt-2">The world's leading battery maker — swappable packs engineered for safety, range and a long service life.</p></div>
+          <Btn ghost onClick={()=>go("/swap")}>How swap works</Btn>
+        </div></section>
+        <section className="mx-auto max-w-[1200px] px-5 md:px-8 py-20 md:py-24 text-center">
+          <Head n="·" title="Join the movement" lead="Drive one, partner with us, or invest in the network." center/>
+          <div className="mt-8 flex flex-wrap justify-center gap-3"><Btn primary onClick={()=>go("/barlas")}>Explore BARLAS</Btn><Btn ghost onClick={()=>go("/contacts")}>Get in touch</Btn></div>
+        </section>
+      </main>);
+    }
+
     function HomePage(){
       return (<main><Hero/><Trust/><Models/><Why/><Meet/><Swap/><Ecosystem/><Open/><Taxi/><Network/><Energy/><CTA/></main>);
     }
@@ -711,4 +796,4 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
       </L.Provider>);
     }
 
-export { HomePage, VehiclePage, SwapPage, NewsPage, FaqPage, InvestorsPage, ContactsPage };
+export { HomePage, VehiclePage, SwapPage, NewsPage, FaqPage, InvestorsPage, ContactsPage, AboutPage };
