@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect, createContext, useContext, Fragment } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
 
     /* ===================== i18n ===================== */
     const T = {
@@ -380,17 +381,30 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
     }
 
     function Network(){ const t=useContext(L);
-      const dots=[[320,230,0],[400,270,0],[470,210,0],[560,250,1],[250,280,1],[640,200,1],[700,280,2],[360,180,2]];
-      const col=["#0ba678","#7fd6ba","#cfd4dc"];
+      const col={live:"#0ba678",plan:"#5ccda7",future:"#c7ccd4"};
+      const legendCol=[col.live,col.plan,col.future];
+      const leftLabel=new Set(["Bukhara","Dushanbe","Ashgabat","Nukus"]);
       return (<section id="network" className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
         <Head n="07" title={t.netTitle} lead={t.netLead} center/>
-        <Reveal delay={.12}><div className="mt-12 overflow-hidden rounded-[26px] border border-[#e9eaee] p-6 md:p-12" style={{background:"radial-gradient(120% 100% at 50% 0, #f4f7fa, #ffffff)"}}>
-          <svg viewBox="0 0 900 460" className="w-full h-auto">
-            <path d="M120 180 C180 120 320 90 430 110 C560 95 690 110 770 160 C820 200 800 260 740 300 C680 340 600 330 520 350 C420 375 320 380 240 340 C160 305 90 250 120 180Z" fill="#f0f3f7" stroke="#0ba678" strokeOpacity=".3" strokeWidth="1.2" strokeDasharray="3 6"/>
-            {dots.map(([x,y,k],i)=><circle key={i} cx={x} cy={y} r="6" fill={col[k]} style={k===0?{animation:`pulse 2.4s ease-in-out ${i*.2}s infinite`,transformOrigin:`${x}px ${y}px`}:{}}/>)}
+        <Reveal delay={.12}><div className="mt-12 overflow-hidden rounded-[28px] border border-[#e9eaee] p-3 md:p-8" style={{background:"radial-gradient(120% 110% at 50% -10%, #f1faf6 0%, #ffffff 60%)"}}>
+          <svg viewBox={CA_VIEWBOX} className="w-full h-auto" style={{maxHeight:560}}>
+            <defs>
+              <radialGradient id="caglow" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#0ba678" stopOpacity=".12"/><stop offset="1" stopColor="#0ba678" stopOpacity="0"/></radialGradient>
+              <filter id="dsh" x="-60%" y="-60%" width="220%" height="220%"><feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="#0ba678" floodOpacity=".55"/></filter>
+            </defs>
+            <ellipse cx="470" cy="360" rx="460" ry="300" fill="url(#caglow)"/>
+            <g>{CA_PATHS.map((d,i)=><path key={i} d={d} fill="#e8edf1" stroke="rgba(11,166,120,.45)" strokeWidth="1.3" strokeLinejoin="round" strokeLinecap="round"/>)}</g>
+            <g stroke="#0ba678" strokeOpacity=".30" strokeWidth="1.4" strokeDasharray="1.5 8" strokeLinecap="round">
+              {LINKS.map(([a,b],i)=><line key={i} x1={CITIES[a][1]} y1={CITIES[a][2]} x2={CITIES[b][1]} y2={CITIES[b][2]}/>)}
+            </g>
+            {CITIES.map(([n,x,y,kk],i)=>(<g key={n}>
+              {kk==="live" && <circle cx={x} cy={y} r="14" fill="none" stroke="#0ba678" strokeOpacity=".35"/>}
+              <circle cx={x} cy={y} r={kk==="live"?7:5.5} fill={col[kk]} filter={kk==="live"?"url(#dsh)":undefined} style={kk==="live"?{animation:`pulse 2.6s ease-in-out ${i*.25}s infinite`,transformOrigin:`${x}px ${y}px`}:{}}/>
+              <text x={leftLabel.has(n)?x-12:x+12} y={y+4.5} textAnchor={leftLabel.has(n)?"end":"start"} fontSize="14.5" fontWeight="600" fill="#5b6470" stroke="#ffffff" strokeWidth="3" style={{paintOrder:"stroke"}}>{n}</text>
+            </g>))}
           </svg>
         </div></Reveal>
-        <div className="mt-7 flex flex-wrap justify-center gap-6 text-sm muted">{t.legend.map((l,i)=><span key={i} className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full" style={{background:col[i]}}/>{l}</span>)}</div>
+        <div className="mt-7 flex flex-wrap justify-center gap-6 text-sm muted">{t.legend.map((l,i)=><span key={i} className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full" style={{background:legendCol[i]}}/>{l}</span>)}</div>
         <div className="mt-9 flex flex-wrap justify-center gap-x-9 gap-y-2 text-base font-semibold text-[#b7bdc6]">{["Uzbekistan","Kazakhstan","Kyrgyzstan","Tajikistan","Turkmenistan"].map(c=><span key={c}>{c}</span>)}</div>
       </section>);
     }
