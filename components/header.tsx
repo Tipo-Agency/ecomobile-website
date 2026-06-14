@@ -134,9 +134,15 @@ export default function Header() {
       </header>
 
       {/* mobile overlay */}
-      <div className={"lg:hidden fixed inset-0 top-0 bg-white transition-all duration-300 " + (mob ? "opacity-100 visible" : "opacity-0 invisible")} style={{ paddingTop: 78 }}>
-        <div className="h-full overflow-y-auto px-6 pb-10">
-          <div className="grid grid-cols-2 gap-3 mt-2">
+      <div className={"lg:hidden fixed inset-0 z-[60] bg-white flex flex-col transition-opacity duration-300 " + (mob ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none")}>
+        <div className="flex items-center justify-between px-5 h-[60px] border-b border-[#eef0f3] shrink-0">
+          <Link href="/" onClick={() => setMob(false)} className="flex items-center"><img src="/images/logo.svg" alt="ECOMOBILE" className="h-[20px] w-auto" /></Link>
+          <button onClick={() => setMob(false)} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-full hover:bg-[#f3f5f7] -mr-2 transition-colors">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0b0d" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-5 py-6">
+          <div className="grid grid-cols-2 gap-3">
             {VEHICLES.map((v) => (
               <Link key={v.name} href={v.href} onClick={() => setMob(false)} className="rounded-2xl border border-[#eef0f3] overflow-hidden">
                 <div className="relative aspect-[16/11] bg-[#f4f6f8]"><img src={v.img} className="absolute inset-0 h-full w-full object-cover" style={{ mixBlendMode: "multiply" }} alt={v.name} /></div>
@@ -151,7 +157,7 @@ export default function Header() {
           <Link href="/contacts" onClick={() => setMob(false)} className="mt-6 flex items-center justify-center gap-2 rounded-full bg-green text-white py-4 text-lg font-medium">Order now →</Link>
           <div className="mt-6 flex gap-2">
             {LANGS.map(([code, label]) => (
-              <button key={code} onClick={() => setLanguage(code)} className={"flex-1 rounded-xl border py-3 text-sm font-medium " + (language === code ? "border-green text-green" : "border-[#e4e7ec] text-[#4b5563]")}>{label}</button>
+              <button key={code} onClick={() => { setLanguage(code); setMob(false); }} className={"flex-1 rounded-xl border py-3 text-sm font-medium " + (language === code ? "border-green text-green" : "border-[#e4e7ec] text-[#4b5563]")}>{label}</button>
             ))}
           </div>
         </div>
