@@ -226,7 +226,6 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
       {big:"500",unit:"km",label:"Range",size:178,pos:{top:"3%",right:"-9%"},anim:"floatB",dur:8.5,delay:.6,par:.28},
       {big:"5",unit:"",label:"Countries",size:150,pos:{bottom:"15%",left:"-10%"},anim:"floatC",dur:7.8,delay:1,par:.42},
       {big:"0",unit:"g",label:"CO₂ / km",size:150,pos:{bottom:"5%",right:"-7%"},anim:"floatA",dur:9,delay:.3,par:.32},
-      {logo:true,size:88,pos:{bottom:"-7%",left:"46%"},anim:"floatB",dur:6.5,delay:.9,par:.55},
     ];
     function HeroBubbles(){
       const ref=useRef(null);
