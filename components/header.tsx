@@ -56,7 +56,7 @@ export default function Header() {
       </div>
 
       {/* main bar */}
-      <header className={"transition-all duration-500 " + (scrolled ? "bg-white/85 backdrop-blur-xl border-b border-[#eef0f3] shadow-[0_8px_30px_-20px_rgba(16,24,40,.3)]" : "bg-white/60 backdrop-blur-md")}>
+      <header className={"transition-all duration-500 " + (scrolled ? "bg-white/85 backdrop-blur-xl border-b border-[#eef0f3] shadow-[0_8px_30px_-20px_rgba(16,24,40,.3)]" : "bg-transparent")}>
         <div className="mx-auto max-w-[1240px] px-5 md:px-6 flex items-center justify-between" style={{ paddingBlock: scrolled ? 12 : 16 }}>
           <Link href="/" className="flex items-center shrink-0" onClick={() => setMob(false)}>
             <img src="/images/logo.svg" alt="ECOMOBILE" className="h-[19px] md:h-[25px] w-auto" />
