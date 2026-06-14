@@ -241,12 +241,13 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
           </motion.div>
         </div>
 
-        <motion.img initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
-          src="/images/barlas-hero.jpg" alt="ECOMOBILE BARLAS"
-          className="relative z-10 mx-auto mt-4 w-[min(720px,92vw)] h-auto"
-          style={{mixBlendMode:"darken"}}/>
+        <motion.div initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
+          className="relative z-20 mx-auto mt-4 w-[min(760px,92vw)]">
+          <div className="absolute inset-x-[-12%] inset-y-[-10%] z-0" style={{background:"radial-gradient(closest-side, #ffffff 50%, rgba(255,255,255,0.85) 66%, rgba(255,255,255,0) 82%)"}}/>
+          <img src="/images/barlas-hero.jpg" alt="ECOMOBILE BARLAS" className="relative z-10 w-full h-auto"/>
+        </motion.div>
 
-        <div className="relative z-10 mx-auto -mt-2 grid w-full max-w-[1000px] grid-cols-2 md:grid-cols-4 gap-4 px-5">
+        <div className="relative z-30 mx-auto mt-6 grid w-full max-w-[1000px] grid-cols-2 md:grid-cols-4 gap-4 px-5">
           {t.stats.map(([v,l],i)=>(<Reveal key={i} delay={i*.05}><div className="text-center">
             <div className="text-3xl md:text-[2.4rem] font-bold tracking-tight">{v}</div>
             <div className="muted mt-1 text-sm">{l}</div>
