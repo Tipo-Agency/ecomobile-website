@@ -123,13 +123,14 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       const M=motion[as]||motion.div;
       return <M ref={ref} className={className} initial={{y}} animate={inView?{y:0}:{}} transition={{duration:.8,delay,ease:[0.16,1,0.3,1]}}>{children}</M>;
     }
-    function Btn({children,primary,ghost,lg,light,onClick}){
+    function Btn({children,primary,ghost,lg,light,outline,onClick}){
       const ref=useRef(null); const x=useMotionValue(0),y=useMotionValue(0);
       const sx=useSpring(x,{stiffness:200,damping:15}),sy=useSpring(y,{stiffness:200,damping:15});
       const pad=lg?"px-8 py-4 text-[1.02rem]":"px-6 py-3.5 text-[.95rem]";
       const skin=primary?"bg-green text-white hover:bg-green-600 shadow-[0_14px_30px_-10px_rgba(11,166,120,.6)]"
-        :light?"bg-white text-ink hover:bg-white/90"
-        :"bg-white text-ink border border-[#e2e4e9] hover:border-ink";
+        :outline?"bg-transparent text-white border border-white/55 hover:bg-white/10"
+        :light?"bg-white text-[#0a0b0d] hover:bg-white/90"
+        :"bg-white text-[#0a0b0d] border border-[#e2e4e9] hover:border-[#0a0b0d]";
       return (<motion.button ref={ref} onClick={onClick}
         onMouseMove={e=>{const r=ref.current.getBoundingClientRect();x.set((e.clientX-r.left-r.width/2)*.25);y.set((e.clientY-r.top-r.height/2)*.25);}}
         onMouseLeave={()=>{x.set(0);y.set(0);}} style={{x:sx,y:sy}}
@@ -516,7 +517,7 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
           <div className="relative z-10 mx-auto max-w-2xl">
             <Reveal><h2 className="font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(2.2rem,5.4vw,4rem)"}}>{t.ctaTitle}</h2></Reveal>
             <Reveal delay={.08}><p className="mx-auto mt-5 max-w-lg text-lg text-white/85">{t.ctaSub}</p></Reveal>
-            <Reveal delay={.16}><div className="mt-9 flex flex-wrap justify-center gap-3"><Btn light lg onClick={()=>go("/contacts")}>{t.ctaP}</Btn><Btn ghost lg onClick={()=>go("/contacts")}>{t.ctaC}</Btn></div></Reveal>
+            <Reveal delay={.16}><div className="mt-9 flex flex-wrap justify-center gap-3"><Btn light lg onClick={()=>go("/contacts")}>{t.ctaP}</Btn><Btn outline lg onClick={()=>go("/contacts")}>{t.ctaC}</Btn></div></Reveal>
           </div>
         </div>
       </section>);
