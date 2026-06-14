@@ -302,14 +302,53 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       </div>);
     }
 
+    function Icon({n,className,style}){
+      const P={
+        swap:<><path d="M4 9a6 6 0 0 1 10-3.6L17 8"/><path d="M17 4v4h-4"/><path d="M20 15a6 6 0 0 1-10 3.6L7 16"/><path d="M7 20v-4h4"/></>,
+        sub:<><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></>,
+        leaf:<><path d="M5 19c0-7 5-13 14-13 0 9-6 14-14 14z"/><path d="M5 19c2-5 5-8 9-10"/></>,
+        coin:<><circle cx="12" cy="12" r="9"/><path d="M14.5 9.4a2.5 2 0 0 0-5 0c0 2.6 5 1.5 5 4.2a2.5 2 0 0 1-5 0"/><path d="M12 6.4v11.2"/></>,
+        net:<><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 6.8l4 9.4M17 6.8l-4 9.4M7 6h10"/></>,
+        battery:<><rect x="3" y="8" width="15" height="9" rx="2"/><path d="M21 11.5v2M6.5 11v3M9.5 11v3M12.5 11v3"/></>,
+        clock:<><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.2 2"/></>,
+        bolt:<><path d="M13 2 5 13h6l-1 9 9-12h-6z"/></>,
+        car:<><path d="M3 13l2.2-5.2A2 2 0 0 1 7 6.5h10a2 2 0 0 1 1.8 1.3L21 13"/><path d="M3 13h18v3.5a1 1 0 0 1-1 1h-1.5"/><path d="M5.5 17.5H4a1 1 0 0 1-1-1V13"/><path d="M7 17.5h10"/><path d="M6.5 17.2v.6M17.5 17.2v.6"/></>,
+        sun:<><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19"/></>,
+        grid:<><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></>,
+        bot:<><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4M8 13h.01M16 13h.01M9 16h6"/></>,
+      };
+      return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>{P[n]||null}</svg>;
+    }
+    function SpotCard({children,className=""}){
+      const ref=useRef(null); const [p,setP]=useState({x:-300,y:-300});
+      return (<div ref={ref} onMouseMove={e=>{const r=ref.current.getBoundingClientRect();setP({x:e.clientX-r.left,y:e.clientY-r.top});}}
+        className={"group softcard relative overflow-hidden transition-transform duration-300 hover:-translate-y-1 "+className}>
+        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{background:"radial-gradient(220px circle at "+p.x+"px "+p.y+"px, rgba(11,166,120,.12), transparent 70%)"}}/>
+        <div className="relative z-10 p-8">{children}</div>
+      </div>);
+    }
+    function NetMini({open}){
+      const pts=open?[[22,30],[58,18],[100,32],[138,22],[80,60],[120,60],[36,64]]:[[26,26],[56,42],[40,66],[104,26],[130,48],[112,68]];
+      return (<svg viewBox="0 0 160 84" className="w-full h-16">
+        {open
+          ? pts.flatMap((a,i)=>pts.slice(i+1).map((b,j)=>{const d=Math.hypot(a[0]-b[0],a[1]-b[1]);return d<72?<line key={i+"_"+j} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke="#0ba678" strokeOpacity=".35" strokeWidth="1"/>:null;}))
+          : [[0,1],[1,2],[3,4],[4,5]].map(([a,b],k)=><line key={k} x1={pts[a][0]} y1={pts[a][1]} x2={pts[b][0]} y2={pts[b][1]} stroke="#c7ccd4" strokeWidth="1"/>)}
+        {pts.map((p,i)=><circle key={i} cx={p[0]} cy={p[1]} r="4.5" fill={open?"#0ba678":"#aeb4bd"}/>)}
+      </svg>);
+    }
+
     function Why(){ const t=useContext(L);
+      const ic=["swap","sub","leaf","coin","net","battery"];
       return (<section id="why" className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
         <Head n="01" title={t.whyTitle} lead={t.whyLead}/>
         <div className="mt-14 grid gap-5 md:grid-cols-3">
-          {t.why.map(([ti,d],i)=><Reveal key={i} delay={i*.05}><div className="softcard h-full p-8 transition-transform duration-300 hover:-translate-y-1">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-green-50 text-green font-semibold">{String(i+1).padStart(2,"0")}</div>
+          {t.why.map(([ti,d],i)=><Reveal key={i} delay={i*.05}><SpotCard className="h-full">
+            <div className="flex items-start justify-between">
+              <div className="grid h-12 w-12 place-items-center rounded-xl bg-green-50 text-green"><Icon n={ic[i]} className="h-6 w-6"/></div>
+              <span className="text-sm font-bold text-[#dce2e6]">{String(i+1).padStart(2,"0")}</span>
+            </div>
             <h3 className="mt-5 text-xl font-semibold">{ti}</h3><p className="muted mt-2.5 leading-relaxed">{d}</p>
-          </div></Reveal>)}
+          </SpotCard></Reveal>)}
         </div>
       </section>);
     }
@@ -332,27 +371,50 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
     }
 
     function Swap(){ const t=useContext(L);
+      const ic=["car","battery","bolt"];
       return (<section id="swap" className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
         <Head n="03" title={t.swapTitle} lead={t.swapLead} center/>
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
-          {t.steps.map(([ti,d],i)=><Reveal key={i} delay={i*.08}><div className="softcard h-full p-8">
-            <div className="flex items-center justify-between"><span className="text-6xl font-bold text-[#eef0f3]">0{i+1}</span><span className="h-10 w-10 grid place-items-center rounded-full bg-green text-white text-sm font-semibold">{i+1}</span></div>
-            <h3 className="mt-6 text-xl font-semibold">{ti}</h3><p className="muted mt-2">{d}</p>
+        <div className="mt-16 relative grid md:grid-cols-3 gap-8">
+          <div className="hidden md:block absolute top-12 left-[17%] right-[17%] h-px" style={{background:"linear-gradient(90deg,transparent,rgba(11,166,120,.4),transparent)"}}/>
+          {t.steps.map(([ti,d],i)=><Reveal key={i} delay={i*.1}><div className="relative text-center">
+            <div className="mx-auto grid h-24 w-24 place-items-center rounded-[26px] bg-white border border-[#e9eaee]" style={{boxShadow:"0 26px 50px -28px rgba(16,24,40,.3)"}}><Icon n={ic[i]} className="h-9 w-9 text-green"/></div>
+            <div className="mx-auto -mt-3 relative z-10 grid h-7 w-7 place-items-center rounded-full bg-green text-white text-[13px] font-bold border-2 border-white">{i+1}</div>
+            <h3 className="mt-4 text-xl font-semibold">{ti}</h3><p className="muted mt-2 max-w-[26ch] mx-auto">{d}</p>
           </div></Reveal>)}
         </div>
-        <Reveal delay={.1}><div className="mt-14 text-center"><span className="font-bold text-green leading-none tracking-tight" style={{fontSize:"clamp(3.4rem,9vw,6.5rem)"}}>≈ 2 min</span><p className="muted mt-2">start to finish</p></div></Reveal>
+        <Reveal delay={.1}><div className="mt-16 softcard p-8 md:p-10 max-w-3xl mx-auto">
+          <div className="flex items-center justify-between"><span className="font-semibold">Time to a full battery</span><span className="text-xs text-[#9aa1ab] uppercase tracking-wider">lower is better</span></div>
+          <div className="mt-7 space-y-6">
+            <div><div className="flex justify-between text-sm mb-2"><span className="muted">Plug-in charging</span><span className="font-semibold text-[#8a909b]">~40 min</span></div><div className="h-3.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full bg-[#cfd4dc]" style={{width:"100%"}}/></div></div>
+            <div><div className="flex justify-between text-sm mb-2"><span className="font-medium">ECOMOBILE swap</span><span className="font-bold text-green">≈ 2 min</span></div><div className="h-3.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:"6%",background:"linear-gradient(90deg,#0ba678,#10b981)"}}/></div></div>
+          </div>
+          <p className="muted text-sm mt-7">That's roughly <b className="text-green">20× faster</b> than charging — no cables, no waiting.</p>
+        </div></Reveal>
       </section>);
     }
 
     function Ecosystem(){ const t=useContext(L);
+      const ic=["car","swap","sub","sun","bot"];
+      const R=200,cx=300,cy=300;
+      const pos=t.eco.map((_,i)=>{const a=(-90+i*(360/t.eco.length))*Math.PI/180;return [cx+R*Math.cos(a),cy+R*Math.sin(a)];});
       return (<section id="ecosystem" className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
         <Head n="04" title={t.ecoTitle} lead={t.ecoLead} center/>
-        <div className="mt-14 mx-auto max-w-md flex flex-col items-center gap-3">
-          {t.eco.map((n,i)=><Fragment key={i}>
-            <Reveal delay={i*.06} className="w-full"><div className={"w-full rounded-2xl px-7 py-5 text-center font-semibold "+(i===t.eco.length-1?"bg-green text-white shadow-[0_18px_40px_-16px_rgba(11,166,120,.6)]":"softcard")}>{n}</div></Reveal>
-            {i<t.eco.length-1&&<span className="text-[#c7ccd4] text-sm">↓</span>}
-          </Fragment>)}
-        </div>
+        <Reveal delay={.1}><div className="relative mx-auto mt-16 w-full max-w-[600px] aspect-square">
+          <svg viewBox="0 0 600 600" className="absolute inset-0 w-full h-full">
+            <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(11,166,120,.22)" strokeWidth="1.5" strokeDasharray="2 8"/>
+            {pos.map(([x,y],i)=><line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="rgba(11,166,120,.16)" strokeWidth="1.5"/>)}
+            <circle cx={cx} cy={cy} r={R} fill="none" stroke="#0ba678" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="10 1247" style={{animation:"spin 14s linear infinite",transformOrigin:"300px 300px",opacity:.6}}/>
+          </svg>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 grid place-items-center h-[120px] w-[120px] rounded-full text-white text-center" style={{background:"radial-gradient(120% 120% at 50% 20%, #14b886, #0a0b0d)",boxShadow:"0 20px 50px -16px rgba(11,166,120,.6)"}}>
+            <div><img src="/images/logomark.svg" alt="" className="h-8 w-8 mx-auto" style={{filter:"brightness(0) invert(1)"}}/><div className="mt-1.5 text-[11px] font-bold tracking-wide">ECOMOBILE</div></div>
+          </div>
+          {t.eco.map((n,i)=>{const [x,y]=pos[i];return (<div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{left:(x/600*100)+"%",top:(y/600*100)+"%"}}>
+            <div className="w-[124px] rounded-2xl bg-white border border-[#e9eaee] px-3 py-3.5 text-center" style={{boxShadow:"0 18px 40px -24px rgba(16,24,40,.35)"}}>
+              <div className="grid h-9 w-9 mx-auto place-items-center rounded-xl bg-green-50 text-green"><Icon n={ic[i]} className="h-5 w-5"/></div>
+              <div className="mt-2 text-xs font-semibold leading-tight">{n}</div>
+            </div>
+          </div>);})}
+        </div></Reveal>
       </div></section>);
     }
 
@@ -360,23 +422,35 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
       return (<section className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36">
         <Head n="05" title={t.openTitle} center/>
         <div className="mt-14 grid md:grid-cols-2 gap-6">
-          <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10">
-            <div className="eyebrow" style={{color:"#9aa1ab"}}>Closed ecosystem</div>
-            <ul className="mt-6">{t.closed.map((c,i)=><li key={i} className="flex items-center gap-3 border-b border-[#eef0f3] py-4 text-[#8a909b]"><span>—</span>{c}</li>)}</ul>
+          <Reveal><div className="rounded-[24px] border border-[#e9eaee] bg-[#fafbfc] p-8 md:p-10 h-full">
+            <div className="flex items-center justify-between"><div className="eyebrow" style={{color:"#9aa1ab"}}>Closed ecosystem</div><span className="text-xs text-[#b7bdc6]">isolated</span></div>
+            <div className="mt-5 rounded-xl border border-[#eef0f3] bg-white p-4"><NetMini open={false}/></div>
+            <ul className="mt-5">{t.closed.map((c,i)=><li key={i} className="flex items-center gap-3 border-b border-[#eef0f3] py-4 text-[#8a909b]"><span>—</span>{c}</li>)}</ul>
           </div></Reveal>
-          <Reveal delay={.08}><div className="softcard p-8 md:p-10" style={{background:"linear-gradient(180deg,#f0faf5,#ffffff)"}}>
-            <div className="eyebrow">Open ecosystem</div>
-            <ul className="mt-6">{t.open.map((c,i)=><li key={i} className="flex items-center gap-3 border-b border-[#e7f3ec] py-4 font-medium"><span className="text-green">✓</span>{c}</li>)}</ul>
+          <Reveal delay={.08}><div className="softcard p-8 md:p-10 h-full" style={{background:"linear-gradient(180deg,#f0faf5,#ffffff)"}}>
+            <div className="flex items-center justify-between"><div className="eyebrow">Open ecosystem</div><span className="text-xs font-semibold text-green">network effect</span></div>
+            <div className="mt-5 rounded-xl border border-[#e7f3ec] bg-white p-4"><NetMini open={true}/></div>
+            <ul className="mt-5">{t.open.map((c,i)=><li key={i} className="flex items-center gap-3 border-b border-[#e7f3ec] py-4 font-medium"><span className="text-green">✓</span>{c}</li>)}</ul>
           </div></Reveal>
         </div>
       </section>);
     }
 
     function Taxi(){ const t=useContext(L);
+      const ic=["car","clock","bolt"];
       return (<section className="bg-[#fafbfc] border-y border-[#eef0f3]"><div className="mx-auto max-w-[1200px] px-5 md:px-8 py-24 md:py-36 grid md:grid-cols-2 gap-12 items-center">
-        <div><Head n="06" title={t.taxiTitle} lead={t.taxiLead}/></div>
+        <div><Head n="06" title={t.taxiTitle} lead={t.taxiLead}/>
+          <Reveal delay={.1}><div className="mt-8 softcard p-7">
+            <div className="text-sm font-semibold">Trips per day</div>
+            <div className="mt-5 space-y-4">
+              <div><div className="flex justify-between text-xs mb-1.5"><span className="muted">Plug-in charging EV</span><span className="font-semibold text-[#8a909b]">~18</span></div><div className="h-2.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full bg-[#cfd4dc]" style={{width:"56%"}}/></div></div>
+              <div><div className="flex justify-between text-xs mb-1.5"><span className="font-medium">ECOMOBILE swap</span><span className="font-bold text-green">~25</span></div><div className="h-2.5 rounded-full bg-[#eef0f3] overflow-hidden"><div className="h-full rounded-full" style={{width:"80%",background:"linear-gradient(90deg,#0ba678,#10b981)"}}/></div></div>
+            </div>
+          </div></Reveal>
+        </div>
         <div className="grid gap-4">{t.taxiStats.map(([v,l],i)=><Reveal key={i} delay={i*.08}><div className="softcard flex items-center gap-5 px-7 py-6">
-          <div className="text-4xl md:text-5xl font-bold text-green">{v}</div><div className="muted">{l}</div></div></Reveal>)}</div>
+          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-green-50 text-green"><Icon n={ic[i]} className="h-6 w-6"/></div>
+          <div><div className="text-3xl md:text-4xl font-bold text-green leading-none tracking-tight">{v}</div><div className="muted text-sm mt-1">{l}</div></div></div></Reveal>)}</div>
       </div></section>);
     }
 
@@ -414,9 +488,22 @@ import { CA_VIEWBOX, CA_PATHS, CITIES, LINKS } from "./ca-map";
         <div><Head n="08" title={t.energyTitle} lead={t.energyLead}/>
           <div className="mt-8 grid grid-cols-2 gap-3">{t.energy.map((b,i)=><Reveal key={i} delay={i*.05}><div className="rounded-xl border border-[#e9eaee] bg-white px-5 py-4 text-sm font-medium hover:border-green/50 transition-colors">{b}</div></Reveal>)}</div>
         </div>
-        <Reveal delay={.1}><div className="relative w-full overflow-hidden rounded-[26px] border border-[#edeff3] aspect-square" style={{boxShadow:"0 30px 70px -34px rgba(16,24,40,.22)"}}>
-          <img src="/images/station-1.png" alt="ECOMOBILE swap station" className="absolute inset-0 h-full w-full object-cover"/>
-          <span className="absolute bottom-4 left-4 rounded-full bg-black/30 backdrop-blur px-3 py-1.5 text-[11px] tracking-[.16em] uppercase text-white/85">Swap station</span>
+        <Reveal delay={.1}><div className="rounded-[26px] p-7 md:p-9 text-white" style={{background:"radial-gradient(120% 100% at 50% 0,#12161c,#0a0b0d)",boxShadow:"0 30px 70px -34px rgba(16,24,40,.5)"}}>
+          <div className="eyebrow" style={{color:"#7dd6b6"}}>How energy flows</div>
+          <div className="mt-7 flex items-center justify-between gap-1.5">
+            {[["sun","Renewables"],["battery","Swap station"],["grid","City grid"]].map(([ico,lab],i)=><Fragment key={i}>
+              <div className="flex flex-col items-center gap-2 text-center"><div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/12 bg-white/[.04] text-green-400"><Icon n={ico} className="h-7 w-7"/></div><span className="text-[11px] text-white/60 font-medium">{lab}</span></div>
+              {i<2 && <svg viewBox="0 0 60 12" className="flex-1 h-3 min-w-[26px]"><line x1="2" y1="6" x2="52" y2="6" stroke="#0ba678" strokeWidth="2" strokeDasharray="3 4" strokeLinecap="round"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="1s" repeatCount="indefinite"/></line><path d="M50 2l6 4-6 4" fill="none" stroke="#0ba678" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+            </Fragment>)}
+          </div>
+          <div className="mt-9 rounded-2xl border border-white/10 bg-white/[.02] p-5">
+            <div className="flex items-center justify-between text-xs text-white/50 mb-2"><span>Grid load · peak shaving</span><span className="text-green-400 font-semibold">−30% peak</span></div>
+            <svg viewBox="0 0 300 90" className="w-full h-24">
+              <path d="M0 72 C40 72 50 18 84 18 C116 18 124 66 160 66 C200 66 208 24 250 24 C280 24 292 62 300 62" fill="none" stroke="#3a414b" strokeWidth="2" strokeDasharray="3 4"/>
+              <path d="M0 68 C40 68 64 50 104 50 C152 50 164 52 204 52 C252 52 272 58 300 58" fill="none" stroke="#10e07f" strokeWidth="2.5" strokeLinecap="round"/>
+            </svg>
+            <div className="flex gap-5 text-[11px] mt-1"><span className="flex items-center gap-1.5 text-white/45"><i className="h-0.5 w-4 bg-[#3a414b] inline-block"/>Raw demand</span><span className="flex items-center gap-1.5 text-white/70"><i className="h-0.5 w-4 inline-block" style={{background:"#10e07f"}}/>Balanced</span></div>
+          </div>
         </div></Reveal>
       </div></section>);
     }
