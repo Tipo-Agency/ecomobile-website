@@ -8,11 +8,11 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "EcoMobile - Революция в городском транспорте",
+  title: "ECOMOBILE — Battery-swap electric cars for Central Asia",
   description:
     "Электромобиль с технологией быстрой замены батареи. Инновационное решение для экологичной доставки и городских перевозок.",
   icons: {
-    icon: "/favicon.png",
+    icon: "/images/logomark.svg",
   },
     generator: 'v0.dev'
 }
