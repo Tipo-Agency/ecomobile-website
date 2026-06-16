@@ -100,6 +100,9 @@ body {
 .softcard{ background:#fff; border:1px solid #e9eaee; border-radius:24px; box-shadow:0 24px 60px -28px rgba(16,24,40,.14) }
 .hairline{ height:1px; background:#e9eaee }
 .hero-stage{ background:radial-gradient(78% 62% at 50% 24%, #f1faf6 0%, #ffffff 62%); }
+/* Tesla-style full-screen panels with gentle scroll snapping (desktop only) */
+@media (min-width:768px){ html{ scroll-snap-type:y proximity; } }
+.snap{ scroll-snap-align:start; scroll-snap-stop:normal; }
 .blob{ position:absolute; border-radius:50%; filter:blur(70px); opacity:.6; pointer-events:none }
 @keyframes marquee{ to{ transform:translateX(-50%) } }
 @keyframes pulse{ 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.7);opacity:1} }

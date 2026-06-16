@@ -51,7 +51,8 @@ import { useLanguage } from "@/contexts/language-context";
         cmpCost:[["100%",100],["~58%",58],["~34%",34]],
         cmpFoot1:"Lower energy cost, near-zero downtime and battery-on-subscription can cut total running cost by up to ", cmpFootPct:"~60%", cmpFoot2:" versus petrol.",
         roadTitle:"The road ahead.", roadLead:"From the first stations to a region-wide energy network.",
-        road:[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations live in Tashkent."],["2027","Scale","A dense station network across Uzbekistan; NAYMAN at volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; the battery standard opens to partners."],["2030","Platform","A region-wide energy + mobility network across five countries."]] },
+        road:[["2026","Launch","BARLAS & NAYMAN deliveries; first swap stations live in Tashkent."],["2027","Scale","A dense station network across Uzbekistan; NAYMAN at volume."],["2028","Expand","Kazakhstan & Kyrgyzstan; the battery standard opens to partners."],["2030","Platform","A region-wide energy + mobility network across five countries."]],
+        order:"Order", learnMore:"Learn more", powerTitle:"A fully automatic battery swap in two minutes.", powerSub:"Drive in, swap, drive out — no cables, no waiting. One open energy network across Central Asia.", powerCta:"See how it works" },
       ru:{ nav:["Почему","Модели","BARLAS","Замена батареи","Экосистема","Сеть"], partner:"Стать партнёром",
         modelsTitle:"Две машины. Одна сеть.", modelsLead:"Выберите свой ECOMOBILE — обе меняют батарею в одной сети.", from:"от", configure:"Конфигуратор",
         eyebrow:"Платформа зелёного транспорта",
@@ -96,7 +97,8 @@ import { useLanguage } from "@/contexts/language-context";
         cmpCost:[["100%",100],["~58%",58],["~34%",34]],
         cmpFoot1:"Дешевле энергия, почти нет простоя и батарея по подписке — суммарные расходы ниже до ", cmpFootPct:"~60%", cmpFoot2:" по сравнению с бензином.",
         roadTitle:"Дорога вперёд.", roadLead:"От первых станций до энергосети всего региона.",
-        road:[["2026","Старт","Поставки BARLAS и NAYMAN; первые станции замены в Ташкенте."],["2027","Масштаб","Плотная сеть станций по Узбекистану; NAYMAN серийно."],["2028","Экспансия","Казахстан и Кыргызстан; стандарт батареи открывается партнёрам."],["2030","Платформа","Энерго- и транспортная сеть по пяти странам региона."]] },
+        road:[["2026","Старт","Поставки BARLAS и NAYMAN; первые станции замены в Ташкенте."],["2027","Масштаб","Плотная сеть станций по Узбекистану; NAYMAN серийно."],["2028","Экспансия","Казахстан и Кыргызстан; стандарт батареи открывается партнёрам."],["2030","Платформа","Энерго- и транспортная сеть по пяти странам региона."]],
+        order:"Заказать", learnMore:"Подробнее", powerTitle:"Полностью автоматическая замена батареи за две минуты.", powerSub:"Заехал, заменил, поехал — без кабелей и ожидания. Одна открытая энергосеть по Центральной Азии.", powerCta:"Как это работает" },
       uz:{ nav:["Nega","Modellar","BARLAS","Batareya","Ekotizim","Tarmoq"], partner:"Hamkor bo‘lish",
         modelsTitle:"Ikki avtomobil. Bitta tarmoq.", modelsLead:"O‘z ECOMOBILE’ingizni tanlang — ikkalasi bir tarmoqda almashadi.", from:"dan", configure:"Sozlash",
         eyebrow:"Yashil transport platformasi",
@@ -141,7 +143,8 @@ import { useLanguage } from "@/contexts/language-context";
         cmpCost:[["100%",100],["~58%",58],["~34%",34]],
         cmpFoot1:"Arzon energiya, deyarli nol to‘xtash va obunadagi batareya umumiy xarajatni ", cmpFootPct:"~60%", cmpFoot2:" gacha (benzinga nisbatan) kamaytiradi.",
         roadTitle:"Oldindagi yo‘l.", roadLead:"Birinchi stansiyalardan butun mintaqa energiya tarmog‘igacha.",
-        road:[["2026","Start","BARLAS va NAYMAN yetkazib berish; Toshkentda birinchi stansiyalar."],["2027","Ko‘lam","O‘zbekiston bo‘ylab zich tarmoq; NAYMAN seriyali."],["2028","Kengayish","Qozog‘iston va Qirg‘iziston; batareya standarti hamkorlarga ochiladi."],["2030","Platforma","Besh davlat bo‘ylab energiya va transport tarmog‘i."]] },
+        road:[["2026","Start","BARLAS va NAYMAN yetkazib berish; Toshkentda birinchi stansiyalar."],["2027","Ko‘lam","O‘zbekiston bo‘ylab zich tarmoq; NAYMAN seriyali."],["2028","Kengayish","Qozog‘iston va Qirg‘iziston; batareya standarti hamkorlarga ochiladi."],["2030","Platforma","Besh davlat bo‘ylab energiya va transport tarmog‘i."]],
+        order:"Buyurtma berish", learnMore:"Batafsil", powerTitle:"To‘liq avtomatik batareya almashish — ikki daqiqada.", powerSub:"Kirdingiz, almashtirdingiz, ketdingiz — kabelsiz va kutishsiz. Markaziy Osiyo bo‘ylab bitta ochiq energiya tarmog‘i.", powerCta:"Qanday ishlaydi" },
     };
     const L = createContext(T.en);
     const MODELS=[
@@ -295,7 +298,7 @@ import { useLanguage } from "@/contexts/language-context";
     }
     function Hero(){
       const t=useContext(L);
-      return (<section id="top" className="hero-stage relative overflow-hidden flex flex-col min-h-[100svh] pt-[112px] md:pt-[128px] pb-4">
+      return (<section id="top" className="snap hero-stage relative overflow-hidden flex flex-col min-h-[100svh] pt-[112px] md:pt-[128px] pb-4">
         <DotField/>
         <div className="blob" style={{width:520,height:520,left:"-10%",top:"4%",background:"radial-gradient(closest-side,#e3f7ee,transparent)"}}/>
         <div className="blob" style={{width:420,height:420,right:"-8%",bottom:"16%",background:"radial-gradient(closest-side,#eaf1ff,transparent)"}}/>
@@ -326,6 +329,47 @@ import { useLanguage } from "@/contexts/language-context";
         {/* compact stat row on mobile (bubbles hidden on small screens) */}
         <div className="sm:hidden relative z-30 mx-auto mt-3 grid grid-cols-4 gap-2 px-4 shrink-0">
           {t.stats.map(([v,l],i)=>(<div key={i} className="text-center"><div className="text-lg font-bold tracking-tight">{v}</div><div className="muted mt-0.5 text-[10px] leading-tight">{l}</div></div>))}
+        </div>
+      </section>);
+    }
+
+    /* ===== Tesla-style full-screen model panel ===== */
+    function ModelPanel({slug,bg}){ const {language:lg}=useLanguage(); const t=useContext(L); const v=VEHICLES[slug];
+      const price=v.trims[0][1];
+      return (<section className="snap relative min-h-[100svh] w-full overflow-hidden flex flex-col items-center text-center bg-[#eef1f4]">
+        <img src={bg} alt={v.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 26%, rgba(255,255,255,0) 58%, rgba(255,255,255,.92) 100%)"}}/>
+        <div className="relative z-10 pt-[118px] md:pt-[140px] px-5">
+          <Reveal y={14}><div className="eyebrow" style={{color:"#5b6470"}}>{pick(v.tag,lg)}</div>
+            <h2 className="mt-2 font-bold tracking-[-.045em] leading-none text-[#0a0b0d]" style={{fontSize:"clamp(2.8rem,9vw,6rem)"}}>{v.name}</h2>
+            <p className="muted mt-3 text-base md:text-lg max-w-xl mx-auto">{pick(v.tagline,lg)}</p>
+            <div className="mt-2 text-sm font-medium text-[#4b5563]">{t.from} {price} <span className="muted">сум</span></div>
+          </Reveal>
+        </div>
+        <div className="relative z-10 mt-auto pb-12 md:pb-16 flex flex-col sm:flex-row items-center justify-center gap-3 w-full px-6">
+          <button onClick={()=>go("/contacts")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-[#0a0b0d] text-white px-8 py-3.5 text-[.95rem] font-medium hover:bg-black transition-colors">{t.order}</button>
+          <button onClick={()=>go("/"+slug)} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-white/85 backdrop-blur text-[#0a0b0d] border border-[#0a0b0d]/15 px-8 py-3.5 text-[.95rem] font-medium hover:bg-white transition-colors">{t.learnMore}</button>
+        </div>
+      </section>);
+    }
+
+    /* ===== NIO-Power-inspired battery-swap panel ===== */
+    function PowerPanel(){ const t=useContext(L);
+      return (<section className="snap relative min-h-[100svh] w-full overflow-hidden flex flex-col items-center text-center">
+        <img src="/images/swapstation.png" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(8,10,12,.6) 0%, rgba(8,10,12,.22) 36%, rgba(8,10,12,.4) 68%, rgba(8,10,12,.85) 100%)"}}/>
+        <div className="relative z-10 pt-[118px] md:pt-[138px] px-5 text-white">
+          <Reveal y={14}><div className="eyebrow" style={{color:"#7dd6b6"}}>Battery Swap · Power</div>
+            <h2 className="mt-3 mx-auto max-w-[16ch] font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(2rem,5.2vw,3.7rem)"}}>{t.powerTitle}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-white/75 text-base md:text-lg">{t.powerSub}</p>
+          </Reveal>
+          <div className="mt-9 grid grid-cols-4 gap-3 max-w-2xl mx-auto">
+            {t.stats.map(([v,l],i)=>(<Reveal key={i} delay={i*.06} y={10}><div><div className="text-2xl md:text-4xl font-bold tracking-tight">{v}</div><div className="text-white/55 text-[11px] md:text-sm mt-1 leading-tight">{l}</div></div></Reveal>))}
+          </div>
+        </div>
+        <div className="relative z-10 mt-auto pb-12 md:pb-16 flex flex-col sm:flex-row items-center justify-center gap-3 w-full px-6">
+          <button onClick={()=>go("/swap")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-white text-[#0a0b0d] px-8 py-3.5 text-[.95rem] font-medium hover:bg-white/90 transition-colors">{t.powerCta}</button>
+          <button onClick={()=>go("/swap")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-transparent text-white border border-white/55 px-8 py-3.5 text-[.95rem] font-medium hover:bg-white/10 transition-colors">{t.cta2}</button>
         </div>
       </section>);
     }
@@ -1108,7 +1152,7 @@ import { useLanguage } from "@/contexts/language-context";
     }
 
     function HomePage(){
-      return (<main><Hero/><Trust/><Numbers/><Models/><Why/><Meet/><Swap/><Compare/><Ecosystem/><Open/><Taxi/><Network/><Energy/><Roadmap/><CTA/></main>);
+      return (<main><Hero/><ModelPanel slug="barlas" bg="/images/barlas-hero.jpg"/><ModelPanel slug="nayman" bg="/images/nayman-hero.jpg"/><PowerPanel/><Numbers/><Why/><Compare/><Ecosystem/><Open/><Taxi/><Network/><Energy/><Roadmap/><CTA/></main>);
     }
 
     function App(){
