@@ -298,37 +298,17 @@ import { useLanguage } from "@/contexts/language-context";
     }
     function Hero(){
       const t=useContext(L);
-      return (<section id="top" className="snap hero-stage relative overflow-hidden flex flex-col min-h-[100svh] pt-[112px] md:pt-[128px] pb-4">
-        <DotField/>
-        <div className="blob" style={{width:520,height:520,left:"-10%",top:"4%",background:"radial-gradient(closest-side,#e3f7ee,transparent)"}}/>
-        <div className="blob" style={{width:420,height:420,right:"-8%",bottom:"16%",background:"radial-gradient(closest-side,#eaf1ff,transparent)"}}/>
-
-        <div className="relative z-10 mx-auto max-w-[1000px] px-5 text-center shrink-0">
-          <motion.div initial={{y:12}} animate={{y:0}} transition={{delay:.05,duration:.6}} className="inline-flex items-center gap-2 rounded-full border border-[#e4e7ec] bg-white/70 backdrop-blur px-3.5 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-green"/><span className="eyebrow text-[11px]" style={{color:"#5b6470"}}>{t.eyebrow}</span>
-          </motion.div>
-          <motion.h1 initial={{y:22}} animate={{y:0}} transition={{delay:.15,duration:.8,ease:[0.16,1,0.3,1]}}
-            className="mx-auto mt-4 max-w-[15ch] font-bold tracking-[-.035em] leading-[1.03]" style={{fontSize:"clamp(1.95rem,4.6vw,4rem)"}}>{t.title}</motion.h1>
-          <motion.p initial={{y:16}} animate={{y:0}} transition={{delay:.28,duration:.6}} className="muted mx-auto mt-4 max-w-lg text-base md:text-lg leading-relaxed">{t.sub}</motion.p>
-          <motion.div initial={{y:16}} animate={{y:0}} transition={{delay:.38,duration:.6}} className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
-            <button onClick={()=>go("/barlas")} className="tbtn tbtn-primary">{t.cta1}</button>
-            <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
-          </motion.div>
+      return (<section id="top" className="snap hero-stage relative overflow-hidden h-[100svh] min-h-[600px] w-full flex flex-col items-center text-center">
+        <div className="relative z-10 pt-[13vh] md:pt-[15vh] px-4">
+          <h1 className="mx-auto max-w-[20ch] font-medium tracking-[-.012em] leading-tight text-[#171a20]" style={{fontSize:"clamp(1.9rem,4.2vw,3rem)"}}>{t.title}</h1>
+          <p className="muted mx-auto mt-2 max-w-lg text-[14px] md:text-[15px]">{t.sub}</p>
         </div>
-
-        <div className="relative z-20 flex-1 min-h-0 w-full flex items-end justify-center">
-          <div className="relative">
-            <HeroBubbles/>
-            <motion.img initial={{y:34}} animate={{y:0}} transition={{delay:.35,duration:1,ease:[0.16,1,0.3,1]}}
-              src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS"
-              className="relative z-10 block mx-auto h-auto w-auto max-h-[44vh] max-w-[86vw]"
-              style={{filter:"drop-shadow(0 30px 40px rgba(16,24,40,.20))"}}/>
-          </div>
+        <div className="relative z-10 flex-1 min-h-0 w-full flex items-center justify-center px-4">
+          <img src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS" className="block mx-auto h-auto w-auto max-h-[46vh] max-w-[88vw]" style={{filter:"drop-shadow(0 30px 40px rgba(16,24,40,.18))"}}/>
         </div>
-
-        {/* compact stat row on mobile (bubbles hidden on small screens) */}
-        <div className="sm:hidden relative z-30 mx-auto mt-3 grid grid-cols-4 gap-2 px-4 shrink-0">
-          {t.stats.map(([v,l],i)=>(<div key={i} className="text-center"><div className="text-lg font-bold tracking-tight">{v}</div><div className="muted mt-0.5 text-[10px] leading-tight">{l}</div></div>))}
+        <div className="relative z-10 mb-[6vh] md:mb-[5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center px-4">
+          <button onClick={()=>go("/barlas")} className="tbtn tbtn-primary">{t.cta1}</button>
+          <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
         </div>
       </section>);
     }
@@ -369,6 +349,26 @@ import { useLanguage } from "@/contexts/language-context";
           <div className="mt-auto mb-[7vh] md:mb-[5.5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
             <button onClick={()=>go("/swap")} className="tbtn tbtn-light-primary">{t.powerCta}</button>
             <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
+          </div>
+        </div>
+      </section>);
+    }
+
+    /* generic Tesla-style full-screen feature panel */
+    function Panel({img,dark,title,sub,p1,p2}){
+      return (<section className="snap relative h-[100svh] min-h-[600px] w-full overflow-hidden">
+        <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background: dark
+          ? "linear-gradient(to bottom, rgba(8,10,12,.5) 0%, rgba(8,10,12,.08) 32%, rgba(8,10,12,.2) 64%, rgba(8,10,12,.66) 100%)"
+          : "linear-gradient(to bottom, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 60%, rgba(255,255,255,.55) 100%)"}}/>
+        <div className={"relative z-10 h-full flex flex-col items-center text-center px-4 "+(dark?"text-white":"text-[#171a20]")}>
+          <div className="pt-[12vh] md:pt-[15vh]">
+            <h2 className="font-medium tracking-[-.012em] leading-tight" style={{fontSize:"clamp(2.1rem,4.4vw,3rem)"}}>{title}</h2>
+            {sub&&<p className={"mt-1.5 text-[14px] md:text-[15px] max-w-md mx-auto "+(dark?"text-white/85":"text-[#393c41]")}>{sub}</p>}
+          </div>
+          <div className="mt-auto mb-[7vh] md:mb-[5.5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
+            {p1&&<button onClick={()=>go(p1[1])} className={"tbtn "+(dark?"tbtn-light-primary":"tbtn-primary")}>{p1[0]}</button>}
+            {p2&&<button onClick={()=>go(p2[1])} className="tbtn tbtn-secondary">{p2[0]}</button>}
           </div>
         </div>
       </section>);
@@ -1151,8 +1151,16 @@ import { useLanguage } from "@/contexts/language-context";
       </main>);
     }
 
-    function HomePage(){
-      return (<main><Hero/><ModelPanel slug="barlas" bg="/images/barlas-hero.jpg"/><ModelPanel slug="nayman" bg="/images/nayman-hero.jpg"/><PowerPanel/><Numbers/><Why/><Compare/><Ecosystem/><Open/><Taxi/><Network/><Energy/><Roadmap/><CTA/></main>);
+    function HomePage(){ const t=useContext(L);
+      return (<main>
+        <Hero/>
+        <ModelPanel slug="barlas" bg="/images/barlas-hero.jpg"/>
+        <ModelPanel slug="nayman" bg="/images/nayman-hero.jpg"/>
+        <PowerPanel/>
+        <Panel img="/images/station-2.png" dark title={t.netTitle} sub={t.netLead} p1={[t.cta2,"/swap"]} p2={[t.ctaP,"/contacts"]}/>
+        <Panel img="/images/charging.jpg" dark title={t.energyTitle} sub={t.energyLead} p1={[t.learnMore,"/swap"]}/>
+        <Panel img="/images/lifestyle.jpg" dark title={t.ctaTitle} sub={t.ctaSub} p1={[t.ctaP,"/contacts"]} p2={[t.ctaC,"/investors"]}/>
+      </main>);
     }
 
     function App(){
