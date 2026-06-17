@@ -103,6 +103,12 @@ body {
 /* Tesla-style full-screen panels with gentle scroll snapping (desktop only) */
 @media (min-width:768px){ html{ scroll-snap-type:y proximity; } }
 .snap{ scroll-snap-align:start; scroll-snap-stop:normal; }
+/* Tesla CTA buttons — two equal translucent rounded rectangles */
+.tbtn{ display:inline-flex; align-items:center; justify-content:center; width:100%; max-width:288px; height:40px; padding:0 24px; border-radius:4px; font-size:14px; font-weight:500; letter-spacing:.3px; white-space:nowrap; transition:background .2s ease, color .2s ease; backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); cursor:pointer }
+@media (min-width:768px){ .tbtn{ width:256px } }
+.tbtn-primary{ background:rgba(23,26,32,.78); color:#fff } .tbtn-primary:hover{ background:rgba(23,26,32,.95) }
+.tbtn-secondary{ background:rgba(244,245,247,.65); color:#171a20 } .tbtn-secondary:hover{ background:rgba(255,255,255,.92) }
+.tbtn-light-primary{ background:rgba(244,245,247,.92); color:#171a20 } .tbtn-light-primary:hover{ background:#fff }
 .blob{ position:absolute; border-radius:50%; filter:blur(70px); opacity:.6; pointer-events:none }
 @keyframes marquee{ to{ transform:translateX(-50%) } }
 @keyframes pulse{ 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.7);opacity:1} }

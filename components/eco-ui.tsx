@@ -310,9 +310,9 @@ import { useLanguage } from "@/contexts/language-context";
           <motion.h1 initial={{y:22}} animate={{y:0}} transition={{delay:.15,duration:.8,ease:[0.16,1,0.3,1]}}
             className="mx-auto mt-4 max-w-[15ch] font-bold tracking-[-.035em] leading-[1.03]" style={{fontSize:"clamp(1.95rem,4.6vw,4rem)"}}>{t.title}</motion.h1>
           <motion.p initial={{y:16}} animate={{y:0}} transition={{delay:.28,duration:.6}} className="muted mx-auto mt-4 max-w-lg text-base md:text-lg leading-relaxed">{t.sub}</motion.p>
-          <motion.div initial={{y:16}} animate={{y:0}} transition={{delay:.38,duration:.6}} className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Btn primary onClick={()=>go("/barlas")}>{t.cta1}</Btn>
-            <Btn ghost onClick={()=>go("/swap")}>{t.cta2}</Btn>
+          <motion.div initial={{y:16}} animate={{y:0}} transition={{delay:.38,duration:.6}} className="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
+            <button onClick={()=>go("/barlas")} className="tbtn tbtn-primary">{t.cta1}</button>
+            <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
           </motion.div>
         </div>
 
@@ -333,43 +333,43 @@ import { useLanguage } from "@/contexts/language-context";
       </section>);
     }
 
-    /* ===== Tesla-style full-screen model panel ===== */
-    function ModelPanel({slug,bg}){ const {language:lg}=useLanguage(); const t=useContext(L); const v=VEHICLES[slug];
+    /* ===== Tesla-faithful full-screen product panel ===== */
+    function ModelPanel({slug,bg,dark}){ const {language:lg}=useLanguage(); const t=useContext(L); const v=VEHICLES[slug];
       const price=v.trims[0][1];
-      return (<section className="snap relative min-h-[100svh] w-full overflow-hidden flex flex-col items-center text-center bg-[#eef1f4]">
-        <img src={bg} alt={v.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover"/>
-        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 26%, rgba(255,255,255,0) 58%, rgba(255,255,255,.92) 100%)"}}/>
-        <div className="relative z-10 pt-[118px] md:pt-[140px] px-5">
-          <Reveal y={14}><div className="eyebrow" style={{color:"#5b6470"}}>{pick(v.tag,lg)}</div>
-            <h2 className="mt-2 font-bold tracking-[-.045em] leading-none text-[#0a0b0d]" style={{fontSize:"clamp(2.8rem,9vw,6rem)"}}>{v.name}</h2>
-            <p className="muted mt-3 text-base md:text-lg max-w-xl mx-auto">{pick(v.tagline,lg)}</p>
-            <div className="mt-2 text-sm font-medium text-[#4b5563]">{t.from} {price} <span className="muted">сум</span></div>
-          </Reveal>
-        </div>
-        <div className="relative z-10 mt-auto pb-12 md:pb-16 flex flex-col sm:flex-row items-center justify-center gap-3 w-full px-6">
-          <button onClick={()=>go("/contacts")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-[#0a0b0d] text-white px-8 py-3.5 text-[.95rem] font-medium hover:bg-black transition-colors">{t.order}</button>
-          <button onClick={()=>go("/"+slug)} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-white/85 backdrop-blur text-[#0a0b0d] border border-[#0a0b0d]/15 px-8 py-3.5 text-[.95rem] font-medium hover:bg-white transition-colors">{t.learnMore}</button>
+      const scrim=dark
+        ? "linear-gradient(to bottom, rgba(8,10,12,.42) 0%, rgba(8,10,12,.05) 30%, rgba(8,10,12,.15) 62%, rgba(8,10,12,.6) 100%)"
+        : "linear-gradient(to bottom, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 60%, rgba(255,255,255,.55) 100%)";
+      return (<section className="snap relative h-[100svh] min-h-[600px] w-full overflow-hidden">
+        <img src={bg} alt={v.name} className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background:scrim}}/>
+        <div className="relative z-10 h-full flex flex-col items-center text-center px-4">
+          <div className="pt-[12vh] md:pt-[15vh]">
+            <h2 className={"font-medium tracking-[-.012em] leading-tight "+(dark?"text-white":"text-[#171a20]")} style={{fontSize:"clamp(2.1rem,4.4vw,3rem)"}}>{v.name}</h2>
+            <p className={"mt-1.5 text-[14px] md:text-[15px] "+(dark?"text-white/85":"text-[#393c41]")}>{pick(v.tag,lg)} · {t.from} {price} сум</p>
+          </div>
+          <div className="mt-auto mb-[7vh] md:mb-[5.5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
+            <button onClick={()=>go("/contacts")} className={"tbtn "+(dark?"tbtn-light-primary":"tbtn-primary")}>{t.order}</button>
+            <button onClick={()=>go("/"+slug)} className="tbtn tbtn-secondary">{t.learnMore}</button>
+          </div>
         </div>
       </section>);
     }
 
-    /* ===== NIO-Power-inspired battery-swap panel ===== */
-    function PowerPanel(){ const t=useContext(L);
-      return (<section className="snap relative min-h-[100svh] w-full overflow-hidden flex flex-col items-center text-center">
-        <img src="/images/swapstation.png" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover"/>
-        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(8,10,12,.6) 0%, rgba(8,10,12,.22) 36%, rgba(8,10,12,.4) 68%, rgba(8,10,12,.85) 100%)"}}/>
-        <div className="relative z-10 pt-[118px] md:pt-[138px] px-5 text-white">
-          <Reveal y={14}><div className="eyebrow" style={{color:"#7dd6b6"}}>Battery Swap · Power</div>
-            <h2 className="mt-3 mx-auto max-w-[16ch] font-bold tracking-[-.03em] leading-[1.05]" style={{fontSize:"clamp(2rem,5.2vw,3.7rem)"}}>{t.powerTitle}</h2>
-            <p className="mx-auto mt-4 max-w-xl text-white/75 text-base md:text-lg">{t.powerSub}</p>
-          </Reveal>
-          <div className="mt-9 grid grid-cols-4 gap-3 max-w-2xl mx-auto">
-            {t.stats.map(([v,l],i)=>(<Reveal key={i} delay={i*.06} y={10}><div><div className="text-2xl md:text-4xl font-bold tracking-tight">{v}</div><div className="text-white/55 text-[11px] md:text-sm mt-1 leading-tight">{l}</div></div></Reveal>))}
+    /* ===== Tesla-faithful battery-swap panel ===== */
+    function PowerPanel(){ const t=useContext(L); const {language:lg}=useLanguage();
+      const name={en:"Battery Swap",ru:"Замена батареи",uz:"Batareya almashish"}[lg]||"Battery Swap";
+      return (<section className="snap relative h-[100svh] min-h-[600px] w-full overflow-hidden">
+        <img src="/images/swapstation.png" alt="" className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(8,10,12,.5) 0%, rgba(8,10,12,.08) 32%, rgba(8,10,12,.2) 64%, rgba(8,10,12,.66) 100%)"}}/>
+        <div className="relative z-10 h-full flex flex-col items-center text-center px-4 text-white">
+          <div className="pt-[12vh] md:pt-[15vh]">
+            <h2 className="font-medium tracking-[-.012em] leading-tight" style={{fontSize:"clamp(2.1rem,4.4vw,3rem)"}}>{name}</h2>
+            <p className="mt-1.5 text-[14px] md:text-[15px] text-white/85 max-w-md mx-auto">{t.powerSub}</p>
           </div>
-        </div>
-        <div className="relative z-10 mt-auto pb-12 md:pb-16 flex flex-col sm:flex-row items-center justify-center gap-3 w-full px-6">
-          <button onClick={()=>go("/swap")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-white text-[#0a0b0d] px-8 py-3.5 text-[.95rem] font-medium hover:bg-white/90 transition-colors">{t.powerCta}</button>
-          <button onClick={()=>go("/swap")} className="w-full sm:w-auto sm:min-w-[210px] rounded-full bg-transparent text-white border border-white/55 px-8 py-3.5 text-[.95rem] font-medium hover:bg-white/10 transition-colors">{t.cta2}</button>
+          <div className="mt-auto mb-[7vh] md:mb-[5.5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
+            <button onClick={()=>go("/swap")} className="tbtn tbtn-light-primary">{t.powerCta}</button>
+            <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
+          </div>
         </div>
       </section>);
     }
