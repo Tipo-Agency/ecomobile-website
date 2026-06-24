@@ -298,17 +298,18 @@ import { useLanguage } from "@/contexts/language-context";
     }
     function Hero(){
       const t=useContext(L);
-      return (<section id="top" className="snap hero-stage relative overflow-hidden h-[100svh] min-h-[600px] w-full flex flex-col items-center text-center">
-        <div className="relative z-10 pt-[13vh] md:pt-[15vh] px-4">
-          <h1 className="mx-auto max-w-[20ch] font-medium tracking-[-.012em] leading-tight text-[#171a20]" style={{fontSize:"clamp(1.9rem,4.2vw,3rem)"}}>{t.title}</h1>
-          <p className="muted mx-auto mt-2 max-w-lg text-[14px] md:text-[15px]">{t.sub}</p>
-        </div>
-        <div className="relative z-10 flex-1 min-h-0 w-full flex items-center justify-center px-4">
-          <img src="/images/barlas-hero-nobg.png" alt="ECOMOBILE BARLAS" className="block mx-auto h-auto w-auto max-h-[46vh] max-w-[88vw]" style={{filter:"drop-shadow(0 30px 40px rgba(16,24,40,.18))"}}/>
-        </div>
-        <div className="relative z-10 mb-[6vh] md:mb-[5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center px-4">
-          <button onClick={()=>go("/barlas")} className="tbtn tbtn-primary">{t.cta1}</button>
-          <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
+      return (<section id="top" className="snap relative overflow-hidden h-[100svh] min-h-[600px] w-full">
+        <img src="/images/photo_2026-06-14_20-51-03.jpg" alt="" className="absolute inset-0 h-full w-full object-cover"/>
+        <div className="absolute inset-0" style={{background:"linear-gradient(to bottom, rgba(8,10,12,.42) 0%, rgba(8,10,12,.04) 30%, rgba(8,10,12,.1) 60%, rgba(8,10,12,.58) 100%)"}}/>
+        <div className="relative z-10 h-full flex flex-col items-center text-center px-4 text-white">
+          <div className="pt-[13vh] md:pt-[15vh]">
+            <h1 className="mx-auto max-w-[18ch] font-medium tracking-[-.012em] leading-tight" style={{fontSize:"clamp(2rem,4.6vw,3.2rem)"}}>{t.title}</h1>
+            <p className="mx-auto mt-2 max-w-lg text-[14px] md:text-[15px] text-white/85">{t.sub}</p>
+          </div>
+          <div className="mt-auto mb-[7vh] md:mb-[5.5vh] w-full flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
+            <button onClick={()=>go("/barlas")} className="tbtn tbtn-light-primary">{t.cta1}</button>
+            <button onClick={()=>go("/swap")} className="tbtn tbtn-secondary">{t.cta2}</button>
+          </div>
         </div>
       </section>);
     }
@@ -1154,12 +1155,12 @@ import { useLanguage } from "@/contexts/language-context";
     function HomePage(){ const t=useContext(L);
       return (<main>
         <Hero/>
-        <ModelPanel slug="barlas" bg="/images/barlas-hero.jpg"/>
-        <ModelPanel slug="nayman" bg="/images/nayman-hero.jpg"/>
+        <ModelPanel slug="barlas" bg="/images/photo_2026-06-14_20-51-02.jpg" dark/>
+        <ModelPanel slug="nayman" bg="/images/photo_2026-06-14_20-50-28.jpg" dark/>
         <PowerPanel/>
         <Panel img="/images/station-2.png" dark title={t.netTitle} sub={t.netLead} p1={[t.cta2,"/swap"]} p2={[t.ctaP,"/contacts"]}/>
         <Panel img="/images/charging.jpg" dark title={t.energyTitle} sub={t.energyLead} p1={[t.learnMore,"/swap"]}/>
-        <Panel img="/images/lifestyle.jpg" dark title={t.ctaTitle} sub={t.ctaSub} p1={[t.ctaP,"/contacts"]} p2={[t.ctaC,"/investors"]}/>
+        <Panel img="/images/photo_2026-06-14_20-50-31.jpg" dark title={t.ctaTitle} sub={t.ctaSub} p1={[t.ctaP,"/contacts"]} p2={[t.ctaC,"/investors"]}/>
       </main>);
     }
 
