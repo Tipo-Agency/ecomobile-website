@@ -8,18 +8,12 @@ const VEHICLES = [
   { key: "barlas", name: "BARLAS", from: "259 999 000", img: "/images/barlas-hero.jpg", href: "/barlas" },
   { key: "nayman", name: "NAYMAN", from: "289 999 000", img: "/images/nayman-hero.jpg", href: "/nayman" },
 ];
-const LINKS: [string, string][] = [
-  ["/swap", "swap"],
-  ["/news", "news"],
-  ["/investors", "investors"],
-  ["/contacts", "contacts"],
-];
 const LANGS: [string, string][] = [["en", "EN"], ["ru", "RU"], ["uz", "UZ"]];
 
 const HT: Record<string, any> = {
-  en: { top: "Now delivering across Central Asia — BARLAS & NAYMAN", findStation: "Find a swap station →", vehicles: "Vehicles", links: { swap: "Battery Swap", news: "News", investors: "Investors", contacts: "Contacts" }, faq: "FAQ", from: "from", explore: "Explore →", megaNote: "One battery network for both — Battery-as-a-Service", howSwap: "How swap works →", order: "Order now", tags: { barlas: "Business sedan", nayman: "Electric SUV" } },
-  ru: { top: "Уже поставляем по Центральной Азии — BARLAS и NAYMAN", findStation: "Найти станцию замены →", vehicles: "Автомобили", links: { swap: "Замена батареи", news: "Новости", investors: "Инвесторам", contacts: "Контакты" }, faq: "FAQ", from: "от", explore: "Подробнее →", megaNote: "Одна сеть батарей для обоих — батарея по подписке", howSwap: "Как работает замена →", order: "Заказать", tags: { barlas: "Бизнес-седан", nayman: "Электро-кроссовер" } },
-  uz: { top: "Markaziy Osiyo bo‘ylab yetkazyapmiz — BARLAS va NAYMAN", findStation: "Almashish stansiyasini topish →", vehicles: "Avtomobillar", links: { swap: "Batareya almashish", news: "Yangiliklar", investors: "Investorlar", contacts: "Kontaktlar" }, faq: "FAQ", from: "dan", explore: "Batafsil →", megaNote: "Ikkalasi uchun bitta batareya tarmog‘i — obunadagi batareya", howSwap: "Almashish qanday ishlaydi →", order: "Buyurtma berish", tags: { barlas: "Biznes-sedan", nayman: "Elektr krossover" } },
+  en: { links: { swap: "Battery Swap", news: "News", investors: "Investors", contacts: "Contacts" }, faq: "FAQ", from: "from", order: "Order", tags: { barlas: "Business sedan", nayman: "Electric SUV" } },
+  ru: { links: { swap: "Замена батареи", news: "Новости", investors: "Инвесторам", contacts: "Контакты" }, faq: "FAQ", from: "от", order: "Заказать", tags: { barlas: "Бизнес-седан", nayman: "Электро-кроссовер" } },
+  uz: { links: { swap: "Batareya almashish", news: "Yangiliklar", investors: "Investorlar", contacts: "Kontaktlar" }, faq: "FAQ", from: "dan", order: "Buyurtma", tags: { barlas: "Biznes-sedan", nayman: "Elektr krossover" } },
 };
 
 export default function Header() {
@@ -27,7 +21,6 @@ export default function Header() {
   const { language, setLanguage } = (useLanguage?.() as any) || { language: "en", setLanguage: () => {} };
   const tr = HT[language] || HT.en;
   const [scrolled, setScrolled] = useState(false);
-  const [veh, setVeh] = useState(false);
   const [mob, setMob] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
@@ -41,87 +34,40 @@ export default function Header() {
     document.body.style.overflow = mob ? "hidden" : "";
   }, [mob]);
 
-  const isActive = (p: string) => (p === "/" ? path === "/" : path.startsWith(p));
+  const isActive = (p: string) => path.startsWith(p);
+  const NAV: [string, string][] = [
+    ["/barlas", "BARLAS"], ["/nayman", "NAYMAN"],
+    ["/swap", tr.links.swap], ["/news", tr.links.news], ["/investors", tr.links.investors],
+  ];
 
   return (
     <div className="fixed top-0 inset-x-0 z-50">
-      {/* top bar */}
-      <div
-        className="hidden md:block bg-[#0a0b0d] text-white/70 overflow-hidden transition-all duration-500"
-        style={{ height: scrolled ? 0 : 38, opacity: scrolled ? 0 : 1 }}
-      >
-        <div className="mx-auto max-w-[1240px] px-6 h-[38px] flex items-center justify-between text-[12.5px]">
-          <span className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-green" style={{ boxShadow: "0 0 8px #10e07f" }} />
-            {tr.top}
-          </span>
-          <div className="flex items-center gap-6">
-            <a href="tel:+998000000000" className="hover:text-white transition-colors">+998 00 000 00 00</a>
-            <Link href="/swap" className="hover:text-white transition-colors">{tr.findStation}</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* main bar */}
-      <header className={"transition-all duration-500 " + (scrolled ? "bg-white/85 backdrop-blur-xl border-b border-[#eef0f3] shadow-[0_8px_30px_-20px_rgba(16,24,40,.3)]" : "bg-transparent")}>
-        <div className="relative mx-auto max-w-[1240px] px-5 md:px-6 flex items-center justify-between" style={{ paddingBlock: scrolled ? 12 : 16 }}>
-          <div className="lg:hidden w-9" />
-          <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center" onClick={() => setMob(false)}>
-            <img src="/images/logo.svg" alt="ECOMOBILE" className="h-[19px] md:h-[25px] w-auto" />
-          </Link>
-
-          {/* desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            <div className="relative" onMouseEnter={() => setVeh(true)} onMouseLeave={() => setVeh(false)}>
-              <button className={"flex items-center gap-1.5 rounded-full px-4 py-2 text-[.9rem] transition-colors " + ((isActive("/barlas") || isActive("/nayman") || veh) ? "text-black bg-[#f3f5f7]" : "text-[#4b5563] hover:text-black")}>
-                {tr.vehicles}
-                <svg width="11" height="7" viewBox="0 0 11 7" className={"transition-transform " + (veh ? "rotate-180" : "")}><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" /></svg>
-              </button>
-              {/* mega menu */}
-              <div className={"absolute left-1/2 top-full -translate-x-1/2 pt-3 transition-all duration-200 " + (veh ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-1 pointer-events-none")}>
-                <div className="w-[640px] rounded-3xl border border-[#eef0f3] bg-white p-3 shadow-[0_40px_80px_-30px_rgba(16,24,40,.4)]">
-                  <div className="grid grid-cols-2 gap-3">
-                    {VEHICLES.map((v) => (
-                      <Link key={v.name} href={v.href} className="group rounded-2xl border border-[#eef0f3] overflow-hidden hover:border-green/40 hover:shadow-[0_24px_50px_-28px_rgba(11,166,120,.5)] transition-all">
-                        <div className="relative aspect-[16/10] bg-[#f4f6f8] overflow-hidden">
-                          <img src={v.img} alt={v.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" style={{ mixBlendMode: "multiply" }} />
-                          <span className="absolute top-3 left-3 rounded-full bg-white/85 backdrop-blur px-2.5 py-1 text-[10px] font-semibold tracking-wide">{tr.tags[v.key]}</span>
-                        </div>
-                        <div className="p-4">
-                          <div className="flex items-center justify-between">
-                            <span className="text-lg font-bold tracking-tight">{v.name}</span>
-                            <span className="text-green text-sm font-medium opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all">{tr.explore}</span>
-                          </div>
-                          <div className="text-xs text-[#9aa1ab] mt-1">{tr.from} {v.from} сум</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                  <Link href="/swap" className="mt-3 flex items-center justify-between rounded-2xl bg-[#f6f8fa] px-5 py-3.5 text-sm hover:bg-[#eef6f2] transition-colors">
-                    <span className="font-medium">{tr.megaNote}</span>
-                    <span className="text-green font-medium">{tr.howSwap}</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            {LINKS.map(([p, n]) => (
-              <Link key={p} href={p} className={"rounded-full px-4 py-2 text-[.9rem] transition-colors " + (isActive(p) ? "text-black bg-[#f3f5f7]" : "text-[#4b5563] hover:text-black")}>{tr.links[n]}</Link>
+      <header className={"transition-all duration-300 " + (scrolled ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,.06)]" : "bg-transparent")}>
+        <div className="relative mx-auto max-w-[1280px] px-4 md:px-6 flex items-center justify-between" style={{ paddingBlock: 14 }}>
+          {/* left nav (desktop) / spacer (mobile) */}
+          <nav className="hidden lg:flex items-center gap-1.5">
+            {NAV.map(([p, n]) => (
+              <Link key={p} href={p} className={"rounded-md px-3 py-1.5 text-[14px] font-medium transition-colors " + (isActive(p) ? "text-[#171a20]" : "text-[#393c41] hover:text-[#171a20]")}>{n}</Link>
             ))}
           </nav>
+          <div className="lg:hidden w-9" />
 
-          {/* right */}
-          <div className="flex items-center gap-2.5">
-            {/* language */}
+          {/* centered wordmark */}
+          <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center" onClick={() => setMob(false)}>
+            <img src="/images/logo.svg" alt="ECOMOBILE" className="h-[18px] md:h-[22px] w-auto" />
+          </Link>
+
+          {/* right utilities */}
+          <div className="flex items-center gap-1">
             <div className="relative hidden sm:block" onMouseLeave={() => setLangOpen(false)}>
-              <button onClick={() => setLangOpen((v) => !v)} className="flex items-center gap-1 rounded-full border border-[#e4e7ec] px-3 py-2 text-[.78rem] font-medium hover:border-[#cfd4dc] transition-colors">
+              <button onClick={() => setLangOpen((v) => !v)} className="rounded-md px-3 py-1.5 text-[14px] font-medium text-[#393c41] hover:text-[#171a20] transition-colors">
                 {(LANGS.find((l) => l[0] === language) || LANGS[0])[1]}
-                <svg width="9" height="6" viewBox="0 0 9 6"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" /></svg>
               </button>
               <div className={"absolute right-0 top-full pt-2 transition-all " + (langOpen ? "opacity-100 visible" : "opacity-0 invisible")}>
-                <ul className="min-w-[120px] rounded-xl border border-[#eceef1] bg-white p-1.5 shadow-xl">
-                  {LANGS.map(([code, label]) => (
+                <ul className="min-w-[130px] rounded-lg bg-white p-1.5 shadow-[0_10px_40px_-10px_rgba(0,0,0,.25)]">
+                  {LANGS.map(([code]) => (
                     <li key={code}>
-                      <button onClick={() => { setLanguage(code); setLangOpen(false); }} className={"w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-[#f5f6f8] " + (language === code ? "text-green font-medium" : "text-[#4b5563]")}>
+                      <button onClick={() => { setLanguage(code); setLangOpen(false); }} className={"w-full rounded-md px-3 py-2 text-left text-[14px] hover:bg-[#f4f4f4] " + (language === code ? "text-[#171a20] font-medium" : "text-[#393c41]")}>
                         {{ en: "English", ru: "Русский", uz: "O‘zbekcha" }[code]}
                       </button>
                     </li>
@@ -129,13 +75,11 @@ export default function Header() {
                 </ul>
               </div>
             </div>
-            <Link href="/contacts" className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-green text-white px-5 py-2.5 text-[.85rem] font-medium shadow-[0_12px_30px_-12px_rgba(11,166,120,.7)] hover:bg-green-600 transition-colors">
-              {tr.order} <span>→</span>
-            </Link>
+            <Link href="/contacts" className="hidden sm:inline-flex rounded-md px-3 py-1.5 text-[14px] font-medium text-[#393c41] hover:text-[#171a20] transition-colors">{tr.order}</Link>
             <button className="lg:hidden flex flex-col gap-[5px] p-2.5 -mr-2" onClick={() => setMob((v) => !v)} aria-label="Menu">
-              <span className={"h-0.5 w-6 bg-black rounded transition-transform " + (mob ? "translate-y-[7px] rotate-45" : "")} />
-              <span className={"h-0.5 w-6 bg-black rounded transition-opacity " + (mob ? "opacity-0" : "")} />
-              <span className={"h-0.5 w-6 bg-black rounded transition-transform " + (mob ? "-translate-y-[7px] -rotate-45" : "")} />
+              <span className={"h-0.5 w-6 bg-[#171a20] rounded transition-transform " + (mob ? "translate-y-[7px] rotate-45" : "")} />
+              <span className={"h-0.5 w-6 bg-[#171a20] rounded transition-opacity " + (mob ? "opacity-0" : "")} />
+              <span className={"h-0.5 w-6 bg-[#171a20] rounded transition-transform " + (mob ? "-translate-y-[7px] -rotate-45" : "")} />
             </button>
           </div>
         </div>
@@ -143,29 +87,22 @@ export default function Header() {
 
       {/* mobile overlay */}
       <div className={"lg:hidden fixed inset-0 z-[60] bg-white flex flex-col transition-opacity duration-300 " + (mob ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none")}>
-        <div className="flex items-center justify-between px-5 h-[60px] border-b border-[#eef0f3] shrink-0">
-          <Link href="/" onClick={() => setMob(false)} className="flex items-center"><img src="/images/logo.svg" alt="ECOMOBILE" className="h-[20px] w-auto" /></Link>
+        <div className="flex items-center justify-between px-5 h-[58px] border-b border-[#eef0f3] shrink-0">
+          <Link href="/" onClick={() => setMob(false)} className="flex items-center"><img src="/images/logo.svg" alt="ECOMOBILE" className="h-[19px] w-auto" /></Link>
           <button onClick={() => setMob(false)} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-full hover:bg-[#f3f5f7] -mr-2 transition-colors">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a0b0d" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#171a20" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-5 py-6">
-          <div className="grid grid-cols-2 gap-3">
-            {VEHICLES.map((v) => (
-              <Link key={v.name} href={v.href} onClick={() => setMob(false)} className="rounded-2xl border border-[#eef0f3] overflow-hidden">
-                <div className="relative aspect-[16/11] bg-[#f4f6f8]"><img src={v.img} className="absolute inset-0 h-full w-full object-cover" style={{ mixBlendMode: "multiply" }} alt={v.name} /></div>
-                <div className="p-3"><div className="font-bold">{v.name}</div><div className="text-xs text-[#9aa1ab]">{tr.from} {v.from} сум</div></div>
-              </Link>
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          <nav className="flex flex-col divide-y divide-[#eef0f3]">
+            {([["/barlas", "BARLAS"], ["/nayman", "NAYMAN"], ["/swap", tr.links.swap], ["/news", tr.links.news], ["/investors", tr.links.investors], ["/contacts", tr.links.contacts], ["/faq", tr.faq]] as [string, string][]).map(([p, n]) => (
+              <Link key={p} href={p} onClick={() => setMob(false)} className="py-4 text-[19px] font-medium text-[#171a20]">{n}</Link>
             ))}
-          </div>
-          <nav className="mt-6 flex flex-col divide-y divide-[#eef0f3]">
-            {LINKS.map(([p, n]) => (<Link key={p} href={p} onClick={() => setMob(false)} className="py-4 text-xl font-medium">{tr.links[n]}</Link>))}
-            <Link href="/faq" onClick={() => setMob(false)} className="py-4 text-xl font-medium">{tr.faq}</Link>
           </nav>
-          <Link href="/contacts" onClick={() => setMob(false)} className="mt-6 flex items-center justify-center gap-2 rounded-full bg-green text-white py-4 text-lg font-medium">{tr.order} →</Link>
-          <div className="mt-6 flex gap-2">
+          <Link href="/contacts" onClick={() => setMob(false)} className="mt-6 flex items-center justify-center rounded-md bg-[#171a20] text-white py-3.5 text-[15px] font-medium">{tr.order}</Link>
+          <div className="mt-5 flex gap-2">
             {LANGS.map(([code, label]) => (
-              <button key={code} onClick={() => { setLanguage(code); setMob(false); }} className={"flex-1 rounded-xl border py-3 text-sm font-medium " + (language === code ? "border-green text-green" : "border-[#e4e7ec] text-[#4b5563]")}>{label}</button>
+              <button key={code} onClick={() => { setLanguage(code); setMob(false); }} className={"flex-1 rounded-md border py-2.5 text-sm font-medium " + (language === code ? "border-[#171a20] text-[#171a20]" : "border-[#e4e7ec] text-[#393c41]")}>{label}</button>
             ))}
           </div>
         </div>
